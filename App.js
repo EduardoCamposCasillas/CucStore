@@ -10,7 +10,6 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Home />
-      <Text>Prueba Home</Text>
     </View>
   )
 }

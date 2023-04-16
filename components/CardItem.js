@@ -2,17 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
 
-import Ioniocons from "react-native-vector-icons/Ionicons"
+import Ioniocons from "react-native-vector-icons/Ionicons";
 
 const Hamburguesa = require('../assets/images/Hamburguesa.jpg');
 
 const CardItem = () => {
   return (
-    <TouchableOpacity
-      style={{
-        marginBottom: 20
-      }}
-    >
+    <TouchableOpacity style={styles.cardItem}>
       {/* Image  */}
       <View
         style={{ marginBottom: 10 }}
@@ -27,20 +23,20 @@ const CardItem = () => {
           }}
         />
         <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            height: 50,
-            width: 100,
-            backgroundColor: 'white',
-            borderTopRightRadius: 30,
-            borderBottomLeftRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            ...styles.shadow
-          }}
+          style={styles.priceContainer}
         >
-          <Text style={{ fontWeight: 'bold' }}>$50</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium }}>$50</Text>
+        </View>
+        <View
+          style={styles.starContainer}
+        >
+          <Text style={{ fontWeight: 'bold' }}>
+            <Ioniocons name="star" size={15} />
+            <Ioniocons name="star" size={15} />
+            <Ioniocons name="star" size={15} />
+            <Ioniocons name="star" size={15} />
+            <Ioniocons name="star" size={15} />
+          </Text>
         </View>
       </View>
       {/* Item Info */}
@@ -80,6 +76,32 @@ const styles = StyleSheet.create({
   vendedorText: {
     fontWeight: 'bold',
     fontSize: SIZES.medium,
+  },
+  cardItem: {
+    marginBottom: 20,
+  },
+  priceContainer: {
+    position: 'absolute',
+    top: 30,
+    height: 40,
+    width: 100,
+    backgroundColor: COLORS.primary,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  starContainer: {
+    position: 'absolute',
+    bottom: 0,
+    height: 50,
+    right: 0,
+    width: 140,
+    backgroundColor: COLORS.primary,
+    borderBottomRightRadius: 30,
+    borderTopLeftRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
 })
