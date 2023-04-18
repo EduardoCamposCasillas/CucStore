@@ -1,15 +1,17 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 
 
 import { COLORS } from './constants';
 
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 import Home from './screens/Home';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Home />
+      <StatusBar hidden={true} />
+      <RegisterScreen />
     </View>
   )
 }
