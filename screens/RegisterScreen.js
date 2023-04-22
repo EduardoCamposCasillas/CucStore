@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Path } from "react-native-svg";
 import { COLORS, SIZES } from '../constants';
 import WavyHeader from "../components/WavyHeader";
@@ -11,7 +12,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView >
+      <KeyboardAwareScrollView >
         <WavyHeader
           customStyles={styles.svgCurve}
           customHeight={90}
@@ -58,7 +59,7 @@ const RegisterScreen = () => {
             marginTop: 30,
           }}>CucStore</Text>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
     </View>
   )

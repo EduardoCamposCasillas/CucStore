@@ -6,12 +6,13 @@ import { COLORS } from './constants';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import Home from './screens/Home';
+import SellerScreen from './screens/SellerScreen';
 
 const App = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} />
-      <RegisterScreen />
+      <SellerScreen />
     </View>
   )
 }
