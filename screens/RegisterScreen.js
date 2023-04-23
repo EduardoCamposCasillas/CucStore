@@ -7,11 +7,12 @@ import { COLORS, SIZES } from '../constants';
 import WavyHeader from "../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const Logo = require('../assets/images/CUCEATS_LOGO.png');
 
 const RegisterScreen = () => {
-  
+  const navigation = useNavigation();
 
 
   const userDefaultData = {
@@ -35,6 +36,7 @@ const RegisterScreen = () => {
         console.log(responseParsered);
         if('token' in responseParsered){
           console.log('Aqui va la ruta al login');
+          navigation.navigate('Login');
         }else{
           console.log('Aqui va un alert de que la respuesta es erronea');
         }
@@ -61,7 +63,7 @@ const RegisterScreen = () => {
         <View style={styles.headerContainer}>
           <Text
             style={styles.headerText}
-          >Registro</Text>
+          >Crear Cuenta</Text>
         </View>
         <View style={styles.viewContainer}>
           <TextInput

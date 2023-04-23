@@ -1,29 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image, Button } from 'react-native';
 import { COLORS, SIZES } from '../constants';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 
 export default function HeaderTabs() {
-  const [activeTab, setActiveTab] = useState("Comprador");
+  const navigation = useNavigation();
+  const [activeTab, setActiveTab] = useState('Comprador');
+
   return (
     <View>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <HeaderButton
+          name="Home"
           text="Comprador"
           btnColor={COLORS.primary}
           textColor="white"
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-
+          navigation={navigation}
         />
+
         <HeaderButton
+          name="Seller"
           text="Vendedor"
           btnColor="white"
           textColor={COLORS.primary}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          navigation={navigation}
+
         />
+
       </View>
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
@@ -43,25 +52,40 @@ export default function HeaderTabs() {
   );
 }
 
-const HeaderButton = (props) => (
-  <TouchableOpacity
-    style={{
-      backgroundColor: props.activeTab === props.text ? COLORS.primary : "white",
-      paddingVertical: 6,
-      paddingHorizontal: 16,
-      borderRadius: 30,
-    }}
-    onPress={() => props.setActiveTab(props.text)}
-  >
-    <Text style={{
-      color: props.activeTab === props.text ? "white" : COLORS.primary,
-      fontSize: 15,
-      fontWeight: "900"
-    }}>
-      {props.text}
-    </Text>
-  </TouchableOpacity>
-);
+const HeaderButton = (props) => {
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate(props.name);
+  };
+
+  const isActive = route.name === props.name;
+
+  return (
+    <TouchableOpacity
+      style={{
+        backgroundColor: isActive ? COLORS.primary : "white",
+        paddingVertical: 6,
+        paddingHorizontal: 16,
+        borderRadius: 30,
+      }}
+      onPress={handlePress}
+    >
+      <Text
+        style={{
+          color: isActive ? "white" : COLORS.primary,
+          fontSize: 15,
+          fontWeight: "900",
+        }}
+      >
+        {props.text}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+
 
 const styles = StyleSheet.create({
   searchContainer: {

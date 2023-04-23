@@ -1,26 +1,13 @@
-import { View, Text, SafeAreaView, StyleSheet, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-
-import { COLORS } from './constants';
-
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import Home from './screens/Home';
-import SellerScreen from './screens/SellerScreen';
+import { AuthProvider } from './context/AuthContext';
+import AppNav from './navigation/AppNav';
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      <SellerScreen />
-    </View>
-  )
+    <AuthProvider>
+      <AppNav />
+    </AuthProvider>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
-
 export default App;

@@ -1,22 +1,31 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import { COLORS } from "../constants";
 
 const BottomTabs = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.tabsContainer}>
-      <Icon icon="home" text="Inicio" />
-      <Icon icon="chatbox" text="Chat" />
-      <Icon icon="person-circle" text="Cuenta" />
+
+      <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
+        <Icon icon="home" text="Inicio" />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Icon icon="chatbox" text="Chat" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => { navigation.navigate('Profile') }}>
+        <Icon icon="person-circle" text="Cuenta" />
+      </TouchableOpacity>
     </View>
   );
 }
 
 const Icon = (props) => (
   <View
-  
+
   >
     <Ioniocons
       name={props.icon}
