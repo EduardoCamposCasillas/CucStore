@@ -15,17 +15,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsLoading(true);
     setUserToken(null);
-    AsyncStorage.removeItem('userToken');
     setIsLoading(false);
   };
 
-  const isLoggedIn = () => {
-    try {
-
-    } catch(e) {
-
-    }
-  };
 
   return (
     <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>
