@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView } from "react-native";
 import { Path } from "react-native-svg";
@@ -14,14 +14,17 @@ const LoginScreen = () => {
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const { login } = useContext(AuthContext);
-
+  const userDefaultLoginData = {
+    correo: '',
+    contraseña: ''
+  }
+  const [loginData, setLoginData] = useState(userDefaultLoginData)
   const onLoginPress = () => {
     // validate login
-
-    login();
+    login(loginData);
   };
 
-  onRegisterPress = () => {
+  const onRegisterPress = () => {
     console.warn('onRegisterPress');
     navigation.navigate('Register');
   };
@@ -52,13 +55,29 @@ const LoginScreen = () => {
         </View>
         <View style={styles.viewContainer}>
           <TextInput
+            value={loginData.correo}
             placeholder="email@email.com"
             style={styles.textInput}
+            onChangeText={(text) => {
+              setLoginData({
+              ...loginData,
+               correo: text
+              }
+              )}
+            }
           />
           <TextInput
             placeholder="password"
+            value={loginData.contraseña}
             style={styles.textInput}
             secureTextEntry={true}
+            onChangeText={(text) => {
+              setLoginData({
+              ...loginData,
+               contraseña: text
+              }
+              )}
+            }
           />
           <TouchableOpacity
             onPress={onForgotPasswordPress}
