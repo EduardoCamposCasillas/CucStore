@@ -1,15 +1,14 @@
 import React, { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext();
+import axios from "axios";
 
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
 
   const login = () => {
-    setIsLoading(true);
     setUserToken('asd');
-    AsyncStorage.setItem('userToken', userToken);
     setIsLoading(false);
   };
 

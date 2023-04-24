@@ -33,9 +33,9 @@ const RegisterScreen = () => {
       axios.post('https://cucstore-api-production.up.railway.app/api/auth/register', postUserData)
       .then(response => {
         const responseParsered = response.data
-        console.log(responseParsered);
+        
         if('token' in responseParsered){
-          console.log('Aqui va la ruta al login');
+          
           navigation.navigate('Login');
         }else{
           console.log('Aqui va un alert de que la respuesta es erronea');
