@@ -23,6 +23,7 @@ const Home = () => {
       console.error(e);
     }
   }
+  getToken()
   useEffect(() => {
     axios.get('http://192.168.100.10:3000/api/productos').then((req) => {
       const allProductsData = req.data
