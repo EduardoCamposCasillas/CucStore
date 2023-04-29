@@ -30,7 +30,7 @@ const RegisterScreen = () => {
     const continueRegister = validatePassword()
     if(continueRegister){
       const {segundaContraseña, ...postUserData} = inputValue
-      axios.post('https://cucstore-api-production.up.railway.app/api/auth/register', postUserData)
+      axios.post('http://192.168.100.10:3000/api/auth/register', postUserData)
       .then(response => {
         const responseParsered = response.data
         
