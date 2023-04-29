@@ -6,7 +6,7 @@ import Ioniocons from "react-native-vector-icons/Ionicons";
 
 const Hamburguesa = require('../assets/images/Hamburguesa.jpg');
 
-const CardItem = () => {
+const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombre, apellidoPaterno}) => {
   return (
     <TouchableOpacity style={styles.cardItem}>
       {/* Image  */}

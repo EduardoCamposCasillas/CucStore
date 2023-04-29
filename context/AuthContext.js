@@ -15,9 +15,8 @@ export const AuthProvider = ({ children }) => {
     }
   }
   const login = (data) => {
-    axios.post('https://cucstore-api-production.up.railway.app/api/auth/login', data)
+    axios.post('http://192.168.100.10:3000/api/auth/login', data)
     .then((response) => {
-      console.log(response.status);
       if(response.status === 200){
         const token = response.data.token
         storeToken(token)
