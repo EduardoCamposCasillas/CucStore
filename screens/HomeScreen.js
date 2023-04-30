@@ -55,7 +55,7 @@ const HomeScreen = () => {
         <TouchableOpacity
           style={styles.btnIcon}
         >
-          <Ioniocons name="search" size={25} />
+          <Ioniocons name="search" size={25} color={COLORS.white} />
         </TouchableOpacity>
       </View>
       </View>

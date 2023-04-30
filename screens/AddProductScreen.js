@@ -8,19 +8,23 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
+import ImageViewer from '../components/ImageViewer';
+
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
+
+const PlaceholderImage = require('../assets/images/Hamburguesa.jpg');
 
 const AddProductScreen = () => {
   const navigation = useNavigation();
   const [selectedImage, setSelectedImage] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-//items de categorias
+  //items de categorias
   const data = [
-    {key:'1', value:'dulce'},
-    {key:'2', value:'salado'},
-    {key:'3', value:'otro'},
+    { key: '1', value: 'dulce' },
+    { key: '2', value: 'salado' },
+    { key: '3', value: 'otro' },
   ];
 
   const pickImageAsync = async () => {
@@ -75,18 +79,18 @@ const AddProductScreen = () => {
 
           />
           <Text style={styles.textStyle}>Selecciona una categoria</Text>
-          <View style={{ marginTop: 10}}>
-          <SelectList
-            data={data}
-            search={false}
-            setSelected={setSelectedCategory}
-            defaultOption={{ key: '1', value: 'dulce'}}
-            arrowicon={<Ioniocons name="arrow-down" size={25} color={COLORS.white} />}
-            inputStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
-            boxStyles={{ borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary }}
-            dropdownTextStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
-            dropdownStyles={{ backgroundColor: COLORS.primary, color: COLORS.white, borderColor: COLORS.primary }}
-          />
+          <View style={{ marginTop: 10 }}>
+            <SelectList
+              data={data}
+              search={false}
+              setSelected={setSelectedCategory}
+              defaultOption={{ key: '1', value: 'dulce' }}
+              arrowicon={<Ioniocons name="arrow-down" size={25} color={COLORS.white} />}
+              inputStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
+              boxStyles={{ borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary }}
+              dropdownTextStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
+              dropdownStyles={{ backgroundColor: COLORS.primary, color: COLORS.white, borderColor: COLORS.primary }}
+            />
           </View>
 
           <Text style={styles.textStyle}>Selecciona una Imagen</Text>
@@ -94,6 +98,12 @@ const AddProductScreen = () => {
             <Ioniocons name='camera' size={25} color={'white'} />
             <Ioniocons name='add' size={25} color={'white'} />
           </TouchableOpacity>
+          <View style={styles.imageViewerContainer}>
+          <ImageViewer
+            placeholderImageSource={PlaceholderImage}
+            selectedImage={selectedImage}
+          />
+          </View>
 
           <TouchableOpacity style={styles.button} >
             <Text style={styles.buttonText}>Agregar Producto</Text>
@@ -196,6 +206,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: 'row',
+  },
+  imageViewerContainer: {
+    flex: 1,
+    width: '100%',
+    height: 200,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
   }
 });
 
