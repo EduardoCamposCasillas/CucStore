@@ -26,7 +26,6 @@ const LoginScreen = () => {
   };
 
   const onRegisterPress = () => {
-    console.warn('onRegisterPress');
     navigation.navigate('Register');
   };
 

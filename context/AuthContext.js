@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     }
   }
   const login = (data) => {
-    axios.post('http://192.168.100.10:3000/api/auth/login', data)
+    axios.post('http://192.168.100.50:3000/api/auth/login', data)
     .then((response) => {
       if(response.status === 200){
         const token = response.data.token
