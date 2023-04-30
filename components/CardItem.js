@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
+import ImageViewer from './ImageViewer';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 
@@ -13,8 +14,8 @@ const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombreUsuario, idUsu
       <View
         style={{ marginBottom: 10 }}
       >
-        <Image
-          source={Hamburguesa}
+        <ImageViewer
+          selectedImage={imgUrl}
           resizeMode="cover"
           style={{
             width: '100%',

@@ -6,7 +6,7 @@ import HeaderTabs from '../components/HeaderTabs';
 import CardItem from '../components/CardItem';
 import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -32,7 +32,8 @@ const SellerScreen = () => {
       const allUserProducts = req.data
       setUserProducts(allUserProducts)
     }).catch(e => console.error(e))
-  },[])
+  },[onAddProductPress])
+
   return (
     <SafeAreaView
       style={{

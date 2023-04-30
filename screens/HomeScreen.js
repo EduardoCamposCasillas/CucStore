@@ -7,14 +7,15 @@ import CardItem from '../components/CardItem';
 import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
-
 import Ioniocons from "react-native-vector-icons/Ionicons";
-
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [productos, setProductos] = useState();
+  const navigate = useNavigation()
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('accessToken')
@@ -26,12 +27,14 @@ const HomeScreen = () => {
     }
   }
 
-  useEffect(() => {
-    axios.get('http://192.168.100.10:3000/api/productos').then((req) => {
-      const allProductsData = req.data
-      setProductos(allProductsData)
-    })
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      axios.get('http://192.168.100.10:3000/api/productos').then((req) => {
+        const allProductsData = req.data
+        setProductos(allProductsData)
+      });
+    }, [])
+  );
 
   return (
     <SafeAreaView
@@ -56,7 +59,7 @@ const HomeScreen = () => {
         <TouchableOpacity
           style={styles.btnIcon}
         >
-          <Ioniocons name="search" size={25} />
+          <Ioniocons name="search" size={25} color={COLORS.white} />
         </TouchableOpacity>
       </View>
       </View>
