@@ -25,7 +25,7 @@ const HomeScreen = () => {
       console.error(e);
     }
   }
-  getToken()
+
   useEffect(() => {
     axios.get('http://192.168.100.10:3000/api/productos').then((req) => {
       const allProductsData = req.data
@@ -68,15 +68,11 @@ const HomeScreen = () => {
         { productos && productos.map(usuario => {
           const {nombres, apellidoPaterno, id: idUsuario, productos} = usuario
           const nombre = nombres.split(' ')[0]
-          console.log(nombre + ' ' + apellidoPaterno);
-          productos.map(producto => {
-            console.log(producto)
+          const nombreUsuario = nombre + ' ' + apellidoPaterno
+          return productos.map(producto => {
+            return <CardItem nombreProducto={producto.nombre} puntaje={producto.puntaje} precio={producto.precio} imgUrl={producto.imgUrl} nombreUsuario={nombreUsuario} idUsuario={idUsuario} key={producto.id}/>
           })
         })}
-        <CardItem />
-        <CardItem />
-        <CardItem />
-        <CardItem />
         </View>
       </ScrollView>
       <Divider width={1} />

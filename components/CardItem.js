@@ -6,7 +6,7 @@ import Ioniocons from "react-native-vector-icons/Ionicons";
 
 const Hamburguesa = require('../assets/images/Hamburguesa.jpg');
 
-const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombre, apellidoPaterno, idUsuario}) => {
+const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombreUsuario, idUsuario}) => {
   return (
     <TouchableOpacity style={styles.cardItem}>
       {/* Image  */}
@@ -25,7 +25,7 @@ const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombre, apellidoPate
         <View
           style={styles.priceContainer}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium }}>$50</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium }}>${precio}</Text>
         </View>
         <View
           style={styles.starContainer}
@@ -40,7 +40,7 @@ const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombre, apellidoPate
         </View>
       </View>
       {/* Item Info */}
-      <Text style={styles.productText}>Nombre del Producto</Text>
+      <Text style={styles.productText}>{nombreProducto}</Text>
       {/* Item rating */}
 
       <View
@@ -51,7 +51,7 @@ const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombre, apellidoPate
         }}
       >
         <Text><Ioniocons name="star" size={15} /> 4.5</Text>
-        <Text style={styles.vendedorText}>Nombre del Vendedor </Text>
+        <Text style={styles.vendedorText}>{nombreUsuario}</Text>
       </View>
     </TouchableOpacity>
   )
