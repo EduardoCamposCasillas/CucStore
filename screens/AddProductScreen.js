@@ -18,7 +18,7 @@ const PlaceholderImage = require('../assets/images/Hamburguesa.jpg');
 
 const AddProductScreen = () => {
   const navigation = useNavigation();
-  const [selectedImage, setSelectedImage] = useState();
+  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState();
   //items de categorias
   const data = [
