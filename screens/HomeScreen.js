@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../constants';
+import { COLORS, SIZES } from '../constants';
 import HeaderTabs from '../components/HeaderTabs';
 import CardItem from '../components/CardItem';
 import { Divider } from 'react-native-elements';
@@ -10,9 +10,11 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
+import Ioniocons from "react-native-vector-icons/Ionicons";
 
-const Home = () => {
-  const [productos, setProductos] = useState()
+
+const HomeScreen = () => {
+  const [productos, setProductos] = useState();
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('accessToken')
@@ -44,6 +46,19 @@ const Home = () => {
           padding: 15,
         }}>
         <HeaderTabs />
+        <View style={styles.searchContainer}>
+        <View style={styles.searchWrapper}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder='¿Que estás buscando?'
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.btnIcon}
+        >
+          <Ioniocons name="search" size={25} />
+        </TouchableOpacity>
+      </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <View style={{
@@ -73,4 +88,37 @@ const Home = () => {
   );
 }
 
-export default Home;
+const styles = StyleSheet.create({
+  searchContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: SIZES.large,
+    height: 50,
+  },
+  searchWrapper: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+    marginRight: SIZES.small,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: SIZES.medium,
+    height: "100%",
+  },
+  searchInput: {
+    width: "100%",
+    height: "100%",
+    paddingHorizontal: SIZES.medium,
+  },
+  btnIcon: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 30,
+    height: 45,
+    width: 45,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+});
+
+
+export default HomeScreen;

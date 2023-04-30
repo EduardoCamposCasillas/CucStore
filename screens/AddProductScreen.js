@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -9,45 +9,32 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
+import * as ImagePicker from 'expo-image-picker';
+import { SelectList } from 'react-native-dropdown-select-list';
 
-const RegisterScreen = () => {
+const AddProductScreen = () => {
   const navigation = useNavigation();
+  const [selectedImage, setSelectedImage] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+//items de categorias
+  const data = [
+    {key:'1', value:'dulce'},
+    {key:'2', value:'salado'},
+    {key:'3', value:'otro'},
+  ];
 
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
 
-  const userDefaultData = {
-    nombres: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
-    correo: '',
-    contraseña: '',
-    segundaContraseña: '',
-  }
-
-  const [inputValue, setInputValue] = useState(userDefaultData)
-
-  const handleRegister = (e) => {
-    const continueRegister = validatePassword()
-    if (continueRegister) {
-      const { segundaContraseña, ...postUserData } = inputValue
-      axios.post('http://192.168.100.50:3000/api/auth/register', postUserData)
-        .then(response => {
-          const responseParsered = response.data
-
-          if ('token' in responseParsered) {
-
-            navigation.navigate('Login');
-          } else {
-            console.log('Aqui va un alert de que la respuesta es erronea');
-          }
-        })
-        .catch(error => console.error(error))
-      return
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert('No seleccionaste ninguna imagen.');
     }
-  }
-
-  const validatePassword = () => {
-    return inputValue.contraseña === inputValue.segundaContraseña ? true : false
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -61,92 +48,61 @@ const RegisterScreen = () => {
         />
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate('Seller');
           }}>
             <Ioniocons name='arrow-back' size={25} color={'white'} />
           </TouchableOpacity>
           <Text
             style={styles.headerText}
-          >Crear Cuenta</Text>
+          >Agregar Producto</Text>
         </View>
         <View style={styles.viewContainer}>
+          <Text style={styles.textStyle}>Nombre del Producto</Text>
           <TextInput
-            defaultValue={inputValue.nombres}
-            placeholder="Nombres"
             style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                nombres: text
-              })
-            }}
           />
+          <Text style={styles.textStyle}>Descripción del producto</Text>
           <TextInput
-            placeholder="Apellido Paterno"
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                apellidoPaterno: text
-              })
-            }}
+            multiline={true}
+            numberOfLines={5}
+            style={styles.textArea}
+
           />
+          <Text style={styles.textStyle}>Precio</Text>
           <TextInput
-            placeholder="Apellido Materno"
+            placeholder='00.00'
             style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                apellidoMaterno: text
-              })
-            }}
+
           />
-          <TextInput
-            placeholder="Correo"
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                correo: text
-              })
-            }}
+          <Text style={styles.textStyle}>Selecciona una categoria</Text>
+          <View style={{ marginTop: 10}}>
+          <SelectList
+            data={data}
+            search={false}
+            setSelected={setSelectedCategory}
+            defaultOption={{ key: '1', value: 'dulce'}}
+            arrowicon={<Ioniocons name="arrow-down" size={25} color={COLORS.white} />}
+            inputStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
+            boxStyles={{ borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary }}
+            dropdownTextStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
+            dropdownStyles={{ backgroundColor: COLORS.primary, color: COLORS.white, borderColor: COLORS.primary }}
           />
-          <TextInput
-            placeholder="Contraseña"
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                contraseña: text
-              })
-            }}
-          />
-          <TextInput
-            secureTextEntry={true}
-            placeholder="Confirmar Contraseña"
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                segundaContraseña: text
-              })
-            }}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleRegister} >
-            <Text style={styles.buttonText}>Registrarse</Text>
+          </View>
+
+          <Text style={styles.textStyle}>Selecciona una Imagen</Text>
+          <TouchableOpacity style={styles.btnIcon} onPress={pickImageAsync}>
+            <Ioniocons name='camera' size={25} color={'white'} />
+            <Ioniocons name='add' size={25} color={'white'} />
           </TouchableOpacity>
 
-          <Text style={{
-            color: COLORS.gray,
-            fontSize: SIZES.large,
-            marginTop: 30,
-          }}>CucStore</Text>
+          <TouchableOpacity style={styles.button} >
+            <Text style={styles.buttonText}>Agregar Producto</Text>
+          </TouchableOpacity>
+
         </View>
       </KeyboardAwareScrollView>
-
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -158,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginHorizontal: 10,
     alignItems: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   headerText: {
     fontSize: SIZES.xLarge,
@@ -182,9 +138,29 @@ const styles = StyleSheet.create({
     paddingStart: 30,
     width: '80%',
     height: 50,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
     borderRadius: 10,
     backgroundColor: '#FFDD83',
+  },
+  textArea: {
+    padding: 10,
+    paddingStart: 30,
+    width: '80%',
+    height: 50,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    backgroundColor: '#FFDD83',
+    height: 100,
+    textAlignVertical: 'top',
+  },
+  textStyle: {
+    fontSize: SIZES.large,
+    fontWeight: 'bold',
+    color: COLORS.gray,
+    justifyContent: 'flex-start',
+    textAlign: 'left'
   },
   subText: {
     color: COLORS.gray,
@@ -211,6 +187,16 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 100,
   },
+  btnIcon: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    height: 60,
+    width: 80,
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: 'row',
+  }
 });
 
-export default RegisterScreen;
+export default AddProductScreen;
