@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -7,24 +7,35 @@ import WavyHeader from "../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-
+import { AuthContext } from '../context/AuthContext';
 import ImageViewer from '../components/ImageViewer';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
+import { useContext } from 'react';
 
 const PlaceholderImage = require('../assets/placeholder.jpg');
 
 const AddProductScreen = () => {
   const navigation = useNavigation();
+  const { userToken } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState();
-  //items de categorias
+  const [inputValues, setInputValues] = useState({
+      nombre: '',
+      descripcion: '',
+      precio: null,
+      imgUrl: null,
+      categoria: ''
+    })
+
+    //items de categorias
+
   const data = [
-    { key: '1', value: 'dulce' },
-    { key: '2', value: 'salado' },
-    { key: '3', value: 'otro' },
+    {key:'6431d6222afabdcef42708d3', value:'dulce'},
+    {key:'6431d5c22afabdcef42708d2', value:'salado'},
+    {key:'6431d6382afabdcef42708d4', value:'otro'},
   ];
 
   const pickImageAsync = async () => {
@@ -40,6 +51,42 @@ const AddProductScreen = () => {
     }
   };
 
+  const cleanData = () => {
+    
+    setInputValues({
+      nombre: '',
+      descripcion: '',
+      precio: null,
+      imgUrl: null,
+      categoria: ''
+    })
+    setSelectedCategory(null)
+    setSelectedImage(null)
+  }
+  const handleAddProduct = () => {
+    axios.post('http://localhost:3000/api/usuario/productos', {
+      nombre: inputValues.nombre,
+      descripcion: inputValues.descripcion,
+      precio: inputValues.precio,
+      imgUrl: selectedImage,
+      categoria: selectedCategory
+    },{
+      headers: {
+        'Authorization': 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if(response.status === 201){
+        console.log('modal de registro exitoso');
+        navigation.navigate('Seller');
+        cleanData()
+      }
+      cleanData()
+    }).catch(error => {
+      console.error(error)
+    })
+
+  }
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
@@ -64,19 +111,38 @@ const AddProductScreen = () => {
           <Text style={styles.textStyle}>Nombre del Producto</Text>
           <TextInput
             style={styles.textInput}
+            defaultValue=''
+            onChangeText={(text) => {
+              setInputValues({
+                ...inputValues,
+                nombre: text
+              })
+            }}
           />
           <Text style={styles.textStyle}>Descripción del producto</Text>
           <TextInput
             multiline={true}
             numberOfLines={5}
             style={styles.textArea}
-
-          />
+            defaultValue=''
+            onChangeText={(text) => {
+              setInputValues({
+                ...inputValues,
+                descripcion: text
+              })
+            }}
+         />
           <Text style={styles.textStyle}>Precio</Text>
           <TextInput
             placeholder='00.00'
             style={styles.textInput}
-
+            defaultValue=''
+            onChangeText={(text) => {
+              setInputValues({
+                ...inputValues,
+                precio: text
+              })
+            }}
           />
           <Text style={styles.textStyle}>Selecciona una categoria</Text>
           <View style={{ marginTop: 10 }}>
@@ -105,7 +171,7 @@ const AddProductScreen = () => {
           />
           </View>
 
-          <TouchableOpacity style={styles.button} >
+          <TouchableOpacity style={styles.button} onPress={handleAddProduct}>
             <Text style={styles.buttonText}>Agregar Producto</Text>
           </TouchableOpacity>
 
