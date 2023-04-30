@@ -6,17 +6,34 @@ import HeaderTabs from '../components/HeaderTabs';
 import CardItem from '../components/CardItem';
 import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
-import { useNavigation } from '@react-navigation/native';
-
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
+import { useEffect, useState } from 'react';
 
 
 const SellerScreen = () => {
   const navigation = useNavigation();
+  const [userProducts, setUserProducts] = useState()
+  const { userToken } = useContext(AuthContext);
 
   const onAddProductPress = () => {
     navigation.navigate('AddProduct');
   }
+  useEffect(() => {
+    axios.get('http://192.168.100.10:3000/api/usuario/productos',{
+      headers: {
+        'Authorization': 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    }).then((req) => {
+      const allUserProducts = req.data
+      setUserProducts(allUserProducts)
+    }).catch(e => console.error(e))
+  },[onAddProductPress])
+
   return (
     <SafeAreaView
       style={{
@@ -45,8 +62,9 @@ const SellerScreen = () => {
           flex: 1,
           padding: 15,
         }}>
-          <CardItem />
-          <CardItem />
+          {userProducts && userProducts.map(producto => (
+            <CardItem nombreProducto={producto.nombre} precio={producto.precio} puntaje={producto.puntaje} imgUrl={producto.imgUrl} key={producto.id}/>
+          ))}
         </View>
       </ScrollView>
       <Divider width={1} />
