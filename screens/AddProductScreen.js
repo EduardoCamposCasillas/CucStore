@@ -14,7 +14,7 @@ import Ioniocons from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 
-const PlaceholderImage = require('../assets/images/Hamburguesa.jpg');
+const PlaceholderImage = require('../assets/placeholder.jpg');
 
 const AddProductScreen = () => {
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ const AddProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView >
+      <KeyboardAwareScrollView>
         <WavyHeader
           customStyles={styles.svgCurve}
           customHeight={90}
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.primary,
     marginTop: 20,
+    marginBottom: 20,
     width: '80%',
     height: 50,
     borderRadius: 10,
