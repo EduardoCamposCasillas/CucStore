@@ -60,6 +60,7 @@ const ProductDetailsScreen = () => {
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <TouchableOpacity style={styles.btnIcon}>
               <Text style={styles.buttonText}>Contactar</Text>
+              {/*Pasar el idUsuario al navigate del chat*/}
               <Ioniocons name="chatbox" size={25} color={COLORS.white} />
             </TouchableOpacity>
           </View>
