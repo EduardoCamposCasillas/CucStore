@@ -11,7 +11,7 @@ import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import Ioniocons from "react-native-vector-icons/Ionicons";
-
+import { config } from '../config';
 import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
@@ -31,7 +31,7 @@ const HomeScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      axios.get('http://192.168.100.50:3000/api/productos').then((req) => {
+      axios.get(config.apiUrl + '/api/productos').then((req) => {
         const allProductsData = req.data
         setProductos(allProductsData)
       });
@@ -74,30 +74,30 @@ const HomeScreen = () => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
             const nombreUsuario = nombre + ' ' + apellidoPaterno
-            return productos.map(producto => {
-              return <CardItem
-                nombreProducto={producto.nombre}
-                descripcion={producto.descripcion}
-                puntaje={producto.puntaje}
-                precio={producto.precio}
-                imgUrl={producto.imgUrl}
-                categoria={producto.categoria}
-                nombreUsuario={nombreUsuario}
-                idUsuario={idUsuario}
-                key={producto.id}
-                onPress={() =>
-                  navigation.navigate('DetailsProduct', {
-                    nombreProducto: producto.nombre,
-                    descripcion: producto.descripcion,
-                    puntaje: producto.puntaje,
-                    precio: producto.precio,
-                    imgUrl: producto.imgUrl,
-                    categoria: producto.categoria,
-                    nombreUsuario: nombreUsuario,
-                    idUsuario: idUsuario,
-                  })}
-              />
-            })
+            return (productos.map(producto => {
+              return (<CardItem
+              nombreProducto={producto.nombre}
+              descripcion={producto.descripcion}
+              puntaje={producto.puntaje}
+              precio={producto.precio}
+              imgUrl={producto.imgUrl}
+              categoria={producto.categoria[0].nombre}
+              nombreUsuario={nombreUsuario}
+              idUsuario={idUsuario}
+              key={producto.id}
+              onPress={() =>
+                navigation.navigate('DetailsProduct', {
+                  nombreProducto: producto.nombre,
+                  descripcion: producto.descripcion,
+                  puntaje: producto.puntaje,
+                  precio: producto.precio,
+                  imgUrl: producto.imgUrl,
+                  categoria: producto.categoria[0].nombre,
+                  nombreUsuario: nombreUsuario,
+                  idUsuario: idUsuario,
+                })}
+              />)
+            }))
           })}
         </View>
       </ScrollView>

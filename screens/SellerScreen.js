@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import { useEffect, useState } from 'react';
+import { config } from '../config';
 
 
 const SellerScreen = () => {
@@ -23,7 +24,7 @@ const SellerScreen = () => {
     navigation.navigate('AddProduct');
   }
   useEffect(() => {
-    axios.get('http://192.168.100.50:3000/api/usuario/productos', {
+    axios.get(config.apiUrl + '/api/usuario/productos', {
       headers: {
         'Authorization': 'Bearer ' + userToken,
         'Content-Type': 'application/json'

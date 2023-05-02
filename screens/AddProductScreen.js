@@ -14,6 +14,7 @@ import Ioniocons from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useContext } from 'react';
+import { config } from '../config';
 
 const PlaceholderImage = require('../assets/placeholder.jpg');
 
@@ -64,7 +65,7 @@ const AddProductScreen = () => {
     setSelectedImage(null)
   }
   const handleAddProduct = () => {
-    axios.post('http://192.168.100.50:3000/api/usuario/productos', {
+    axios.post(config.apiUrl + '/api/usuario/productos', {
       nombre: inputValues.nombre,
       descripcion: inputValues.descripcion,
       precio: inputValues.precio,
