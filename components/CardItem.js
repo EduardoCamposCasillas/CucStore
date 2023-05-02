@@ -44,7 +44,7 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
         style={{
           flexDirection: 'row',
           marginLeft: 10,
-          justifyContent: 'space-between'
+          justifyContent: 'end'
         }}
       >
         <Text style={styles.vendedorText}>{nombreUsuario}</Text>

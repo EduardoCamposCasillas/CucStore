@@ -73,15 +73,15 @@ const HomeScreen = () => {
           {productos && productos.map(usuario => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
-            const nombreUsuario = nombre + ' ' + apellidoPaterno
+            const nombreUsuario = nombre ?? nombres + ' ' + apellidoPaterno
             return (productos.map(producto => {
               return (<CardItem
-              nombreProducto={producto.nombre}
+              nombreProducto={producto?.nombre}
               descripcion={producto.descripcion}
               puntaje={producto.puntaje}
               precio={producto.precio}
               imgUrl={producto.imgUrl}
-              categoria={producto.categoria[0].nombre}
+              categoria={producto.categoria[0]?.nombre}
               nombreUsuario={nombreUsuario}
               idUsuario={idUsuario}
               key={producto.id}
@@ -92,7 +92,7 @@ const HomeScreen = () => {
                   puntaje: producto.puntaje,
                   precio: producto.precio,
                   imgUrl: producto.imgUrl,
-                  categoria: producto.categoria[0].nombre,
+                  categoria: producto.categoria[0]?.nombre,
                   nombreUsuario: nombreUsuario,
                   idUsuario: idUsuario,
                 })}
