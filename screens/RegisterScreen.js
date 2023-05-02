@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
+import { config } from "../config";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -29,7 +30,7 @@ const RegisterScreen = () => {
     const continueRegister = validatePassword()
     if (continueRegister) {
       const { segundaContraseña, ...postUserData } = inputValue
-      axios.post('http://192.168.100.50:3000/api/auth/register', postUserData)
+      axios.post(config.apiUrl + '/api/auth/register', postUserData)
         .then(response => {
           const responseParsered = response.data
 

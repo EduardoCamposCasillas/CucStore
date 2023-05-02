@@ -41,7 +41,6 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
       </View>
       {/* Item Info */}
       <Text style={styles.productText}>{nombreProducto}</Text>
-      <Text style={styles.productText}>{categoria}</Text>
       {/* Item rating */}
 
       <View

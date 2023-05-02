@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext();
 import axios from "axios";
+import { config } from "../config";
 
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     }
   }
   const login = (data) => {
-    axios.post('http://192.168.100.50:3000/api/auth/login', data)
+    axios.post(config.apiUrl + '/api/auth/login', data)
     .then((response) => {
       if(response.status === 200){
         const token = response.data.token
