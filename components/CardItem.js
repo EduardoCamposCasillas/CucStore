@@ -3,10 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
 import ImageViewer from './ImageViewer';
 import { useNavigation } from '@react-navigation/native';
-
-import Ioniocons from "react-native-vector-icons/Ionicons";
+import StarRatingDisplay  from 'react-native-star-rating-widget';
 
 const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria , idUsuario, onPress }) => {
+  const [rating, setRating] = useState(puntaje)
   return (
     <TouchableOpacity style={styles.cardItem} onPress={onPress}>
       {/* Image  */}
@@ -30,12 +30,9 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
         <View
           style={styles.starContainer}
         >
-          <Text style={{ fontWeight: 'bold' }}>
-            <Ioniocons name="star" size={15} color={COLORS.white} />
-            <Ioniocons name="star" size={15} color={COLORS.white} />
-            <Ioniocons name="star" size={15} color={COLORS.white} />
-            <Ioniocons name="star" size={15} color={COLORS.white} />
-            <Ioniocons name="star" size={15} color={COLORS.white} />
+          
+          <Text >
+            <StarRatingDisplay  rating={rating} starSize={25}  starStyle={{marginHorizontal: 0.5}}/>
           </Text>
         </View>
       </View>
@@ -50,7 +47,6 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
           justifyContent: 'space-between'
         }}
       >
-        <Text><Ioniocons name="star" size={15} /> 4.5</Text>
         <Text style={styles.vendedorText}>{nombreUsuario}</Text>
       </View>
     </TouchableOpacity>
