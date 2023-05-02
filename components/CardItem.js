@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
 import ImageViewer from './ImageViewer';
+import { useNavigation } from '@react-navigation/native';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 
-const Hamburguesa = require('../assets/images/Hamburguesa.jpg');
-
-const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombreUsuario, idUsuario}) => {
+const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria , idUsuario, onPress }) => {
   return (
-    <TouchableOpacity style={styles.cardItem}>
+    <TouchableOpacity style={styles.cardItem} onPress={onPress}>
       {/* Image  */}
       <View
         style={{ marginBottom: 10 }}
@@ -20,28 +19,29 @@ const CardItem = ({nombreProducto, puntaje, precio, imgUrl, nombreUsuario, idUsu
           style={{
             width: '100%',
             height: 200,
-            borderRadius: 30
+            borderRadius: 30,
           }}
         />
         <View
           style={styles.priceContainer}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium }}>${precio}</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium, color: COLORS.white }}>${precio}</Text>
         </View>
         <View
           style={styles.starContainer}
         >
           <Text style={{ fontWeight: 'bold' }}>
-            <Ioniocons name="star" size={15} />
-            <Ioniocons name="star" size={15} />
-            <Ioniocons name="star" size={15} />
-            <Ioniocons name="star" size={15} />
-            <Ioniocons name="star" size={15} />
+            <Ioniocons name="star" size={15} color={COLORS.white} />
+            <Ioniocons name="star" size={15} color={COLORS.white} />
+            <Ioniocons name="star" size={15} color={COLORS.white} />
+            <Ioniocons name="star" size={15} color={COLORS.white} />
+            <Ioniocons name="star" size={15} color={COLORS.white} />
           </Text>
         </View>
       </View>
       {/* Item Info */}
       <Text style={styles.productText}>{nombreProducto}</Text>
+      <Text style={styles.productText}>{categoria}</Text>
       {/* Item rating */}
 
       <View
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     right: 0,
     width: 140,
     backgroundColor: COLORS.primary,
-    borderBottomRightRadius: 30,
-    borderTopLeftRadius: 30,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
   }

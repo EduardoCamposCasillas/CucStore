@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from "../screens/ProfileScreen";
 import SellerScreen from "../screens/SellerScreen";
 import AddProductScreen from "../screens/AddProductScreen";
+import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,6 +28,7 @@ const AppStack = () => {
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Seller" component={SellerScreen} />
       <Tab.Screen name="AddProduct" component={AddProductScreen} />
+      <Tab.Screen name="DetailsProduct" component={ProductDetailsScreen} />
     </Tab.Navigator>
   );
 };

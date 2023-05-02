@@ -23,7 +23,7 @@ const SellerScreen = () => {
     navigation.navigate('AddProduct');
   }
   useEffect(() => {
-    axios.get('http://192.168.100.10:3000/api/usuario/productos',{
+    axios.get('http://192.168.100.50:3000/api/usuario/productos', {
       headers: {
         'Authorization': 'Bearer ' + userToken,
         'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ const SellerScreen = () => {
       const allUserProducts = req.data
       setUserProducts(allUserProducts)
     }).catch(e => console.error(e))
-  },[onAddProductPress])
+  }, [onAddProductPress])
 
   return (
     <SafeAreaView
@@ -50,11 +50,11 @@ const SellerScreen = () => {
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Mis Productos</Text>
           <TouchableOpacity
-          style={styles.btnIcon}
-          onPress={onAddProductPress}
-        >
-          <Ioniocons name="add" size={25} color={COLORS.white} />
-        </TouchableOpacity>
+            style={styles.btnIcon}
+            onPress={onAddProductPress}
+          >
+            <Ioniocons name="add" size={25} color={COLORS.white} />
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
@@ -63,7 +63,12 @@ const SellerScreen = () => {
           padding: 15,
         }}>
           {userProducts && userProducts.map(producto => (
-            <CardItem nombreProducto={producto.nombre} precio={producto.precio} puntaje={producto.puntaje} imgUrl={producto.imgUrl} key={producto.id}/>
+            <CardItem
+              nombreProducto={producto.nombre}
+              precio={producto.precio}
+              puntaje={producto.puntaje}
+              imgUrl={producto.imgUrl}
+              key={producto.id} />
           ))}
         </View>
       </ScrollView>

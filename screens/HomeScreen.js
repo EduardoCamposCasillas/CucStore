@@ -11,25 +11,27 @@ import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import Ioniocons from "react-native-vector-icons/Ionicons";
+
 import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [productos, setProductos] = useState();
-  const navigate = useNavigation()
+  const navigation = useNavigation();
+
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('accessToken')
-      if(value !== null) {
+      if (value !== null) {
         console.log(value);
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   }
 
   useFocusEffect(
     React.useCallback(() => {
-      axios.get('http://192.168.100.10:3000/api/productos').then((req) => {
+      axios.get('http://192.168.100.50:3000/api/productos').then((req) => {
         const allProductsData = req.data
         setProductos(allProductsData)
       });
@@ -41,7 +43,7 @@ const HomeScreen = () => {
       style={{
         backgroundColor: COLORS.lightWhite,
         flex: 1,
-        
+
       }}>
       <View
         style={{
@@ -50,37 +52,58 @@ const HomeScreen = () => {
         }}>
         <HeaderTabs />
         <View style={styles.searchContainer}>
-        <View style={styles.searchWrapper}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder='¿Que estás buscando?'
-          />
+          <View style={styles.searchWrapper}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder='¿Que estás buscando?'
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.btnIcon}
+          >
+            <Ioniocons name="search" size={25} color={COLORS.white} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.btnIcon}
-        >
-          <Ioniocons name="search" size={25} color={COLORS.white} />
-        </TouchableOpacity>
-      </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <View style={{
           flex: 1,
           padding: 15,
         }}>
-        { productos && productos.map(usuario => {
-          const {nombres, apellidoPaterno, id: idUsuario, productos} = usuario
-          const nombre = nombres.split(' ')[0]
-          const nombreUsuario = nombre + ' ' + apellidoPaterno
-          return productos.map(producto => {
-            return <CardItem nombreProducto={producto.nombre} puntaje={producto.puntaje} precio={producto.precio} imgUrl={producto.imgUrl} nombreUsuario={nombreUsuario} idUsuario={idUsuario} key={producto.id}/>
-          })
-        })}
+          {productos && productos.map(usuario => {
+            const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
+            const nombre = nombres.split(' ')[0]
+            const nombreUsuario = nombre + ' ' + apellidoPaterno
+            return productos.map(producto => {
+              return <CardItem
+                nombreProducto={producto.nombre}
+                descripcion={producto.descripcion}
+                puntaje={producto.puntaje}
+                precio={producto.precio}
+                imgUrl={producto.imgUrl}
+                categoria={producto.categoria}
+                nombreUsuario={nombreUsuario}
+                idUsuario={idUsuario}
+                key={producto.id}
+                onPress={() =>
+                  navigation.navigate('DetailsProduct', {
+                    nombreProducto: producto.nombre,
+                    descripcion: producto.descripcion,
+                    puntaje: producto.puntaje,
+                    precio: producto.precio,
+                    imgUrl: producto.imgUrl,
+                    categoria: producto.categoria,
+                    nombreUsuario: nombreUsuario,
+                    idUsuario: idUsuario,
+                  })}
+              />
+            })
+          })}
         </View>
       </ScrollView>
       <Divider width={1} />
-      <View style={{backgroundColor: "white"}}>
-      <BottomTabs />
+      <View style={{ backgroundColor: "white" }}>
+        <BottomTabs />
       </View>
 
     </SafeAreaView>

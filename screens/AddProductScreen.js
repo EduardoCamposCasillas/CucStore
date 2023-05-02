@@ -64,7 +64,7 @@ const AddProductScreen = () => {
     setSelectedImage(null)
   }
   const handleAddProduct = () => {
-    axios.post('http://localhost:3000/api/usuario/productos', {
+    axios.post('http://192.168.100.50:3000/api/usuario/productos', {
       nombre: inputValues.nombre,
       descripcion: inputValues.descripcion,
       precio: inputValues.precio,
