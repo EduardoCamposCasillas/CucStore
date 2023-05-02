@@ -23,6 +23,7 @@ const AddProductScreen = () => {
   const { userToken } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState();
+  const [categorias, setCategorias] = useState()
   const [inputValues, setInputValues] = useState({
       nombre: '',
       descripcion: '',
@@ -88,6 +89,17 @@ const AddProductScreen = () => {
     })
 
   }
+
+  useEffect(() => {
+    axios.get(config.apiUrl + '/api/categorias').then(categorias => {
+      const data = []
+      const categoriasData = categorias.data
+      categoriasData.map(categoria => (
+        data.push({key: categoria.id, value: categoria.nombre})
+      ))
+      setCategorias(data)
+    })
+  },[])
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
@@ -146,19 +158,18 @@ const AddProductScreen = () => {
             }}
           />
           <Text style={styles.textStyle}>Selecciona una categoria</Text>
-          <View style={{ marginTop: 10 }}>
+          {categorias && <View style={{ marginTop: 10 }}>
             <SelectList
-              data={data}
+              data={categorias}
               search={false}
               setSelected={setSelectedCategory}
-              defaultOption={{ key: '1', value: 'dulce' }}
               arrowicon={<Ioniocons name="arrow-down" size={25} color={COLORS.white} />}
               inputStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
               boxStyles={{ borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary }}
               dropdownTextStyles={{ color: COLORS.white, fontWeight: 'bold', fontSize: SIZES.medium }}
               dropdownStyles={{ backgroundColor: COLORS.primary, color: COLORS.white, borderColor: COLORS.primary }}
             />
-          </View>
+          </View>}
 
           <Text style={styles.textStyle}>Selecciona una Imagen</Text>
           <TouchableOpacity style={styles.btnIcon} onPress={pickImageAsync}>
