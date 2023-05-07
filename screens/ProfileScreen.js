@@ -18,7 +18,7 @@ import { COLORS } from '../constants';
 import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -40,16 +40,20 @@ const ProfileScreen = () => {
     }
   }
 
-  useEffect(() => {
-    axios.post(config.apiUrl + '/api/usuario', {
-      headers: {
-        'Authorization': 'Bearer ' + userToken
-      }
-    }).then((res) => {
-      const allUsers = res.data
-      setUsuario(allUsers)
-    }).catch(e => console.error(e))
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      axios.get(config.apiUrl + '/api/usuario', {
+        headers: {
+          Authorization: 'Bearer ' + userToken
+        }
+      })
+        .then((response) => {
+          const usuarioData = response.data[0];
+          setUsuario(usuarioData);
+        })
+        .catch(e => console.error(e));
+    }, [])
+  );
 
   const onLogoutPress = () => {
     logout();
@@ -61,16 +65,15 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
               <Avatar.Image
-                source={{
-                }}
+                source={usuario && usuario?.imgUrl}
                 size={80}
               />
               <View style={{ marginLeft: 20 }}>
                 <Title style={[styles.title, {
                   marginTop: 15,
                   marginBottom: 5,
-                }]}>{usuario?.nombres}</Title>
-                <Title style={styles.title}>{usuario?.apellidoPaterno + ' ' + usuario?.apellidoMaterno}</Title>
+                }]}>{usuario && usuario?.nombres}</Title>
+                <Title style={styles.title}>{usuario && usuario?.apellidoPaterno + ' ' + usuario?.apellidoMaterno}</Title>
 
               </View>
             </View>
@@ -79,21 +82,21 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={styles.row}>
               <Icon name="phone" color="#777777" size={20} />
-              <Text style={{ color: "#777777", marginLeft: 20 }}>{usuario?.telefonos}</Text>
+              <Text style={{ color: "#777777", marginLeft: 20 }}>{usuario && usuario?.telefonos[0] === null || usuario?.telefonos[0] === undefined || usuario?.telefonos.length <= 0  ? 'Agrega un telefono' : usuario?.telefonos[0]}</Text>
             </View>
             <View style={styles.row}>
               <Icon name="email" color="#777777" size={20} />
-              <Text style={{ color: "#777777", marginLeft: 20 }}>ejemplo@email.com</Text>
+              <Text style={{ color: "#777777", marginLeft: 20 }}>{usuario && usuario?.correo}</Text>
             </View>
             <View style={styles.row}>
               <Icon name="tag" color="#777777" size={20} />
-              <Text style={{ color: "#777777", marginLeft: 20 }}>Nombre de marca</Text>
+              <Text style={{ color: "#777777", marginLeft: 20 }}>{usuario && usuario?.nombreMarca === null || usuario?.nombreMarca === undefined ? 'Agrega el nombre de tu marca' : usuario?.nombreMarca}</Text>
             </View>
           </View>
 
           <View style={styles.infoBoxWrapper}>
             <View style={styles.infoBox}>
-              <Title>5</Title>
+              <Title>{usuario && usuario?.productos === null || usuario?.productos === undefined ? 'No se cuentan con productos' : usuario.productos?.length}</Title>
               <Caption>Mis Productos en Venta</Caption>
             </View>
           </View>
