@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { View, Text } from "react-native-web";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,6 +25,7 @@ const MessageStack = ({ navigation }) => {
         component={ChatScreen}
         options={({ route}) =>({
           title: route.params.userName,
+          headerBackTitleVisible: false,
         })}
       />
     </Stack.Navigator>
