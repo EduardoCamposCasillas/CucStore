@@ -56,7 +56,7 @@ const LoginScreen = () => {
         <View style={styles.viewContainer}>
           <TextInput
             value={loginData.correo}
-            placeholder="email@email.com"
+            placeholder="usuario@dominio.udg.mx"
             style={styles.textInput}
             onChangeText={(text) => {
               setLoginData({
