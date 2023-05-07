@@ -10,14 +10,23 @@ import SellerScreen from "../screens/SellerScreen";
 import AddProductScreen from "../screens/AddProductScreen";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
+import MessagesScreen from "../screens/MessagesScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const AddProduct = () => {
+const MessageStack = ({ navigation }) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="AddProduct" component={AddProductScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Mensajes" component={MessagesScreen} />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={({ route}) =>({
+          title: route.params.userName,
+        })}
+      />
     </Stack.Navigator>
   );
 }
@@ -26,6 +35,7 @@ const AppStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { display: 'none' } }}>
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="ChatScreen" component={MessageStack} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="EditProfile" component={EditProfileScreen} />
       <Tab.Screen name="Seller" component={SellerScreen} />

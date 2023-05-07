@@ -10,10 +10,10 @@ const BottomTabs = () => {
   return (
     <View style={styles.tabsContainer}>
 
-      <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
+      <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
         <Icon icon="home" text="Inicio" />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => { navigation.navigate('ChatScreen') }}>
         <Icon icon="chatbox" text="Chat" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => { navigation.navigate('Profile') }}>
@@ -35,7 +35,7 @@ const Icon = (props) => (
         alignSelf: 'center',
       }}
     />
-    <Text style={{fontWeight: 'bold'}}>{props.text}</Text>
+    <Text style={{ fontWeight: 'bold' }}>{props.text}</Text>
   </View>
 
 )
