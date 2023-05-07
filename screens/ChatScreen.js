@@ -84,6 +84,12 @@ const ChatScreen = () => {
 
   }
 
+  const scrollToBottomComponent = () => {
+    return(
+      <FontAwesome name="angle-double-down" size={22} color={COLORS.primary} />
+    );
+  }
+
   return (
     <GiftedChat
       messages={messages}
@@ -94,6 +100,8 @@ const ChatScreen = () => {
       renderBubble={renderBubble}
       alwaysShowSend
       renderSend={renderSend}
+      scrollToBottom
+      scrollToBottomComponent={scrollToBottomComponent}
     />
   );
 }
