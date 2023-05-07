@@ -73,7 +73,7 @@ const HomeScreen = () => {
           {productos && productos.map(usuario => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
-            const nombreUsuario = nombre ?? nombres + ' ' + apellidoPaterno
+            const nombreUsuario = nombre + ' ' + apellidoPaterno
             return (productos.map(producto => {
               return (<CardItem
               nombreProducto={producto?.nombre}

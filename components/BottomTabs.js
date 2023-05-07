@@ -25,17 +25,17 @@ const BottomTabs = () => {
 
 const Icon = (props) => (
   <View
-
   >
     <Ioniocons
       name={props.icon}
       size={25}
+      color={COLORS.primary}
       style={{
         marginBottom: 3,
         alignSelf: 'center',
       }}
     />
-    <Text>{props.text}</Text>
+    <Text style={{fontWeight: 'bold'}}>{props.text}</Text>
   </View>
 
 )

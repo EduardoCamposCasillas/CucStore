@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
 import ImageViewer from './ImageViewer';
 import { useNavigation } from '@react-navigation/native';
-import StarRatingDisplay  from 'react-native-star-rating-widget';
+import StarRatingDisplay from 'react-native-star-rating-widget';
 
-const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria , idUsuario, onPress }) => {
+const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria, idUsuario, onPress }) => {
   const [rating, setRating] = useState(puntaje)
   return (
     <TouchableOpacity style={styles.cardItem} onPress={onPress}>
@@ -30,23 +30,21 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
         <View
           style={styles.starContainer}
         >
-          
+
           <Text >
-            <StarRatingDisplay  rating={rating} starSize={25}  starStyle={{marginHorizontal: 0.5}}/>
+            <StarRatingDisplay rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
           </Text>
         </View>
       </View>
-      {/* Item Info */}
-      <Text style={styles.productText}>{nombreProducto}</Text>
-      {/* Item rating */}
 
       <View
         style={{
           flexDirection: 'row',
           marginLeft: 10,
-          justifyContent: 'end'
+          justifyContent: 'space-between'
         }}
       >
+        <Text style={styles.productText}>{nombreProducto}</Text>
         <Text style={styles.vendedorText}>{nombreUsuario}</Text>
       </View>
     </TouchableOpacity>

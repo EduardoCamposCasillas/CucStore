@@ -9,6 +9,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SellerScreen from "../screens/SellerScreen";
 import AddProductScreen from "../screens/AddProductScreen";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,6 +27,7 @@ const AppStack = () => {
     <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { display: 'none' } }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="EditProfile" component={EditProfileScreen} />
       <Tab.Screen name="Seller" component={SellerScreen} />
       <Tab.Screen name="AddProduct" component={AddProductScreen} />
       <Tab.Screen name="DetailsProduct" component={ProductDetailsScreen} />
