@@ -34,7 +34,7 @@ const HomeScreen = () => {
       axios.get(config.apiUrl + '/api/productos').then((req) => {
         const allProductsData = req.data
         setProductos(allProductsData)
-      });
+      }).catch(e => console.error(e));
     }, [])
   );
 
@@ -70,7 +70,7 @@ const HomeScreen = () => {
           flex: 1,
           padding: 15,
         }}>
-          {productos && productos.map(usuario => {
+          {productos ? productos.map(usuario => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
             const nombreUsuario = nombre + ' ' + apellidoPaterno
@@ -98,7 +98,7 @@ const HomeScreen = () => {
                 })}
               />)
             }))
-          })}
+          }) : <Text>No hay productos para mostrar</Text>}
         </View>
       </ScrollView>
       <Divider width={1} />

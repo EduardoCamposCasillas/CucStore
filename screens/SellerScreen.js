@@ -63,14 +63,14 @@ const SellerScreen = () => {
           flex: 1,
           padding: 15,
         }}>
-          {userProducts && userProducts.map(producto => (
+          {userProducts ? userProducts.map(producto => (
             <CardItem
               nombreProducto={producto.nombre}
               precio={producto.precio}
               puntaje={producto.puntaje}
               imgUrl={producto.imgUrl}
               key={producto.id} />
-          ))}
+          )): <Text>No cuentas con productos</Text>}
         </View>
       </ScrollView>
       <Divider width={1} />
