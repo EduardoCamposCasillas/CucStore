@@ -249,7 +249,6 @@ const EditProfileScreen = () => {
               ]}
             />
           </View>
-
         </View>
       </ScrollView>
       <TouchableOpacity style={styles.commandButton} onPress={handleSubmitData}>
