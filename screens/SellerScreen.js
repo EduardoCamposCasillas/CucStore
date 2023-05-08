@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { COLORS, SIZES } from '../constants';
@@ -16,9 +16,33 @@ import { config } from '../config';
 
 
 const SellerScreen = () => {
+  const [showEditDeleteButtons, setShowEditDeleteButtons] = useState(true);
   const navigation = useNavigation();
   const [userProducts, setUserProducts] = useState()
   const { userToken } = useContext(AuthContext);
+
+  const [showBox, setShowBox] = useState(true);
+
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      "¿Estas Seguro?",
+      "Estas seguro de querer eliminar este producto?",
+      [
+        // The "Yes" button
+        {
+          text: "Si",
+          onPress: () => {
+            //borrar el producto
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   const onAddProductPress = () => {
     navigation.navigate('AddProduct');
@@ -63,13 +87,26 @@ const SellerScreen = () => {
           flex: 1,
           padding: 15,
         }}>
+
           {userProducts && userProducts.map(producto => (
             <CardItem
               nombreProducto={producto.nombre}
               precio={producto.precio}
               puntaje={producto.puntaje}
               imgUrl={producto.imgUrl}
-              key={producto.id} />
+              key={producto.id}
+              showEditDeleteButtons={showEditDeleteButtons}
+              onEditPress={() =>
+                navigation.navigate('EditProduct', {
+                  nombreProducto: producto.nombre,
+                  descripcion: producto.descripcion,
+                  puntaje: producto.puntaje,
+                  precio: producto.precio,
+                  imgUrl: producto.imgUrl,
+                  categoria: producto.categoria[0]?.nombre,
+                })}
+              onDeletePress={showConfirmDialog}
+            />
           ))}
         </View>
       </ScrollView>
@@ -129,7 +166,7 @@ const styles = StyleSheet.create({
     width: 45,
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default SellerScreen;
