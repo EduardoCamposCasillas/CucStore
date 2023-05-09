@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { config } from '../config';
 
 
@@ -23,17 +23,19 @@ const SellerScreen = () => {
   const onAddProductPress = () => {
     navigation.navigate('AddProduct');
   }
-  useEffect(() => {
-    axios.get(config.apiUrl + '/api/usuario/productos', {
-      headers: {
-        'Authorization': 'Bearer ' + userToken,
-        'Content-Type': 'application/json'
-      }
-    }).then((req) => {
-      const allUserProducts = req.data
-      setUserProducts(allUserProducts)
-    }).catch(e => console.error(e))
-  }, [onAddProductPress])
+  useFocusEffect(
+    React.useCallback(() => {
+      axios.get(config.apiUrl + '/api/usuario/productos', {
+        headers: {
+          'Authorization': 'Bearer ' + userToken,
+          'Content-Type': 'application/json'
+        }
+      }).then((req) => {
+        const allUserProducts = req.data
+        setUserProducts(allUserProducts)
+      }).catch(e => console.error(e))
+    },[])
+  )
 
   return (
     <SafeAreaView
