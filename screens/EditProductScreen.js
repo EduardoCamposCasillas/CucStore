@@ -97,7 +97,7 @@ const EditProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      {console.log(inputValues.categoria, categoria)}
+      
       <KeyboardAwareScrollView>
         <WavyHeader
           customStyles={styles.svgCurve}
