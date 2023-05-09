@@ -6,7 +6,7 @@ import { COLORS, SIZES } from '../constants';
 import WavyHeader from "../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AuthContext } from '../context/AuthContext';
 import ImageViewer from '../components/ImageViewer';
 
@@ -27,7 +27,7 @@ const AddProductScreen = () => {
   const [inputValues, setInputValues] = useState({
       nombre: '',
       descripcion: '',
-      precio: null,
+      precio: '',
       imgUrl: null,
       categoria: ''
     })
@@ -50,7 +50,7 @@ const AddProductScreen = () => {
     setInputValues({
       nombre: '',
       descripcion: '',
-      precio: null,
+      precio: '',
       imgUrl: null,
       categoria: ''
     })
@@ -72,8 +72,9 @@ const AddProductScreen = () => {
     }).then(response => {
       if(response.status === 201){
         console.log('modal de registro exitoso');
-        navigation.navigate('Seller');
         cleanData()
+        navigation.navigate('Seller');
+        
       }
       cleanData()
     }).catch(error => {
@@ -92,6 +93,7 @@ const AddProductScreen = () => {
       setCategorias(data)
     })
   },[])
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
@@ -116,7 +118,7 @@ const AddProductScreen = () => {
           <Text style={styles.textStyle}>Nombre del Producto</Text>
           <TextInput
             style={styles.textInput}
-            defaultValue=''
+            value={inputValues.nombre}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -129,7 +131,7 @@ const AddProductScreen = () => {
             multiline={true}
             numberOfLines={5}
             style={styles.textArea}
-            defaultValue=''
+            value={inputValues.descripcion}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -141,7 +143,7 @@ const AddProductScreen = () => {
           <TextInput
             placeholder='00.00'
             style={styles.textInput}
-            defaultValue=''
+            value={inputValues.precio}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,

@@ -135,7 +135,7 @@ const EditProfileScreen = () => {
               </View>
             </TouchableOpacity>
             <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-              {inputData.nombres + ' ' +inputData.apellidoMaterno + ' ' + inputData.apellidoPaterno}
+              {inputData.nombres + ' ' + inputData.apellidoPaterno  + ' ' + inputData.apellidoMaterno}
             </Text>
           </View>
 
@@ -143,7 +143,7 @@ const EditProfileScreen = () => {
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             
             <TextInput
-              defaultValue={inputData.nombres}
+              value={inputData.nombres}
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,
@@ -164,7 +164,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.apellidoPaterno}
+            value={inputData.apellidoPaterno}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -186,7 +186,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.apellidoMaterno}
+            value={inputData.apellidoMaterno}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -208,7 +208,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="tag" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.nombreMarca}
+            value={inputData.nombreMarca}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -234,7 +234,7 @@ const EditProfileScreen = () => {
               placeholderTextColor="#666666"
               keyboardType="number-pad"
               autoCorrect={false}
-              defaultValue={inputData.telefonos}
+              value={inputData.telefonos[0]}
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,

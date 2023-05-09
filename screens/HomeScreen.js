@@ -17,25 +17,22 @@ import { useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
   const [productos, setProductos] = useState();
   const navigation = useNavigation();
+  const [textInputValue, setTextInputValue] = useState('')
 
-  const getToken = async () => {
-    try {
-      const value = await AsyncStorage.getItem('accessToken')
-      if (value !== null) {
-        console.log(value);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  const searchProduct = (text) => {
+    const filteredProducts = productos.map(usuario => {
+      return {...usuario, productos: usuario.productos.filter(producto => producto.nombre.toLowerCase().includes(text.toLowerCase()))}
+    })
+
+    setProductos(filteredProducts)
   }
-
   useFocusEffect(
     React.useCallback(() => {
       axios.get(config.apiUrl + '/api/productos').then((req) => {
         const allProductsData = req.data
         setProductos(allProductsData)
-      }).catch(e => console.error(e));
-    }, [])
+      }).catch(e => {setProductos(null)});
+    }, [textInputValue])
   );
 
   return (
@@ -54,12 +51,15 @@ const HomeScreen = () => {
         <View style={styles.searchContainer}>
           <View style={styles.searchWrapper}>
             <TextInput
+              onChangeText={(text) => setTextInputValue(text)}
+              value={textInputValue}
               style={styles.searchInput}
               placeholder='¿Que estás buscando?'
             />
           </View>
           <TouchableOpacity
             style={styles.btnIcon}
+            onPress={() => searchProduct(textInputValue)}
           >
             <Ioniocons name="search" size={25} color={COLORS.white} />
           </TouchableOpacity>
@@ -70,6 +70,7 @@ const HomeScreen = () => {
           flex: 1,
           padding: 15,
         }}>
+          
           {productos ? productos.map(usuario => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
@@ -82,6 +83,7 @@ const HomeScreen = () => {
               precio={producto.precio}
               imgUrl={producto.imgUrl}
               categoria={producto.categoria[0]?.nombre}
+              nombreMarca = {usuario.nombreMarca}
               nombreUsuario={nombreUsuario}
               idUsuario={idUsuario}
               key={producto.id}

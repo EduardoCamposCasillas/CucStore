@@ -19,6 +19,7 @@ import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 
 
@@ -115,7 +116,7 @@ const ProfileScreen = () => {
             <Text style={styles.menuItemText}>Editar Perfil</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress>
+        <TouchableRipple onPress={() => Alert.alert('Funcionalidad no disponible por el momento')}>
           <View style={styles.menuItem}>
             <Icon name="account-key" color={COLORS.primary} size={25} />
             <Text style={styles.menuItemText}>Cambiar Contraseña</Text>
