@@ -32,14 +32,6 @@ const AddProductScreen = () => {
       categoria: ''
     })
 
-    //items de categorias
-
-  const data = [
-    {key:'6431d6222afabdcef42708d3', value:'dulce'},
-    {key:'6431d5c22afabdcef42708d2', value:'salado'},
-    {key:'6431d6382afabdcef42708d4', value:'otro'},
-  ];
-
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,

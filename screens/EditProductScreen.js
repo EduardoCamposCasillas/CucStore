@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { COLORS, SIZES } from '../constants';
 import WavyHeader from "../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { AuthContext } from '../context/AuthContext';
 import ImageViewer from '../components/ImageViewer';
 
@@ -21,24 +21,54 @@ const PlaceholderImage = require('../assets/placeholder.jpg');
 const EditProductScreen = () => {
   const navigation = useNavigation();
   const { userToken } = useContext(AuthContext);
-  const [selectedImage, setSelectedImage] = useState(null);
+  
   const [selectedCategory, setSelectedCategory] = useState();
   const [categorias, setCategorias] = useState()
+  const route = useRoute();
+  const {
+    productoId,
+    nombreProducto,
+    descripcion,
+    puntaje,
+    precio,
+    imgUrl,
+    nombreUsuario,
+    categoria,
+    idUsuario,
+  } = route.params;
+  const [selectedImage, setSelectedImage] = useState(imgUrl);
   const [inputValues, setInputValues] = useState({
-    nombre: '',
-    descripcion: '',
-    precio: null,
-    imgUrl: null,
-    categoria: ''
+    productoId,
+    nombre: nombreProducto,
+    descripcion,
+    precio: precio.toString(),
+    imgUrl,
+    categoria
   })
 
-  //items de categorias
-
-  const data = [
-    { key: '6431d6222afabdcef42708d3', value: 'dulce' },
-    { key: '6431d5c22afabdcef42708d2', value: 'salado' },
-    { key: '6431d6382afabdcef42708d4', value: 'otro' },
-  ];
+  const handleEditProduct = () => {
+    axios.put(config.apiUrl + '/api/usuario/productos', {
+      productId: productoId,
+      nombre: inputValues.nombre,
+      descripcion: inputValues.descripcion,
+      precio: inputValues.precio,
+      imgUrl: selectedImage,
+      categoria: selectedCategory
+    },{
+      headers: {
+        Authorization: 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      
+      if(response.status === 200){
+        console.log('modal de producto actualizado con exito');
+        navigation.navigate('Seller')
+      }else{
+        console.log('modal de error en el servidor intentar mas tarde');
+      }
+    }).catch(e => console.log(e))
+  }
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,42 +83,6 @@ const EditProductScreen = () => {
     }
   };
 
-  const cleanData = () => {
-
-    setInputValues({
-      nombre: '',
-      descripcion: '',
-      precio: null,
-      imgUrl: null,
-      categoria: ''
-    })
-    setSelectedCategory(null)
-    setSelectedImage(null)
-  }
-  const handleAddProduct = () => {
-    axios.post(config.apiUrl + '/api/usuario/productos', {
-      nombre: inputValues.nombre,
-      descripcion: inputValues.descripcion,
-      precio: inputValues.precio,
-      imgUrl: selectedImage,
-      categoria: selectedCategory
-    }, {
-      headers: {
-        'Authorization': 'Bearer ' + userToken,
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 201) {
-        console.log('modal de registro exitoso');
-        navigation.navigate('Seller');
-        cleanData()
-      }
-      cleanData()
-    }).catch(error => {
-      console.error(error)
-    })
-
-  }
 
   useEffect(() => {
     axios.get(config.apiUrl + '/api/categorias').then(categorias => {
@@ -100,8 +94,10 @@ const EditProductScreen = () => {
       setCategorias(data)
     })
   }, [])
+
   return (
     <View style={styles.container}>
+      {console.log(inputValues.categoria, categoria)}
       <KeyboardAwareScrollView>
         <WavyHeader
           customStyles={styles.svgCurve}
@@ -124,7 +120,7 @@ const EditProductScreen = () => {
           <Text style={styles.textStyle}>Editar Nombre del Producto</Text>
           <TextInput
             style={styles.textInput}
-            defaultValue=''
+            defaultValue={inputValues.nombre}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -137,7 +133,7 @@ const EditProductScreen = () => {
             multiline={true}
             numberOfLines={5}
             style={styles.textArea}
-            defaultValue=''
+            defaultValue={inputValues.descripcion}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -149,7 +145,7 @@ const EditProductScreen = () => {
           <TextInput
             placeholder='00.00'
             style={styles.textInput}
-            defaultValue=''
+            defaultValue={inputValues.precio}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -160,6 +156,7 @@ const EditProductScreen = () => {
           <Text style={styles.textStyle}>Editar categoria</Text>
           {categorias && <View style={{ marginTop: 10 }}>
             <SelectList
+            defaultOption={inputValues.categoria}
               data={categorias}
               search={false}
               setSelected={setSelectedCategory}
@@ -183,7 +180,7 @@ const EditProductScreen = () => {
             />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleAddProduct}>
+          <TouchableOpacity style={styles.button} onPress={handleEditProduct}>
             <Text style={styles.buttonText}>Editar Producto</Text>
           </TouchableOpacity>
 

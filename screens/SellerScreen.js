@@ -20,10 +20,10 @@ const SellerScreen = () => {
   const navigation = useNavigation();
   const [userProducts, setUserProducts] = useState()
   const { userToken } = useContext(AuthContext);
-
+  
   const [showBox, setShowBox] = useState(true);
 
-  const showConfirmDialog = () => {
+  const showConfirmDialog = (productoId) => {
     return Alert.alert(
       "¿Estas Seguro?",
       "Estas seguro de querer eliminar este producto?",
@@ -32,7 +32,20 @@ const SellerScreen = () => {
         {
           text: "Si",
           onPress: () => {
-            //borrar el producto
+           axios.delete(config.apiUrl + '/api/usuario/productos', {
+            headers: {
+              Authorization: 'Bearer ' + userToken,
+              'Content-Type': 'application/json'
+            },
+            data: {
+              productId: productoId,
+            }
+           }).then(response => {
+            if(response.status === 204){
+              navigation.navigate('Home')
+              return
+            }
+          }).catch(e => console.log(e))
           },
         },
         // The "No" button
@@ -99,14 +112,15 @@ const SellerScreen = () => {
               showEditDeleteButtons={showEditDeleteButtons}
               onEditPress={() =>
                 navigation.navigate('EditProduct', {
+                  productoId: producto.id,
                   nombreProducto: producto.nombre,
                   descripcion: producto.descripcion,
                   puntaje: producto.puntaje,
                   precio: producto.precio,
                   imgUrl: producto.imgUrl,
-                  categoria: producto.categoria[0]?.nombre,
+                  categoria: producto.categoria[0]?.nombre
                 })}
-              onDeletePress={showConfirmDialog}
+              onDeletePress={() => showConfirmDialog(producto.id)}
             />
           )): <Text>No cuentas con productos</Text>}
         </View>

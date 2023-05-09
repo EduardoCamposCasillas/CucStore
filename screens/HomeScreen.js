@@ -92,7 +92,7 @@ const HomeScreen = () => {
                   puntaje: producto.puntaje,
                   precio: producto.precio,
                   imgUrl: producto.imgUrl,
-                  categoria: producto.categoria[0]?.nombre,
+                  categoria: producto.categoria[0].nombre,
                   nombreUsuario: nombreUsuario,
                   idUsuario: idUsuario,
                 })}

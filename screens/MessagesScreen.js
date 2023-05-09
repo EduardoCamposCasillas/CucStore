@@ -71,18 +71,18 @@ const socket = io(config.apiUrl + '/api/mensajes')
 const MessagesScreen = ({ navigation }) => {
   const [messages, setMessages] = useState()
   const {userToken} = useContext(AuthContext)
-  useEffect(() => {
-    socket.connect()
+  // useEffect(() => {
+  //   socket.connect()
 
     
-    socket.on('mensajes', (data) => {
-      console.log(data)
-    })
-    return () => {
-      console.log('desmontado');
-      socket.disconnect()
-    }
-  },[])
+  //   socket.on('mensajes', (data) => {
+  //     console.log(data)
+  //   })
+  //   return () => {
+  //     console.log('desmontado');
+  //     socket.disconnect()
+  //   }
+  // },[])
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite, }}>
