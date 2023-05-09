@@ -1,42 +1,45 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
 import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
 import ImageViewer from './ImageViewer';
 import { useNavigation } from '@react-navigation/native';
 import StarRatingDisplay from 'react-native-star-rating-widget';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria, idUsuario, onPress }) => {
+const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria, idUsuario, onPress, showEditDeleteButtons, onEditPress, onDeletePress }) => {
   const [rating, setRating] = useState(puntaje)
+
   return (
-    <TouchableOpacity style={styles.cardItem} onPress={onPress}>
-      {/* Image  */}
-      <View
-        style={{ marginBottom: 10 }}
-      >
-        <ImageViewer
-          selectedImage={imgUrl}
-          resizeMode="cover"
-          style={{
-            width: '100%',
-            height: 200,
-            borderRadius: 30,
-          }}
-        />
+    <View>
+      <TouchableOpacity style={styles.cardItem} onPress={onPress}>
+        {/* Image  */}
         <View
-          style={styles.priceContainer}
+          style={{ marginBottom: 10 }}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium, color: COLORS.white }}>${precio}</Text>
-        </View>
-        <View
-          style={styles.starContainer}
-        >
+          <ImageViewer
+            selectedImage={imgUrl}
+            resizeMode="cover"
+            style={{
+              width: '100%',
+              height: 200,
+              borderRadius: 30,
+            }}
+          />
+          <View
+            style={styles.priceContainer}
+          >
+            <Text style={{ fontWeight: 'bold', fontSize: SIZES.medium, color: COLORS.white }}>${precio}</Text>
+          </View>
+          <View
+            style={styles.starContainer}
+          >
 
-          <Text >
-            <StarRatingDisplay rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
-          </Text>
+            <Text >
+              <StarRatingDisplay rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
+            </Text>
+          </View>
         </View>
-      </View>
-
+      </TouchableOpacity>
       <View
         style={{
           flexDirection: 'row',
@@ -46,8 +49,22 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
       >
         <Text style={styles.productText}>{nombreProducto}</Text>
         <Text style={styles.vendedorText}>{nombreUsuario}</Text>
+        {showEditDeleteButtons && (
+          <>
+            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={onEditPress}>
+              <MaterialCommunityIcons name='square-edit-outline' size={20} color={COLORS.tertiary} />
+              <Text style={{ fontSize: SIZES.medium }}>Editar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={onDeletePress}>
+              <MaterialCommunityIcons name='delete' size={20} color={'red'} />
+              <Text style={{ fontSize: SIZES.medium }}>Eliminar</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
-    </TouchableOpacity>
+      {/*Modal */}
+      
+    </View>
   )
 
 }
@@ -72,7 +89,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
   },
   cardItem: {
-    marginBottom: 20,
+    marginBottom: 0,
+    marginTop: 10,
   },
   priceContainer: {
     position: 'absolute',
@@ -96,7 +114,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 
 })
 

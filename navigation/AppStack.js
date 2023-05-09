@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from "../screens/ProfileScreen";
 import SellerScreen from "../screens/SellerScreen";
 import AddProductScreen from "../screens/AddProductScreen";
+import EditProductScreen from '../screens/EditProductScreen';
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import MessagesScreen from "../screens/MessagesScreen";
@@ -41,6 +42,7 @@ const AppStack = () => {
       <Tab.Screen name="EditProfile" component={EditProfileScreen} />
       <Tab.Screen name="Seller" component={SellerScreen} />
       <Tab.Screen name="AddProduct" component={AddProductScreen} />
+      <Tab.Screen name="EditProduct" component={EditProductScreen} />
       <Tab.Screen name="DetailsProduct" component={ProductDetailsScreen} />
     </Tab.Navigator>
   );
