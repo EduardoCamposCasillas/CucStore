@@ -74,10 +74,11 @@ const EditProductScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      setSelectedImage('data:image/jpeg;base64,' + result.assets[0].base64);
     } else {
       alert('No seleccionaste ninguna imagen.');
     }

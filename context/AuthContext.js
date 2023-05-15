@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const login = (data) => {
     axios.post(config.apiUrl + '/api/auth/login', data)
     .then((response) => {
+      console.log(response.status)
       if(response.status === 200){
         const token = response.data.token
         storeToken(token)

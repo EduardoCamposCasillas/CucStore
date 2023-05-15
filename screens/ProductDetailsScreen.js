@@ -20,6 +20,7 @@ const ProductDetailsScreen = () => {
     nombreUsuario,
     categoria,
     idUsuario,
+    nombreMarca
   } = route.params;
 
   return (
@@ -56,7 +57,7 @@ const ProductDetailsScreen = () => {
           <Text style={styles.textTitle}>Categoria</Text>
           <Text style={styles.textStyle}>{categoria}</Text>
           <Text style={styles.textTitle}>Vendedor</Text>
-          <Text style={styles.textStyle}>{nombreUsuario}</Text>
+          <Text style={styles.textStyle}>{ nombreMarca ?? nombreUsuario}</Text>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <TouchableOpacity style={styles.btnIcon}>
               <Text style={styles.buttonText}>Contactar</Text>

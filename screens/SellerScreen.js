@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { COLORS, SIZES } from '../constants';
@@ -13,6 +13,7 @@ import { AuthContext } from '../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import React, { useState } from 'react';
 import { config } from '../config';
+import { Caption } from 'react-native-paper';
 
 
 const SellerScreen = () => {
@@ -20,8 +21,12 @@ const SellerScreen = () => {
   const navigation = useNavigation();
   const [userProducts, setUserProducts] = useState()
   const { userToken } = useContext(AuthContext);
-  
+  const [isEnabled, setIsEnabled] = useState(false);
   const [showBox, setShowBox] = useState(true);
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState)
+  };
 
   const showConfirmDialog = (productoId) => {
     return Alert.alert(
@@ -79,31 +84,40 @@ const SellerScreen = () => {
       style={{
         backgroundColor: COLORS.lightWhite,
         flex: 1,
-
       }}>
       <View
         style={{
-          backgroundColor: "white",
-          padding: 15,
+          paddingLeft: 15,
+          paddingRight: 15,
+          paddingTop: 15,
+          paddingBottom: 0,
         }}>
         <HeaderTabs />
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Mis Productos</Text>
-          <TouchableOpacity
-            style={styles.btnIcon}
-            onPress={onAddProductPress}
-          >
-            <Ioniocons name="add" size={25} color={COLORS.white} />
-          </TouchableOpacity>
+          <View style={{flexDirection:'row' }}>
+            <Caption style={{ marginRight: 5, color: isEnabled ? '#4CAF50' : '#9E9E9E' }}>{isEnabled ? 'Activo' : 'Inactivo'}</Caption>
+            <Switch
+              trackColor={{false: '#9E9E9E', true: '#4CAF50'}}
+              thumbColor={isEnabled ? '#FFFFFF' : '#FFFFFF'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+              style={{height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }]}}
+            />
+          </View>
         </View>
+        
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <View style={{
           flex: 1,
           padding: 15,
+          paddingTop: 0,
         }}>
           {userProducts ? userProducts.map(producto => (
             <CardItem
+              isEnabled={isEnabled}
               nombreProducto={producto.nombre}
               precio={producto.precio}
               puntaje={producto.puntaje}
@@ -125,8 +139,17 @@ const SellerScreen = () => {
           )): <Text>No cuentas con productos</Text>}
         </View>
       </ScrollView>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-end', padding: 20}}>
+        <TouchableOpacity
+              style={styles.btnIcon}
+              onPress={onAddProductPress}
+            >
+              <Ioniocons name="add" size={40} color={COLORS.white} />
+        </TouchableOpacity>
+      </View>
       <Divider width={1} />
       <View style={{ backgroundColor: "white" }}>
+       
         <BottomTabs />
       </View>
 
@@ -143,22 +166,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: "row",
-    marginTop: SIZES.large,
+    marginTop: SIZES.small,
     height: 50,
   },
   headerText: {
-    fontSize: SIZES.xLarge,
+    fontSize: SIZES.large,
     fontWeight: 'bold',
     color: COLORS.primary,
     textAlign: 'center',
     width: '50%',
     borderRadius: 10
   },
-  viewContainer: {
-    paddingTop: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // viewContainer: {
+  //   paddingTop: 500,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
   textInput: {
     padding: 10,
     paddingStart: 30,
@@ -177,8 +200,8 @@ const styles = StyleSheet.create({
   btnIcon: {
     backgroundColor: COLORS.primary,
     borderRadius: 30,
-    height: 45,
-    width: 45,
+    height: 70,
+    width: 70,
     justifyContent: "center",
     alignItems: "center",
   },
