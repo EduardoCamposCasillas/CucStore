@@ -25,8 +25,7 @@ import { Alert } from 'react-native';
 
 
 const ProfileScreen = () => {
-  const { userToken } = useContext(AuthContext);
-  const [usuario, setUsuario] = useState(null);
+  const { userInfo, usuario } = useContext(AuthContext);
   const navigation = useNavigation();
   const { logout } = useContext(AuthContext);
 
@@ -43,16 +42,7 @@ const ProfileScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      axios.get(config.apiUrl + '/api/usuario', {
-        headers: {
-          Authorization: 'Bearer ' + userToken
-        }
-      })
-        .then((response) => {
-          const usuarioData = response.data[0];
-          setUsuario(usuarioData);
-        })
-        .catch(e => console.error(e));
+      userInfo()
     }, [])
   );
 
@@ -61,6 +51,7 @@ const ProfileScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      {usuario && console.log(usuario?.isActive)}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1 }}>
           <View style={styles.userInfoSection}>

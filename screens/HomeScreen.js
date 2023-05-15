@@ -77,6 +77,7 @@ const HomeScreen = () => {
             const nombreUsuario = nombre + ' ' + apellidoPaterno
             return (productos.map(producto => {
               return (<CardItem
+              isActive={true}
               nombreProducto={producto?.nombre}
               descripcion={producto.descripcion}
               puntaje={producto.puntaje}

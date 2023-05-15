@@ -6,11 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import StarRatingDisplay from 'react-native-star-rating-widget';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CardItem = ({ nombreProducto, puntaje, precio, imgUrl, nombreUsuario, nombreMarca, onPress, showEditDeleteButtons, onEditPress, onDeletePress, isEnabled }) => {
+const CardItem = ({isActive ,nombreProducto, puntaje, precio, imgUrl, nombreUsuario, nombreMarca, onPress, showEditDeleteButtons, onEditPress, onDeletePress }) => {
   const [rating, setRating] = useState(puntaje)
 
   return (
-    <View style={{ opacity: isEnabled ? 1 : 0.3}}>
+    <View style={{opacity: isActive ? 1 : .4}} >
       <TouchableOpacity style={styles.cardItem} onPress={onPress}>
         {/* Image  */}
         <View

@@ -8,7 +8,7 @@ import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import React, { useState } from 'react';
@@ -20,13 +20,10 @@ const SellerScreen = () => {
   const [showEditDeleteButtons, setShowEditDeleteButtons] = useState(true);
   const navigation = useNavigation();
   const [userProducts, setUserProducts] = useState()
-  const { userToken } = useContext(AuthContext);
-  const [isEnabled, setIsEnabled] = useState(false);
+  const { userToken, isActive, updateUserInfo } = useContext(AuthContext);
+  const [isEnabled, setIsEnabled] = useState(isActive)
   const [showBox, setShowBox] = useState(true);
 
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState)
-  };
 
   const showConfirmDialog = (productoId) => {
     return Alert.alert(
@@ -65,6 +62,7 @@ const SellerScreen = () => {
   const onAddProductPress = () => {
     navigation.navigate('AddProduct');
   }
+
   useFocusEffect(
     React.useCallback(() => {
       axios.get(config.apiUrl + '/api/usuario/productos', {
@@ -96,13 +94,14 @@ const SellerScreen = () => {
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Mis Productos</Text>
           <View style={{flexDirection:'row' }}>
-            <Caption style={{ marginRight: 5, color: isEnabled ? '#4CAF50' : '#9E9E9E' }}>{isEnabled ? 'Activo' : 'Inactivo'}</Caption>
+            <Caption style={{ marginRight: 5, color: isActive ? '#4CAF50' : '#9E9E9E' }}>{isActive ? 'Activo' : 'Inactivo'}</Caption>
             <Switch
               trackColor={{false: '#9E9E9E', true: '#4CAF50'}}
-              thumbColor={isEnabled ? '#FFFFFF' : '#FFFFFF'}
+              thumbColor={isActive ? '#FFFFFF' : '#FFFFFF'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+              onValueChange={() => {updateUserInfo()}
+            }
+              value={isActive}
               style={{height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }]}}
             />
           </View>
@@ -117,7 +116,7 @@ const SellerScreen = () => {
         }}>
           {userProducts ? userProducts.map(producto => (
             <CardItem
-              isEnabled={isEnabled}
+              isActive={isActive}
               nombreProducto={producto.nombre}
               precio={producto.precio}
               puntaje={producto.puntaje}
