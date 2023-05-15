@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView } from "react-native";
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView, Alert } from "react-native";
 import { Path } from "react-native-svg";
 import { COLORS, SIZES } from '../constants';
 import WavyHeader from "../components/WavyHeader";
@@ -15,14 +15,25 @@ const LoginScreen = () => {
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const { login } = useContext(AuthContext);
+  const [showWrongMail, setShowWrongMail] = useState(false)
   const userDefaultLoginData = {
     correo: '',
     contraseña: ''
   }
   const [loginData, setLoginData] = useState(userDefaultLoginData)
+  
+  const validateEmail =(mail) => {
+    const regex = /^([a-zA-Z0-9_.+-])+@(alumnos|academicos)\.udg\.mx$/
+    return regex.test(mail)
+  }
   const onLoginPress = () => {
     // validate login
-    login(loginData);
+    if(validateEmail(loginData.correo)){
+      login(loginData);
+    }else{
+      Alert.alert('El correo debe tener un dominio valido (alumnos/academicos)')
+    }
+    
   };
 
   const onRegisterPress = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
@@ -13,7 +13,7 @@ const BottomTabs = () => {
       <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
         <Icon icon="home" text="Inicio" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => { navigation.navigate('ChatScreen') }}>
+      <TouchableOpacity onPress={() => { Alert.alert('Opcion no disponible por el momento') }}>
         <Icon icon="chatbox" text="Chat" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => { navigation.navigate('Profile') }}>

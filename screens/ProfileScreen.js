@@ -19,13 +19,13 @@ import { Divider } from 'react-native-elements';
 import BottomTabs from '../components/BottomTabs';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 
 
 
 const ProfileScreen = () => {
-  const { userToken } = useContext(AuthContext);
-  const [usuario, setUsuario] = useState(null);
+  const { userInfo, usuario } = useContext(AuthContext);
   const navigation = useNavigation();
   const { logout } = useContext(AuthContext);
 
@@ -42,16 +42,7 @@ const ProfileScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      axios.get(config.apiUrl + '/api/usuario', {
-        headers: {
-          Authorization: 'Bearer ' + userToken
-        }
-      })
-        .then((response) => {
-          const usuarioData = response.data[0];
-          setUsuario(usuarioData);
-        })
-        .catch(e => console.error(e));
+      userInfo()
     }, [])
   );
 
@@ -60,12 +51,13 @@ const ProfileScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      {usuario && console.log(usuario?.isActive)}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1 }}>
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
               <Avatar.Image
-                source={usuario && usuario?.imgUrl}
+                source={{uri: usuario && usuario?.imgUrl}}
                 size={80}
               />
               <View style={{ marginLeft: 20 }}>
@@ -115,7 +107,7 @@ const ProfileScreen = () => {
             <Text style={styles.menuItemText}>Editar Perfil</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress>
+        <TouchableRipple onPress={() => Alert.alert('Funcionalidad no disponible por el momento')}>
           <View style={styles.menuItem}>
             <Icon name="account-key" color={COLORS.primary} size={25} />
             <Text style={styles.menuItemText}>Cambiar Contraseña</Text>

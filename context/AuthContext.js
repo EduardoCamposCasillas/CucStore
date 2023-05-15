@@ -7,7 +7,36 @@ import { config } from "../config";
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [usuario, setUsuario] = useState()
+  const [isActive, setIsActive] = useState()
 
+  const updateUserInfo = (info) => {
+    axios.put(config.apiUrl + '/api/usuario', {isActive: !isActive}, {
+      headers: {
+        Authorization: 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        console.log('informacion actualizada');
+      })
+      .catch(e => console.error(e))
+
+      setIsActive(!isActive)
+  }
+  const userInfo = () => {
+    axios.get(config.apiUrl + '/api/usuario', {
+      headers: {
+        Authorization: 'Bearer ' + userToken
+      }
+    })
+      .then((response) => {
+        const usuarioData = response.data[0];
+        setUsuario(usuarioData);
+        setIsActive(usuarioData.isActive)
+      })
+      .catch(e => console.error(e));
+  }
   const storeToken = async(token) => {
     try{
       await AsyncStorage.setItem('accessToken', token)
@@ -18,6 +47,7 @@ export const AuthProvider = ({ children }) => {
   const login = (data) => {
     axios.post(config.apiUrl + '/api/auth/login', data)
     .then((response) => {
+      console.log(response.status)
       if(response.status === 200){
         const token = response.data.token
         storeToken(token)
@@ -35,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>
+    <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo, usuario, isActive, updateUserInfo }}>
       {children}
     </AuthContext.Provider>
   )

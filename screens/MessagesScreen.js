@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { View, SccrollView, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { COLORS, SIZES } from '../constants';
+import { io } from "socket.io-client";
+import { AuthContext } from '../context/AuthContext';
 import {
   Container,
   Card,
@@ -18,6 +20,8 @@ import BottomTabs from '../components/BottomTabs';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { config } from '../config';
+import { useEffect } from 'react';
 
 const Messages = [
   {
@@ -62,7 +66,24 @@ const Messages = [
   },
 ];
 
+const socket = io(config.apiUrl + '/api/mensajes')
+
 const MessagesScreen = ({ navigation }) => {
+  const [messages, setMessages] = useState()
+  const {userToken} = useContext(AuthContext)
+  // useEffect(() => {
+  //   socket.connect()
+
+    
+  //   socket.on('mensajes', (data) => {
+  //     console.log(data)
+  //   })
+  //   return () => {
+  //     console.log('desmontado');
+  //     socket.disconnect()
+  //   }
+  // },[])
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite, }}>
       <Container>

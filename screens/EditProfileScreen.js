@@ -27,23 +27,43 @@ import axios from 'axios';
 
 const EditProfileScreen = () => {
   const navigation = useNavigation();
-  const [selectedImage, setSelectedImage] = useState();
-  const [inputData, setInputData] = useState({})
+  const [selectedImage, setSelectedImage] = useState('');
+  const [inputData, setInputData] = useState({
+    nombres: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    nombreMarca: '',
+    telefonos: '',
+    imgUrl: ''
+  })
   const {userToken} = useContext(AuthContext)
+
+  useEffect(() => {
+    axios.get(config.apiUrl + '/api/usuario',{
+      headers: {
+        Authorization: 'Bearer ' + userToken
+      }
+    }).then((response) => {
+      const usuarioData = response.data[0]
+      setInputData(usuarioData);
+      setSelectedImage(usuarioData.imgUrl)
+    }).catch(e => console.error(e))
+  }, [])
+
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      setInputData({...inputData, imgUrl: result.assets[0].uri})
+      setSelectedImage('data:image/jpeg;base64,' + result.assets[0].base64);
+      setInputData({...inputData, imgUrl: 'data:image/jpeg;base64,' + result.assets[0].base64})
     } else {
       alert('No seleccionaste ninguna imagen.');
     }
   };
-
 
     const handleSubmitData = () => {
         
@@ -61,19 +81,8 @@ const EditProfileScreen = () => {
       navigation.navigate('Profile')
     }
 
-    useEffect(() => {
-      axios.get(config.apiUrl + '/api/usuario',{
-        headers: {
-          Authorization: 'Bearer ' + userToken
-        }
-      }).then((response) => {
-        const usuarioData = response.data[0]
-        setInputData(usuarioData);
-        setSelectedImage(usuarioData.imgUrl)
-      }).catch(e => console.error(e))
-    }, [])
-
-
+    
+  console.log(selectedImage, inputData)
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -95,7 +104,7 @@ const EditProfileScreen = () => {
           >Editar Perfil</Text>
         </View>
 
-
+          
         <View style={{ margin: 20, marginTop: 70 }}>
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity onPress={pickImageAsync}>
@@ -109,7 +118,7 @@ const EditProfileScreen = () => {
                 }}>
                 <ImageBackground
                   source={{
-                    uri: inputData.imgUrl ?? selectedImage,
+                    uri: inputData.imgUrl ? selectedImage : '',
                   }}
                   style={{ height: 100, width: 100 }}
                   imageStyle={{ borderRadius: 15 }}>
@@ -135,7 +144,7 @@ const EditProfileScreen = () => {
               </View>
             </TouchableOpacity>
             <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-              {inputData.nombres + ' ' +inputData.apellidoMaterno + ' ' + inputData.apellidoPaterno}
+              {inputData.nombres + ' ' + inputData.apellidoPaterno  + ' ' + inputData.apellidoMaterno}
             </Text>
           </View>
 
@@ -143,7 +152,7 @@ const EditProfileScreen = () => {
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             
             <TextInput
-              defaultValue={inputData.nombres}
+              value={inputData?.nombres}
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,
@@ -164,7 +173,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.apellidoPaterno}
+            value={inputData?.apellidoPaterno}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -186,7 +195,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="user-o" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.apellidoMaterno}
+            value={inputData?.apellidoMaterno}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -208,7 +217,7 @@ const EditProfileScreen = () => {
           <View style={styles.action}>
             <FontAwesome name="tag" color={COLORS.primary} size={20} />
             <TextInput
-            defaultValue={inputData.nombreMarca}
+            value={inputData?.nombreMarca}
             onChangeText={(text) => {
               setInputData({
                 ...inputData,
@@ -234,7 +243,7 @@ const EditProfileScreen = () => {
               placeholderTextColor="#666666"
               keyboardType="number-pad"
               autoCorrect={false}
-              defaultValue={inputData.telefonos}
+              value={inputData?.telefonos[0]}
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,

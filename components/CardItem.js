@@ -6,20 +6,21 @@ import { useNavigation } from '@react-navigation/native';
 import StarRatingDisplay from 'react-native-star-rating-widget';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombreUsuario, categoria, idUsuario, onPress, showEditDeleteButtons, onEditPress, onDeletePress }) => {
+const CardItem = ({isActive ,nombreProducto, puntaje, precio, imgUrl, nombreUsuario, nombreMarca, onPress, showEditDeleteButtons, onEditPress, onDeletePress }) => {
   const [rating, setRating] = useState(puntaje)
 
   return (
-    <View>
+    <View style={{opacity: isActive ? 1 : .4}} >
       <TouchableOpacity style={styles.cardItem} onPress={onPress}>
         {/* Image  */}
         <View
-          style={{ marginBottom: 10 }}
+          style={{ marginBottom: 10,  borderRadius: 30,}}
         >
           <ImageViewer
             selectedImage={imgUrl}
             resizeMode="cover"
             style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
               width: '100%',
               height: 200,
               borderRadius: 30,
@@ -35,7 +36,7 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
           >
 
             <Text >
-              <StarRatingDisplay rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
+              <StarRatingDisplay onChange={() => {}} rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
             </Text>
           </View>
         </View>
@@ -48,7 +49,8 @@ const CardItem = ({ nombreProducto, descripcion, puntaje, precio, imgUrl, nombre
         }}
       >
         <Text style={styles.productText}>{nombreProducto}</Text>
-        <Text style={styles.vendedorText}>{nombreUsuario}</Text>
+        
+        <Text style={styles.vendedorText}>{ nombreMarca ?? nombreUsuario}</Text>
         {showEditDeleteButtons && (
           <>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={onEditPress}>
