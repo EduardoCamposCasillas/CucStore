@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { View, SccrollView, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { COLORS, SIZES } from './../constants/index';
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { AuthContext } from './../context/AuthContext';
 import {
   Container,
