@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "cuc-store",
-    "slug": "cuc-store",
+    "name": "CucStore",
+    "slug": "CucStore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/CUCEATS_ICON.png",
