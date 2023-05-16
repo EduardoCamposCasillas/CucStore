@@ -68,8 +68,8 @@ const ProductDetailsScreen = () => {
           <Text style={styles.textStyle}>{descripcion}</Text>
           <Text style={styles.textTitle}>Precio</Text>
           <Text style={styles.priceStyle}>{precio} $</Text>
-          <Text style={styles.textTitle}>Categoria</Text>
-          <Text style={styles.textStyle}>{categoria}</Text>
+          
+          
           <Text style={styles.textTitle}>Vendedor</Text>
           <Text style={styles.textStyle}>{ nombreMarca ?? nombreUsuario}</Text>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
