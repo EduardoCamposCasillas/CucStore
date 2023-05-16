@@ -3,13 +3,13 @@ import React from "react";
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { COLORS, SIZES } from '../constants';
-import WavyHeader from "../components/WavyHeader";
+import WavyHeader from "./../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
-import { config } from "../config";
+import { config } from "./../config";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();

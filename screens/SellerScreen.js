@@ -2,17 +2,17 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Switch } f
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { COLORS, SIZES } from '../constants';
-import HeaderTabs from '../components/HeaderTabs';
-import CardItem from '../components/CardItem';
+import HeaderTabs from './../components/HeaderTabs';
+import CardItem from './../components/CardItem';
 import { Divider } from 'react-native-elements';
-import BottomTabs from '../components/BottomTabs';
+import BottomTabs from './../components/BottomTabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from './../context/AuthContext';
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import React, { useState } from 'react';
-import { config } from '../config';
+import { config } from './../config';
 import { Caption } from 'react-native-paper';
 
 

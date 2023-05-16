@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES } from './../constants/index';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 

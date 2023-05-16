@@ -4,15 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from '../screens/HomeScreen';
-import ProfileScreen from "../screens/ProfileScreen";
-import SellerScreen from "../screens/SellerScreen";
-import AddProductScreen from "../screens/AddProductScreen";
-import EditProductScreen from '../screens/EditProductScreen';
-import ProductDetailsScreen from "../screens/ProductDetailsScreen";
-import EditProfileScreen from "../screens/EditProfileScreen";
-import MessagesScreen from "../screens/MessagesScreen";
-import ChatScreen from "../screens/ChatScreen";
+import HomeScreen from './../screens/HomeScreen';
+import ProfileScreen from "./../screens/ProfileScreen";
+import SellerScreen from "./../screens/SellerScreen";
+import AddProductScreen from "./../screens/AddProductScreen";
+import EditProductScreen from './../screens/EditProductScreen';
+import ProductDetailsScreen from "./../screens/ProductDetailsScreen";
+import EditProfileScreen from "./../screens/EditProfileScreen";
+import MessagesScreen from "./../screens/MessagesScreen";
+import ChatScreen from "./../screens/ChatScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

@@ -1,12 +1,12 @@
 import React from "react";
 import { useRoute } from '@react-navigation/native';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from "react-native";
+import { Text, View, Linking, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES } from './../constants/index';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
-import ImageViewer from "../components/ImageViewer";
-import WavyHeader from "../components/WavyHeader";
+import ImageViewer from "./../components/ImageViewer";
+import WavyHeader from "./../components/WavyHeader";
 
 const ProductDetailsScreen = () => {
   const navigation = useNavigation();
@@ -19,10 +19,24 @@ const ProductDetailsScreen = () => {
     imgUrl,
     nombreUsuario,
     categoria,
+    telefono,
     idUsuario,
     nombreMarca
   } = route.params;
 
+  const makePhoneCall = () => {
+
+    if (!telefono || telefono === 'undefined' || telefono === '') {
+      Alert.alert('Este usuario no cuenta con telefono de contacto')
+      return
+    }
+    const phoneNuber = telefono
+    const url = `tel:${phoneNuber}`
+
+    Linking.openURL(url).catch((e) => {
+      console.log('Error al internatr realizar la llamada', e);
+    })
+  }
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -59,7 +73,7 @@ const ProductDetailsScreen = () => {
           <Text style={styles.textTitle}>Vendedor</Text>
           <Text style={styles.textStyle}>{ nombreMarca ?? nombreUsuario}</Text>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-            <TouchableOpacity style={styles.btnIcon}>
+            <TouchableOpacity style={styles.btnIcon} onPress={makePhoneCall}>
               <Text style={styles.buttonText}>Contactar</Text>
               {/*Pasar el idUsuario al navigate del chat*/}
               <Ioniocons name="chatbox" size={25} color={COLORS.white} />

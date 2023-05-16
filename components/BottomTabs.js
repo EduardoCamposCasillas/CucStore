@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
-import { COLORS } from "../constants";
+import { COLORS } from "./../constants/index";
 
 const BottomTabs = () => {
   const navigation = useNavigation();
