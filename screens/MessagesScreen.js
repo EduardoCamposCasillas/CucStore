@@ -66,7 +66,7 @@ const Messages = [
   },
 ];
 
-const socket = io(config.apiUrl + '/api/mensajes')
+//const socket = io(config.apiUrl + '/api/mensajes')
 
 const MessagesScreen = ({ navigation }) => {
   const [messages, setMessages] = useState()
