@@ -13,11 +13,11 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { config } from '../config';
-import { COLORS } from '../constants';
+import { config } from './../config';
+import { COLORS } from './../constants/index';
 import { Divider } from 'react-native-elements';
-import BottomTabs from '../components/BottomTabs';
-import { AuthContext } from '../context/AuthContext';
+import BottomTabs from './../components/BottomTabs';
+import { AuthContext } from './../context/AuthContext';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Alert } from 'react-native';
 

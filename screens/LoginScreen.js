@@ -3,10 +3,10 @@ import React, { useContext, useState } from "react";
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView, Alert } from "react-native";
 import { Path } from "react-native-svg";
 import { COLORS, SIZES } from '../constants';
-import WavyHeader from "../components/WavyHeader";
+import WavyHeader from "./../components/WavyHeader";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "./../context/AuthContext";
 
 const Logo = require('../assets/images/CUCEATS_LOGO.png');
 

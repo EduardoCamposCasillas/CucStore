@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, SccrollView, Text, StyleSheet } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
-import { COLORS } from '../constants';
+import { COLORS } from './../constants/index';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
