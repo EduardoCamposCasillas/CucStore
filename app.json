@@ -4,7 +4,7 @@
     "slug": "cuc-store",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/CUCEATS_LOGO.png",
+    "icon": "./assets/CUCEATS_ICON.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
