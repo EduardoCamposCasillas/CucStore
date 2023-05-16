@@ -90,6 +90,7 @@ const HomeScreen = () => {
               key={producto.id}
               onPress={() =>
                 navigation.navigate('DetailsProduct', {
+                  telefono: usuario.telefonos[0],
                   nombreMarca: usuario.nombreMarca,
                   nombreProducto: producto.nombre,
                   descripcion: producto.descripcion,

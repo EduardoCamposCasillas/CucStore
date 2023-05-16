@@ -34,7 +34,6 @@ const EditProfileScreen = () => {
     apellidoMaterno: '',
     nombreMarca: '',
     telefonos: '',
-    imgUrl: ''
   })
   const {userToken} = useContext(AuthContext)
 
@@ -75,14 +74,13 @@ const EditProfileScreen = () => {
       })
         .then((response) => {
           const responseData = response.data;
-          console.log(responseData);
+          
         })
         .catch(e => console.error(e));
       navigation.navigate('Profile')
     }
 
-    
-  console.log(selectedImage, inputData)
+  
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -118,7 +116,7 @@ const EditProfileScreen = () => {
                 }}>
                 <ImageBackground
                   source={{
-                    uri: inputData.imgUrl ? selectedImage : '',
+                    uri: inputData?.imgUrl && selectedImage ,
                   }}
                   style={{ height: 100, width: 100 }}
                   imageStyle={{ borderRadius: 15 }}>
@@ -243,7 +241,7 @@ const EditProfileScreen = () => {
               placeholderTextColor="#666666"
               keyboardType="number-pad"
               autoCorrect={false}
-              value={inputData?.telefonos[0]}
+              value={inputData?.telefonos || inputData?.telefonos[0] || null}
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,

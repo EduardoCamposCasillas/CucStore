@@ -42,7 +42,6 @@ const EditProductScreen = () => {
     nombre: nombreProducto,
     descripcion,
     precio: precio.toString(),
-    imgUrl,
     categoria
   })
 

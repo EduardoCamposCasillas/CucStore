@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   const [usuario, setUsuario] = useState()
-  const [isActive, setIsActive] = useState()
+  const [isActive, setIsActive] = useState(true)
 
   const updateUserInfo = (info) => {
     axios.put(config.apiUrl + '/api/usuario', {isActive: !isActive}, {
