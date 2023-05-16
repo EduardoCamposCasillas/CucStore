@@ -3,8 +3,8 @@ import { View, Text } from "react-native-web";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import LoginScreen from './../screens/LoginScreen';
+import RegisterScreen from './../screens/RegisterScreen';
 
 const Stack = createStackNavigator();
 

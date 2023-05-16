@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES } from './../constants/theme';
 import HeaderTabs from '../components/HeaderTabs';
 import CardItem from '../components/CardItem';
 import { Divider } from 'react-native-elements';

@@ -2,11 +2,11 @@ import React from "react";
 import { useRoute } from '@react-navigation/native';
 import { Text, View, Linking, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES } from '../constants';
+import { COLORS, SIZES } from './../constants/index';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
-import ImageViewer from "../components/ImageViewer";
-import WavyHeader from "../components/WavyHeader";
+import ImageViewer from "./../components/ImageViewer";
+import WavyHeader from "./../components/WavyHeader";
 
 const ProductDetailsScreen = () => {
   const navigation = useNavigation();

@@ -3,18 +3,18 @@ import React, { useEffect } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { COLORS, SIZES } from '../constants';
-import WavyHeader from "../components/WavyHeader";
+import WavyHeader from "./../components/WavyHeader";
 import { useState } from "react";
 import axios from "axios";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { AuthContext } from '../context/AuthContext';
-import ImageViewer from '../components/ImageViewer';
+import { AuthContext } from './../context/AuthContext';
+import ImageViewer from './../components/ImageViewer';
 
 import Ioniocons from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useContext } from 'react';
-import { config } from '../config';
+import { config } from './../config';
 
 const PlaceholderImage = require('../assets/placeholder.jpg');
 

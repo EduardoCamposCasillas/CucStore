@@ -15,13 +15,13 @@ import Ioniocons from "react-native-vector-icons/Ionicons";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import WavyHeader from "../components/WavyHeader";
+import WavyHeader from "./../components/WavyHeader";
 
 import { useNavigation } from "@react-navigation/native";
-import { config } from '../config';
-import { COLORS, SIZES } from '../constants';
-import { AuthContext } from '../context/AuthContext';
-import imagen from '../assets/images/Hamburguesa.jpg';
+import { config } from './../config';
+import { COLORS, SIZES } from './../constants';
+import { AuthContext } from './../context/AuthContext';
+import imagen from './../assets/images/Hamburguesa.jpg';
 import axios from 'axios';
 
 

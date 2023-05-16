@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
-import { COLORS, FONT, SHADOWS, SIZES } from '../constants';
-import ImageViewer from './ImageViewer';
+import { COLORS, FONT, SHADOWS, SIZES } from './../constants/theme';
+import ImageViewer from './../components/ImageViewer';
 import { useNavigation } from '@react-navigation/native';
 import StarRatingDisplay from 'react-native-star-rating-widget';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

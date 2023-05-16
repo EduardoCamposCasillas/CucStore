@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext();
 import axios from "axios";
-import { config } from "../config";
+import { config } from "./../config";
 
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
