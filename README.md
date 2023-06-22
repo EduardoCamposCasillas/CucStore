@@ -6,13 +6,14 @@ _Seguimos trabajando en la aplicación_
 
 # To do:
  * Manejar errores y respuestas de los request.
- * Subir a playstore o descargar apk
+ * Subir a playstore 
  * Cambiar UI del registro y agregar password enforce
  * Agregar pequeñas animaciones
  * Cambiar Agregar products UI
- * Mejorar buscador de productos
- * Agregar slide para cambiar de pestana (Comprador - Vendedor)
+ * Mejorar buscador de productos ✅
+ * Agregar slide para cambiar de pestaña (Comprador - Vendedor)
  * Agregar estadisticas de productos al usuario
  * Implementar chat online
  * Cambiar formato de imagen (Base64 a url)
- *Agregar test end to end
+ * Agregar test end to end
+ * Agregar pasarela de pago

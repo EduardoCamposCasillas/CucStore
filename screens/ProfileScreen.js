@@ -51,7 +51,6 @@ const ProfileScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {usuario && console.log(usuario?.isActive)}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1 }}>
           <View style={styles.userInfoSection}>
@@ -88,7 +87,7 @@ const ProfileScreen = () => {
 
           <View style={styles.infoBoxWrapper}>
             <View style={styles.infoBox}>
-              <Title>{usuario && usuario?.productos === null || usuario?.productos === undefined ? 'No se cuentan con productos' : usuario.productos?.length}</Title>
+              <Title>{usuario && usuario.productos?.length}</Title>
               <Caption>Mis Productos en Venta</Caption>
             </View>
           </View>

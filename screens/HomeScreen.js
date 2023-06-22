@@ -16,23 +16,37 @@ import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [productos, setProductos] = useState();
+  const [filteredProducts, setFilteredProducts] = useState()
+  const [doProductsRequest, setDoProductsRequest] = useState(false)
   const navigation = useNavigation();
-  const [textInputValue, setTextInputValue] = useState('')
 
   const searchProduct = (text) => {
-    const filteredProducts = productos.map(usuario => {
-      return {...usuario, productos: usuario.productos.filter(producto => producto.nombre.toLowerCase().includes(text.toLowerCase()))}
+    console.log(text);
+    if(text === ''){
+      setFilteredProducts(undefined)
+      setDoProductsRequest(!doProductsRequest)
+      return
+    }
+
+    const arrayFilteredProducts = productos.map(usuario => {
+      return {...usuario,
+        productos: usuario.productos.filter(producto =>{
+        const productName = producto.nombre.toLowerCase()
+        const searchText = text.toLowerCase()
+        return productName.startsWith(searchText)
+      })}
     })
 
-    setProductos(filteredProducts)
+    setFilteredProducts(arrayFilteredProducts)
   }
+
   useFocusEffect(
     React.useCallback(() => {
       axios.get(config.apiUrl + '/api/productos').then((req) => {
         const allProductsData = req.data
         setProductos(allProductsData)
       }).catch(e => {setProductos(null)});
-    }, [textInputValue])
+    }, [doProductsRequest])
   );
 
   return (
@@ -51,15 +65,15 @@ const HomeScreen = () => {
         <View style={styles.searchContainer}>
           <View style={styles.searchWrapper}>
             <TextInput
-              onChangeText={(text) => setTextInputValue(text)}
-              value={textInputValue}
+              onChangeText={(text) =>{
+                searchProduct(text)
+              }}
               style={styles.searchInput}
               placeholder='¿Que estás buscando?'
             />
           </View>
           <TouchableOpacity
             style={styles.btnIcon}
-            onPress={() => searchProduct(textInputValue)}
           >
             <Ioniocons name="search" size={25} color={COLORS.white} />
           </TouchableOpacity>
@@ -70,8 +84,9 @@ const HomeScreen = () => {
           flex: 1,
           padding: 15,
         }}>
-          
-          {productos ? productos.map(usuario => {
+
+          {filteredProducts === undefined 
+          ? productos ? productos.map(usuario => {
             const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
             const nombre = nombres.split(' ')[0]
             const nombreUsuario = nombre + ' ' + apellidoPaterno
@@ -103,7 +118,39 @@ const HomeScreen = () => {
                 })}
               />)
             }))
-          }) : <Text>No hay productos para mostrar</Text>}
+          }) : <Text>No hay productos para mostrar</Text> : filteredProducts && filteredProducts.map(usuario => {
+            const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
+            const nombre = nombres.split(' ')[0]
+            const nombreUsuario = nombre + ' ' + apellidoPaterno
+            return (productos.map(producto => {
+              return (<CardItem
+              isActive={true}
+              nombreProducto={producto?.nombre}
+              descripcion={producto.descripcion}
+              puntaje={producto.puntaje}
+              precio={producto.precio}
+              imgUrl={producto.imgUrl}
+              categoria={producto.categoria[0]?.nombre}
+              nombreMarca = {usuario.nombreMarca}
+              nombreUsuario={nombreUsuario}
+              idUsuario={idUsuario}
+              key={producto.id}
+              onPress={() =>
+                navigation.navigate('DetailsProduct', {
+                  telefono: usuario.telefonos[0],
+                  nombreMarca: usuario.nombreMarca,
+                  nombreProducto: producto.nombre,
+                  descripcion: producto.descripcion,
+                  puntaje: producto.puntaje,
+                  precio: producto.precio,
+                  imgUrl: producto.imgUrl,
+                  
+                  nombreUsuario: nombreUsuario,
+                  idUsuario: idUsuario,
+                })}
+              />)
+            }))
+          })}
         </View>
       </ScrollView>
       <Divider width={1} />
