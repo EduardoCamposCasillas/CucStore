@@ -16,9 +16,7 @@ const RegisterScreen = () => {
 
 
   const userDefaultData = {
-    nombres: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
+    nombreCompleto: '',
     correo: '',
     contraseña: '',
     segundaContraseña: '',
@@ -30,6 +28,7 @@ const RegisterScreen = () => {
     const continueRegister = validatePassword()
     if (continueRegister) {
       const { segundaContraseña, ...postUserData } = inputValue
+      console.log(postUserData);
       axios.post(config.apiUrl + '/api/auth/register', postUserData)
         .then(response => {
           const responseParsered = response.data
@@ -47,7 +46,7 @@ const RegisterScreen = () => {
   }
 
   const validatePassword = () => {
-    return inputValue.contraseña === inputValue.segundaContraseña ? true : false
+    return inputValue.contraseña === inputValue.segundaContraseña
   }
 
   return (
@@ -72,33 +71,13 @@ const RegisterScreen = () => {
         </View>
         <View style={styles.viewContainer}>
           <TextInput
-            defaultValue={inputValue.nombres}
-            placeholder="Nombres"
+            defaultValue={inputValue.nombreCompleto}
+            placeholder="Nombre completo"
             style={styles.textInput}
             onChangeText={(text) => {
               setInputValue({
                 ...inputValue,
-                nombres: text
-              })
-            }}
-          />
-          <TextInput
-            placeholder="Apellido Paterno"
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                apellidoPaterno: text
-              })
-            }}
-          />
-          <TextInput
-            placeholder="Apellido Materno"
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputValue({
-                ...inputValue,
-                apellidoMaterno: text
+                nombreCompleto: text
               })
             }}
           />

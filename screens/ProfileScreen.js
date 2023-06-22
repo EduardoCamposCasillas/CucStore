@@ -54,7 +54,7 @@ const ProfileScreen = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1 }}>
           <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <View style={{ flexDirection: 'row', marginTop: 15, alignItems: 'center' }}>
               <Avatar.Image
                 source={{uri: usuario && usuario?.imgUrl}}
                 size={80}
@@ -63,8 +63,7 @@ const ProfileScreen = () => {
                 <Title style={[styles.title, {
                   marginTop: 15,
                   marginBottom: 5,
-                }]}>{usuario && usuario?.nombres}</Title>
-                <Title style={styles.title}>{usuario && usuario?.apellidoPaterno + ' ' + usuario?.apellidoMaterno}</Title>
+                }]}>{usuario && usuario?.nombreCompleto.split(" ")[0] + " " + usuario?.nombreCompleto.split(" ")[2]}</Title>
 
               </View>
             </View>
