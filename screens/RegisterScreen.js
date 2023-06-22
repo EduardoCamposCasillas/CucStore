@@ -28,7 +28,6 @@ const RegisterScreen = () => {
     const continueRegister = validatePassword()
     if (continueRegister) {
       const { segundaContraseña, ...postUserData } = inputValue
-      console.log(postUserData);
       axios.post(config.apiUrl + '/api/auth/register', postUserData)
         .then(response => {
           const responseParsered = response.data
