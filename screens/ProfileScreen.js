@@ -63,7 +63,7 @@ const ProfileScreen = () => {
                 <Title style={[styles.title, {
                   marginTop: 15,
                   marginBottom: 5,
-                }]}>{usuario && usuario?.nombreCompleto.split(" ")[0] + " " + usuario?.nombreCompleto.split(" ")[2]}</Title>
+                }]}>{usuario && usuario?.nombreCompleto?.split(" ")[0] + " " + usuario?.nombreCompleto?.split(" ")[2]}</Title>
 
               </View>
             </View>
