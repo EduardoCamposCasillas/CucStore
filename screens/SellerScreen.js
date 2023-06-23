@@ -78,35 +78,21 @@ const SellerScreen = () => {
   )
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: COLORS.lightWhite,
-        flex: 1,
-      }}>
-      <View
-        style={{
-          paddingLeft: 15,
-          paddingRight: 15,
-          paddingTop: 15,
-          paddingBottom: 0,
-        }}>
-        <HeaderTabs />
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Mis Productos</Text>
-          <View style={{flexDirection:'row' }}>
-            <Caption style={{ marginRight: 5, color: isActive ? '#4CAF50' : '#9E9E9E' }}>{isActive ? 'Activo' : 'Inactivo'}</Caption>
-            <Switch
-              trackColor={{false: '#9E9E9E', true: '#4CAF50'}}
-              thumbColor={isActive ? '#FFFFFF' : '#FFFFFF'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => {updateUserInfo()}
-            }
-              value={isActive}
-              style={{height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }]}}
-            />
-          </View>
+    <>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Mis Productos</Text>
+        <View style={{flexDirection:'row', alignContent: 'center' }}>
+          <Caption style={{ marginRight: 5, color: isActive ? '#4CAF50' : '#9E9E9E' }}>{isActive ? 'Activo' : 'Inactivo'}</Caption>
+          <Switch
+            trackColor={{false: '#9E9E9E', true: '#4CAF50'}}
+            thumbColor={isActive ? '#FFFFFF' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => {updateUserInfo()}
+          }
+            value={isActive}
+            style={{height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }], marginRight: 15}}
+          />
         </View>
-        
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <View style={{
@@ -138,21 +124,14 @@ const SellerScreen = () => {
           )): <Text>No cuentas con productos</Text>}
         </View>
       </ScrollView>
-      <View style={{flexDirection: 'row', justifyContent: 'flex-end', padding: 20}}>
+      
         <TouchableOpacity
               style={styles.btnIcon}
               onPress={onAddProductPress}
             >
               <Ioniocons name="add" size={40} color={COLORS.white} />
         </TouchableOpacity>
-      </View>
-      <Divider width={1} />
-      <View style={{ backgroundColor: "white" }}>
-       
-        <BottomTabs />
-      </View>
-
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -173,8 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.primary,
     textAlign: 'center',
-    width: '50%',
-    borderRadius: 10
+    width: '43%',
   },
   // viewContainer: {
   //   paddingTop: 500,
@@ -203,6 +181,9 @@ const styles = StyleSheet.create({
     width: 70,
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    right: 19
   },
 });
 

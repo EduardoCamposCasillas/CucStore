@@ -74,7 +74,7 @@ const AddProductScreen = () => {
       if(response.status === 201){
         console.log('modal de registro exitoso');
         cleanData()
-        navigation.navigate('Seller');
+        navigation.navigate('HomeScreen');
         
       }
       cleanData()
