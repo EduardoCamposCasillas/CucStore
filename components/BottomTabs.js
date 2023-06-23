@@ -1,12 +1,12 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import Ioniocons from "react-native-vector-icons/Ionicons";
-import { COLORS } from "./../constants/index";
+import Ioniocons from 'react-native-vector-icons/Ionicons'
+import { COLORS } from './../constants/index'
 
 const BottomTabs = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   return (
     <View style={styles.tabsContainer}>
 
@@ -20,7 +20,7 @@ const BottomTabs = () => {
         <Icon icon="person-circle" text="Cuenta" />
       </TouchableOpacity>
     </View>
-  );
+  )
 }
 
 const Icon = (props) => (
@@ -32,7 +32,7 @@ const Icon = (props) => (
       color={COLORS.primary}
       style={{
         marginBottom: 3,
-        alignSelf: 'center',
+        alignSelf: 'center'
       }}
     />
     <Text style={{ fontWeight: 'bold' }}>{props.text}</Text>
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     justifyContent: 'space-between'
   }
-});
+})
 
-export default BottomTabs;
+export default BottomTabs
