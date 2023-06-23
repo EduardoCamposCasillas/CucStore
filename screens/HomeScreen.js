@@ -87,9 +87,9 @@ const HomeScreen = () => {
 
           {filteredProducts === undefined 
           ? productos ? productos.map(usuario => {
-            const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
-            const nombre = nombres.split(' ')[0]
-            const nombreUsuario = nombre + ' ' + apellidoPaterno
+            const { nombreCompleto, id: idUsuario, productos } = usuario
+            const nombreUsuario = nombreCompleto?.split(' ')[0] + " " + nombreCompleto?.split(' ')[2]
+
             return (productos.map(producto => {
               return (<CardItem
               isActive={true}
@@ -119,9 +119,9 @@ const HomeScreen = () => {
               />)
             }))
           }) : <Text>No hay productos para mostrar</Text> : filteredProducts && filteredProducts.map(usuario => {
-            const { nombres, apellidoPaterno, id: idUsuario, productos } = usuario
-            const nombre = nombres.split(' ')[0]
-            const nombreUsuario = nombre + ' ' + apellidoPaterno
+            const { nombreCompleto, id: idUsuario, productos } = usuario
+            const nombreUsuario = nombreCompleto?.split(' ')[0] + " " + nombreCompleto?.split(' ')[2]
+
             return (productos.map(producto => {
               return (<CardItem
               isActive={true}
