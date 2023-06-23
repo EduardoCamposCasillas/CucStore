@@ -1,37 +1,37 @@
-import React, { useContext, useState, useMemo, useRef, useCallback } from "react";
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView, Alert, SafeAreaView } from "react-native";
-import { Path } from "react-native-svg";
-import { COLORS, SIZES } from '../constants';
-import WavyHeader from "./../components/WavyHeader";
-import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "./../context/AuthContext";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { useContext, useState, useMemo, useRef, useCallback } from 'react'
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView, Alert, SafeAreaView } from 'react-native'
+import { Path } from 'react-native-svg'
+import { COLORS, SIZES } from '../constants'
+import WavyHeader from './../components/WavyHeader'
+import axios from 'axios'
+import { useNavigation } from '@react-navigation/native'
+import { AuthContext } from './../context/AuthContext'
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useTogglePasswordVisibility } from "./../hooks/useTogglePasswordVisibility";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useTogglePasswordVisibility } from './../hooks/useTogglePasswordVisibility'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
-const Logo = require('../assets/images/CUCEATS_LOGO.png');
+const Logo = require('./../../assets/images/CUCEATS_LOGO.png')
 
 const LoginScreen = () => {
   // ref
-  const bottomSheetRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const bottomSheetRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(true)
 
   // variables
-  const snapPoints = ["60%", "90%"];
+  const snapPoints = ['60%', '90%']
 
   const handleSnapPress = useCallback((index) => {
-    bottomSheetRef.current?.snapToIndex(index);
-    setIsOpen(true);
-  }, []);
+    bottomSheetRef.current?.snapToIndex(index)
+    setIsOpen(true)
+  }, [])
 
-  const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-  const [password, setPassword] = useState('');
-  const { height } = useWindowDimensions();
-  const navigation = useNavigation();
-  const { login } = useContext(AuthContext);
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility()
+  const [password, setPassword] = useState('')
+  const { height } = useWindowDimensions()
+  const navigation = useNavigation()
+  const { login } = useContext(AuthContext)
   const [showWrongMail, setShowWrongMail] = useState(false)
   const userDefaultLoginData = {
     correo: '',
@@ -46,31 +46,30 @@ const LoginScreen = () => {
   const onLoginPress = () => {
     // validate login
     if (validateEmail(loginData.correo)) {
-      login(loginData);
+      login(loginData)
     } else {
       Alert.alert('El correo debe tener un dominio valido (alumnos/academicos)')
     }
-
-  };
+  }
 
   const onRegisterPress = () => {
-    navigation.navigate('Register');
-  };
+    navigation.navigate('Register')
+  }
 
   const onForgotPasswordPress = () => {
-    console.warn('onForgotPasswordPress');
-  };
+    console.warn('onForgotPasswordPress')
+  }
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: '#f1f1f1'}]}>
-      
+    <SafeAreaView style={[styles.container, { backgroundColor: '#f1f1f1' }]}>
+
         <View style={styles.container}>
           <WavyHeader
             customStyles={styles.svgCurve}
             customHeight={200}
             customTop={140}
             customBgColor={'#CE5959'}
-            customWavePattern={"M0,32L18.5,48C36.9,64,74,96,111,90.7C147.7,85,185,43,222,64C258.5,85,295,171,332,224C369.2,277,406,299,443,288C480,277,517,235,554,192C590.8,149,628,107,665,96C701.5,85,738,107,775,133.3C812.3,160,849,192,886,192C923.1,192,960,160,997,133.3C1033.8,107,1071,85,1108,112C1144.6,139,1182,213,1218,229.3C1255.4,245,1292,203,1329,186.7C1366.2,171,1403,181,1422,186.7L1440,192L1440,0L1421.5,0C1403.1,0,1366,0,1329,0C1292.3,0,1255,0,1218,0C1181.5,0,1145,0,1108,0C1070.8,0,1034,0,997,0C960,0,923,0,886,0C849.2,0,812,0,775,0C738.5,0,702,0,665,0C627.7,0,591,0,554,0C516.9,0,480,0,443,0C406.2,0,369,0,332,0C295.4,0,258,0,222,0C184.6,0,148,0,111,0C73.8,0,37,0,18,0L0,0Z"}
+            customWavePattern={'M0,32L18.5,48C36.9,64,74,96,111,90.7C147.7,85,185,43,222,64C258.5,85,295,171,332,224C369.2,277,406,299,443,288C480,277,517,235,554,192C590.8,149,628,107,665,96C701.5,85,738,107,775,133.3C812.3,160,849,192,886,192C923.1,192,960,160,997,133.3C1033.8,107,1071,85,1108,112C1144.6,139,1182,213,1218,229.3C1255.4,245,1292,203,1329,186.7C1366.2,171,1403,181,1422,186.7L1440,192L1440,0L1421.5,0C1403.1,0,1366,0,1329,0C1292.3,0,1255,0,1218,0C1181.5,0,1145,0,1108,0C1070.8,0,1034,0,997,0C960,0,923,0,886,0C849.2,0,812,0,775,0C738.5,0,702,0,665,0C627.7,0,591,0,554,0C516.9,0,480,0,443,0C406.2,0,369,0,332,0C295.4,0,258,0,222,0C184.6,0,148,0,111,0C73.8,0,37,0,18,0L0,0Z'}
           />
           <View style={styles.headerContainer}>
             <Image
@@ -109,7 +108,7 @@ const LoginScreen = () => {
                 }
               />
               <TouchableOpacity onPress={handlePasswordVisibility}>
-                <MaterialCommunityIcons name={rightIcon} size={22} color={COLORS.tertiary} style={{opacity: .5}} />
+                <MaterialCommunityIcons name={rightIcon} size={22} color={COLORS.tertiary} style={{ opacity: 0.5 }} />
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -131,13 +130,13 @@ const LoginScreen = () => {
             <Text style={{
               color: COLORS.gray,
               fontSize: SIZES.large,
-              marginTop: 30,
+              marginTop: 30
             }}>CucStore</Text>
             <TouchableOpacity onPress={() => handleSnapPress(0)}>
               <Text style={{
                 color: COLORS.gray,
                 fontSize: SIZES.medium,
-                marginTop: 30,
+                marginTop: 30
               }}>Creditos</Text>
             </TouchableOpacity>
           </View>
@@ -153,7 +152,7 @@ const LoginScreen = () => {
             <Text>Creditos</Text>
           </BottomSheetView>
         </BottomSheet>
-      
+
     </SafeAreaView>
 
   )
@@ -161,13 +160,13 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   headerContainer: {
     marginTop: 50,
     marginHorizontal: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   svgCurve: {
     position: 'absolute',
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     paddingTop: 100,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   textInput: {
     padding: 10,
@@ -187,13 +186,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop: 20,
     borderRadius: 10,
-    backgroundColor: '#FFDD83',
+    backgroundColor: '#FFDD83'
   },
   subText: {
     color: COLORS.gray,
     fontSize: SIZES.medium,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
   button: {
     backgroundColor: COLORS.primary,
@@ -205,22 +204,22 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 12,
+      height: 12
     },
     shadowOpacity: 0.58,
     shadowRadius: 16,
-    elevation: 24,
+    elevation: 24
   },
   buttonText: {
     fontSize: SIZES.medium,
-    color: COLORS.white,
+    color: COLORS.white
   },
   logo: {
     marginBottom: 40,
     width: '70%',
     maxWidth: 300,
-    height: 100,
-  },
-});
+    height: 100
+  }
+})
 
-export default LoginScreen;
+export default LoginScreen

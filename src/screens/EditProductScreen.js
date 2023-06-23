@@ -2,11 +2,11 @@ import React, { useEffect, useState, useContext } from 'react'
 
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { COLORS, SIZES } from '../constants'
+import { COLORS, SIZES } from './../constants/index'
 import WavyHeader from './../components/WavyHeader'
 
 import axios from 'axios'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { AuthContext } from './../context/AuthContext'
 import ImageViewer from './../components/ImageViewer'
 
@@ -16,21 +16,54 @@ import { SelectList } from 'react-native-dropdown-select-list'
 
 import { config } from './../config'
 
-const PlaceholderImage = require('../assets/placeholder.jpg')
+const PlaceholderImage = require('./../../assets/placeholder.jpg')
 
-const AddProductScreen = () => {
+const EditProductScreen = () => {
   const navigation = useNavigation()
   const { userToken } = useContext(AuthContext)
-  const [selectedImage, setSelectedImage] = useState(null)
+
   const [selectedCategory, setSelectedCategory] = useState()
   const [categorias, setCategorias] = useState()
+  const route = useRoute()
+  const {
+    productoId,
+    nombreProducto,
+    descripcion,
+    precio,
+    imgUrl,
+    categoria
+  } = route.params
+  const [selectedImage, setSelectedImage] = useState(imgUrl)
   const [inputValues, setInputValues] = useState({
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    imgUrl: null,
-    categoria: ''
+    productoId,
+    nombre: nombreProducto,
+    descripcion,
+    precio: precio.toString(),
+    categoria
   })
+
+  const handleEditProduct = () => {
+    axios.put(config.apiUrl + '/api/usuario/productos', {
+      productId: productoId,
+      nombre: inputValues.nombre,
+      descripcion: inputValues.descripcion,
+      precio: inputValues.precio,
+      imgUrl: selectedImage,
+      categoria: selectedCategory
+    }, {
+      headers: {
+        Authorization: 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if (response.status === 200) {
+        console.log('modal de producto actualizado con exito')
+        navigation.navigate('Home')
+      } else {
+        console.log('modal de error en el servidor intentar mas tarde')
+      }
+    }).catch(e => console.log(e))
+  }
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -46,41 +79,6 @@ const AddProductScreen = () => {
     }
   }
 
-  const cleanData = () => {
-    setInputValues({
-      nombre: '',
-      descripcion: '',
-      precio: '',
-      imgUrl: null,
-      categoria: ''
-    })
-    setSelectedCategory(null)
-    setSelectedImage(null)
-  }
-  const handleAddProduct = () => {
-    axios.post(config.apiUrl + '/api/usuario/productos', {
-      nombre: inputValues.nombre,
-      descripcion: inputValues.descripcion,
-      precio: inputValues.precio,
-      imgUrl: selectedImage,
-      categoria: selectedCategory
-    }, {
-      headers: {
-        Authorization: 'Bearer ' + userToken,
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 201) {
-        console.log('modal de registro exitoso')
-        cleanData()
-        navigation.navigate('Home')
-      }
-      cleanData()
-    }).catch(error => {
-      console.error(error)
-    })
-  }
-
   useEffect(() => {
     axios.get(config.apiUrl + '/api/categorias').then(categorias => {
       const data = []
@@ -94,6 +92,7 @@ const AddProductScreen = () => {
 
   return (
     <View style={styles.container}>
+
       <KeyboardAwareScrollView>
         <WavyHeader
           customStyles={styles.svgCurve}
@@ -104,19 +103,19 @@ const AddProductScreen = () => {
         />
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => {
-            navigation.navigate('Home')
+            navigation.navigate('Seller')
           }}>
             <Ioniocons name='arrow-back' size={25} color={'white'} />
           </TouchableOpacity>
           <Text
             style={styles.headerText}
-          >Agregar Producto</Text>
+          >Editar Producto</Text>
         </View>
         <View style={styles.viewContainer}>
-          <Text style={styles.textStyle}>Nombre del Producto</Text>
+          <Text style={styles.textStyle}>Editar Nombre del Producto</Text>
           <TextInput
             style={styles.textInput}
-            value={inputValues.nombre}
+            defaultValue={inputValues.nombre}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -124,24 +123,24 @@ const AddProductScreen = () => {
               })
             }}
           />
-          <Text style={styles.textStyle}>Descripción del producto</Text>
+          <Text style={styles.textStyle}>Editar Descripción del producto</Text>
           <TextInput
             multiline={true}
             numberOfLines={5}
             style={styles.textArea}
-            value={inputValues.descripcion}
+            defaultValue={inputValues.descripcion}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
                 descripcion: text
               })
             }}
-         />
-          <Text style={styles.textStyle}>Precio</Text>
+          />
+          <Text style={styles.textStyle}>Editar Precio</Text>
           <TextInput
             placeholder='00.00'
             style={styles.textInput}
-            value={inputValues.precio}
+            defaultValue={inputValues.precio}
             onChangeText={(text) => {
               setInputValues({
                 ...inputValues,
@@ -149,9 +148,10 @@ const AddProductScreen = () => {
               })
             }}
           />
-          <Text style={styles.textStyle}>Selecciona una categoria</Text>
+          <Text style={styles.textStyle}>Editar categoria</Text>
           {categorias && <View style={{ marginTop: 10 }}>
             <SelectList
+            defaultOption={inputValues.categoria}
               data={categorias}
               search={false}
               setSelected={setSelectedCategory}
@@ -163,20 +163,20 @@ const AddProductScreen = () => {
             />
           </View>}
 
-          <Text style={styles.textStyle}>Selecciona una Imagen</Text>
+          <Text style={styles.textStyle}>Editar Imagen</Text>
           <TouchableOpacity style={styles.btnIcon} onPress={pickImageAsync}>
             <Ioniocons name='camera' size={25} color={'white'} />
             <Ioniocons name='add' size={25} color={'white'} />
           </TouchableOpacity>
           <View style={styles.imageViewerContainer}>
-          <ImageViewer
-            placeholderImageSource={PlaceholderImage}
-            selectedImage={selectedImage}
-          />
+            <ImageViewer
+              placeholderImageSource={PlaceholderImage}
+              selectedImage={selectedImage}
+            />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleAddProduct}>
-            <Text style={styles.buttonText}>Agregar Producto</Text>
+          <TouchableOpacity style={styles.button} onPress={handleEditProduct}>
+            <Text style={styles.buttonText}>Editar Producto</Text>
           </TouchableOpacity>
 
         </View>
@@ -227,11 +227,11 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingStart: 30,
     width: '80%',
-    height: 100,
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 10,
     backgroundColor: '#FFDD83',
+    height: 100,
     textAlignVertical: 'top'
   },
   textStyle: {
@@ -287,4 +287,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddProductScreen
+export default EditProductScreen
