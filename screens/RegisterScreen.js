@@ -25,8 +25,8 @@ const RegisterScreen = () => {
   const [inputValue, setInputValue] = useState(userDefaultData)
 
   const handleRegister = (e) => {
-    const continueRegister = validatePassword()
-    if (continueRegister) {
+
+    if (validatePassword() && verfiedPasswordSecurity()) {
       const { segundaContraseña, ...postUserData } = inputValue
       axios.post(config.apiUrl + '/api/auth/register', postUserData)
         .then(response => {
@@ -42,6 +42,12 @@ const RegisterScreen = () => {
         .catch(error => console.error(error))
       return
     }
+  }
+
+  const verfiedPasswordSecurity= () => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+   return regex.test(inputValue.contraseña);
   }
 
   const validatePassword = () => {
