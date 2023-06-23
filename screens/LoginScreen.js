@@ -109,7 +109,7 @@ const LoginScreen = () => {
                 }
               />
               <TouchableOpacity onPress={handlePasswordVisibility}>
-                <MaterialCommunityIcons name={rightIcon} size={22} color={COLORS.tertiary} />
+                <MaterialCommunityIcons name={rightIcon} size={22} color={COLORS.tertiary} style={{opacity: .5}} />
               </TouchableOpacity>
             </View>
             <TouchableOpacity
