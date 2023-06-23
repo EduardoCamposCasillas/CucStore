@@ -51,11 +51,10 @@ const ProfileScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {usuario && console.log(usuario?.isActive)}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1 }}>
           <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <View style={{ flexDirection: 'row', marginTop: 15, alignItems: 'center' }}>
               <Avatar.Image
                 source={{uri: usuario && usuario?.imgUrl}}
                 size={80}
@@ -64,8 +63,7 @@ const ProfileScreen = () => {
                 <Title style={[styles.title, {
                   marginTop: 15,
                   marginBottom: 5,
-                }]}>{usuario && usuario?.nombres}</Title>
-                <Title style={styles.title}>{usuario && usuario?.apellidoPaterno + ' ' + usuario?.apellidoMaterno}</Title>
+                }]}>{usuario && usuario?.nombreCompleto.split(" ")[0] + " " + usuario?.nombreCompleto.split(" ")[2]}</Title>
 
               </View>
             </View>
@@ -88,7 +86,7 @@ const ProfileScreen = () => {
 
           <View style={styles.infoBoxWrapper}>
             <View style={styles.infoBox}>
-              <Title>{usuario && usuario?.productos === null || usuario?.productos === undefined ? 'No se cuentan con productos' : usuario.productos?.length}</Title>
+              <Title>{usuario && usuario.productos?.length}</Title>
               <Caption>Mis Productos en Venta</Caption>
             </View>
           </View>
