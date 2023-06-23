@@ -1,3 +1,3 @@
 export const config = {
-    apiUrl: 'https://cucstore-api-production.up.railway.app'
+    apiUrl: 'http://192.168.100.9:3000'
 }
