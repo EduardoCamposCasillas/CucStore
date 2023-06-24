@@ -1,13 +1,15 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import { COLORS, SIZES } from '../constants/theme'
 import CardItem from '../components/CardItem'
-import React from 'react'
+import { useContext } from 'react'
+import { ProductsContext } from './../context/ProductsContext'
 import { useNavigation } from '@react-navigation/native'
 
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 
-const CustomerScreen = ({ productos, filteredProducts, searchProduct }) => {
+const CustomerScreen = () => {
   const navigation = useNavigation()
+  const { customerProducts: productos, filteredProducts, searchProduct } = useContext(ProductsContext)
 
   return (
     <>
@@ -48,13 +50,6 @@ const CustomerScreen = ({ productos, filteredProducts, searchProduct }) => {
                   return (<CardItem
                           isActive={true}
                           producto={producto}
-                          // nombreProducto={producto?.nombre}
-                          // descripcion={producto.descripcion}
-                          // puntaje={producto.puntaje}
-                          // precio={producto.precio}
-                          // imgUrl={producto.imgUrl}
-                          // categoria={producto.categoria[0]?.nombre}
-
                           usuario={[nombreMarca, nombreUsuario, idUsuario] }
                           key={producto.id}
                           onPress={() =>

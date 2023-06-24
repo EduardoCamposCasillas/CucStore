@@ -7,7 +7,6 @@ import WavyHeader from './../components/WavyHeader'
 
 import axios from 'axios'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { AuthContext } from './../context/AuthContext'
 import ImageViewer from './../components/ImageViewer'
 
 import Ioniocons from 'react-native-vector-icons/Ionicons'
@@ -15,13 +14,13 @@ import * as ImagePicker from 'expo-image-picker'
 import { SelectList } from 'react-native-dropdown-select-list'
 
 import { config } from './../config'
+import { ProductsContext } from '../context/ProductsContext'
 
 const PlaceholderImage = require('./../../assets/placeholder.jpg')
 
 const EditProductScreen = () => {
   const navigation = useNavigation()
-  const { userToken } = useContext(AuthContext)
-
+  const { handleEditSellerProduct } = useContext(ProductsContext)
   const [selectedCategory, setSelectedCategory] = useState()
   const [categorias, setCategorias] = useState()
   const route = useRoute()
@@ -41,29 +40,6 @@ const EditProductScreen = () => {
     precio: precio.toString(),
     categoria
   })
-
-  const handleEditProduct = () => {
-    axios.put(config.apiUrl + '/api/usuario/productos', {
-      productId: productoId,
-      nombre: inputValues.nombre,
-      descripcion: inputValues.descripcion,
-      precio: inputValues.precio,
-      imgUrl: selectedImage,
-      categoria: selectedCategory
-    }, {
-      headers: {
-        Authorization: 'Bearer ' + userToken,
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 200) {
-        console.log('modal de producto actualizado con exito')
-        navigation.navigate('Home')
-      } else {
-        console.log('modal de error en el servidor intentar mas tarde')
-      }
-    }).catch(e => console.log(e))
-  }
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -103,7 +79,7 @@ const EditProductScreen = () => {
         />
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => {
-            navigation.navigate('Seller')
+            navigation.navigate('Home')
           }}>
             <Ioniocons name='arrow-back' size={25} color={'white'} />
           </TouchableOpacity>
@@ -175,7 +151,11 @@ const EditProductScreen = () => {
             />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleEditProduct}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+            handleEditSellerProduct(inputValues, productoId, selectedImage, selectedCategory)
+            navigation.navigate('Home')
+          }
+          }>
             <Text style={styles.buttonText}>Editar Producto</Text>
           </TouchableOpacity>
 

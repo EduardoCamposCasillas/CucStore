@@ -66,7 +66,7 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={styles.row}>
               <Icon name="phone" color="#777777" size={20} />
-              <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario && usuario?.telefonos[0] === null || usuario?.telefonos[0] === undefined || usuario?.telefonos.length <= 0 ? 'Agrega un telefono' : usuario?.telefonos[0]}</Text>
+              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.telefonos[0] === null || usuario?.telefonos[0] === undefined || usuario?.telefonos.length <= 0 ? 'Agrega un telefono' : usuario?.telefonos[0]}</Text>}
             </View>
             <View style={styles.row}>
               <Icon name="email" color="#777777" size={20} />
@@ -74,7 +74,8 @@ const ProfileScreen = () => {
             </View>
             <View style={styles.row}>
               <Icon name="tag" color="#777777" size={20} />
-              <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario && usuario?.nombreMarca === null || usuario?.nombreMarca === undefined ? 'Agrega el nombre de tu marca' : usuario?.nombreMarca}</Text>
+              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.nombreMarca === null || usuario?.nombreMarca === undefined ? 'Agrega el nombre de tu marca' : usuario?.nombreMarca}</Text>
+}
             </View>
           </View>
 

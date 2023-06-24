@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES } from './../constants/index';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Swiper from 'react-native-swiper';
+import { useContext } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { COLORS } from './../constants/index'
+import { ProductsContext } from '../context/ProductsContext'
 
-export default function HeaderTabs({ handleSwipe, isActive }) {
+export default function HeaderTabs () {
+  const { activeTab: isActive } = useContext(ProductsContext)
   return (
     <View style={{ flexDirection: 'row', alignSelf: 'center', paddingTop: 10 }}>
       <HeaderButton
@@ -21,10 +21,10 @@ export default function HeaderTabs({ handleSwipe, isActive }) {
         btnColor="white"
         textColor={COLORS.primary}
         isActive={isActive === 1}
-       
+
       />
     </View>
-  );
+  )
 }
 
 const HeaderButton = (props) => {
@@ -34,18 +34,18 @@ const HeaderButton = (props) => {
         backgroundColor: props.isActive ? COLORS.primary : 'white',
         paddingVertical: 6,
         paddingHorizontal: 16,
-        borderRadius: 30,
+        borderRadius: 30
       }}
     >
       <Text
         style={{
           color: props.isActive ? 'white' : COLORS.primary,
           fontSize: 15,
-          fontWeight: '900',
+          fontWeight: '900'
         }}
       >
         {props.text}
       </Text>
     </TouchableOpacity>
-  );
-};
+  )
+}
