@@ -16,7 +16,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 
 import { config } from './../config'
 
-const PlaceholderImage = require('../assets/placeholder.jpg')
+const PlaceholderImage = require('./../../assets/placeholder.jpg')
 
 const AddProductScreen = () => {
   const navigation = useNavigation()

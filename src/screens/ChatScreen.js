@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { View, SccrollView, Text, StyleSheet } from 'react-native';
-import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
-import { COLORS } from './../constants/index';
+import React, { useState, useCallback, useEffect } from 'react'
+import { View } from 'react-native'
+import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
+import { COLORS } from './../constants/index'
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const ChatScreen = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
     setMessages([
@@ -18,8 +18,8 @@ const ChatScreen = () => {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
+          avatar: 'https://placeimg.com/140/140/any'
+        }
       },
       {
         _id: 2,
@@ -28,29 +28,29 @@ const ChatScreen = () => {
         user: {
           _id: 1,
           name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ]);
-  }, []);
+          avatar: 'https://placeimg.com/140/140/any'
+        }
+      }
+    ])
+  }, [])
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  }, []);
+  }, [])
 
   const renderSend = (props) => {
     return (
       <Send {...props}>
         <View>
-          <MaterialCommunityIcons 
-          name='send-circle' 
-          size={32} 
+          <MaterialCommunityIcons
+          name='send-circle'
+          size={32}
           color={COLORS.primary}
           style={{ marginBottom: 5, marginRight: 5 }}
           />
         </View>
       </Send>
-    );
+    )
   }
 
   const renderBubble = (props) => {
@@ -59,35 +59,34 @@ const ChatScreen = () => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: COLORS.tertiary,
+            backgroundColor: COLORS.tertiary
           },
           left: {
-            backgroundColor: COLORS.primary,
-          },
+            backgroundColor: COLORS.primary
+          }
         }}
         textStyle={{
           left: {
-            color: COLORS.white,
+            color: COLORS.white
           },
           right: {
-            color: COLORS.white,
-          },
+            color: COLORS.white
+          }
         }}
         timeTextStyle={{
           left: {
-            color: COLORS.white,
+            color: COLORS.white
           }
         }}
 
       />
-    );
-
+    )
   }
 
   const scrollToBottomComponent = () => {
-    return(
+    return (
       <FontAwesome name="angle-double-down" size={22} color={COLORS.primary} />
-    );
+    )
   }
 
   return (
@@ -95,7 +94,7 @@ const ChatScreen = () => {
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
-        _id: 1,
+        _id: 1
       }}
       renderBubble={renderBubble}
       alwaysShowSend
@@ -103,15 +102,15 @@ const ChatScreen = () => {
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
     />
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   }
+// })
 
-export default ChatScreen;
+export default ChatScreen

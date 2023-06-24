@@ -4,14 +4,15 @@ import SellerCardItem from '../components/SellerCardItem'
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext } from 'react'
 import { AuthContext } from './../context/AuthContext'
+import { ProductsContext } from './../context/ProductsContext'
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 
 import { Caption } from 'react-native-paper'
 
-const SellerScreen = ({ productos, handleDelete }) => {
+const SellerScreen = () => {
   const navigation = useNavigation()
   const { isActive, updateUserInfo } = useContext(AuthContext)
-
+  const { sellerProducts: productos, handleDelete } = useContext(ProductsContext)
   const onAddProductPress = () => {
     navigation.navigate('AddProduct')
   }
