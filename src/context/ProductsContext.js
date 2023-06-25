@@ -19,6 +19,12 @@ export function ProductsProvider ({ children }) {
 
   const handleSwipe = (index) => {
     setActiveTab(index)
+    if (index === 0) {
+      setDoCustomerProductsRequest(!doCustomerProductsRequest)
+    }
+    if (index === 1) {
+      setDoSellerProductsRequest(!doSellerProductsRequest)
+    }
   }
 
   const searchCustomerProduct = (text) => {
@@ -61,9 +67,10 @@ export function ProductsProvider ({ children }) {
               }
             }).then(response => {
               if (response.status === 204) {
+                Alert.alert('¡Eliminado con exito!', 'El producto ha sido eliminado con exito')
                 setDoSellerProductsRequest(!doSellerProductsRequest)
               }
-            }).catch(e => console.log(e))
+            }).catch(e => Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde'))
           }
         },
         {
@@ -86,13 +93,8 @@ export function ProductsProvider ({ children }) {
         'Content-Type': 'application/json'
       }
     }).then(response => {
-      if (response.status === 200) {
-        setDoSellerProductsRequest(!doSellerProductsRequest)
-        return true
-      } else {
-        console.log('modal de error en el servidor intentar mas tarde')
-      }
-    }).catch(e => console.log(e))
+      setDoSellerProductsRequest(!doSellerProductsRequest)
+    }).catch(e => Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde'))
   }
   return (
     <ProductsContext.Provider value={{

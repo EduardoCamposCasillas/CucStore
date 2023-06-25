@@ -1,16 +1,12 @@
-import React, { useContext, useState, useMemo, useRef, useCallback } from 'react'
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, ScrollView, Alert, SafeAreaView } from 'react-native'
-import { Path } from 'react-native-svg'
+import React, { useContext, useState, useRef, useCallback } from 'react'
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions, useWindowDimensions, Alert, SafeAreaView } from 'react-native'
 import { COLORS, SIZES } from '../constants'
 import WavyHeader from './../components/WavyHeader'
-import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from './../context/AuthContext'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useTogglePasswordVisibility } from './../hooks/useTogglePasswordVisibility'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const Logo = require('./../../assets/images/CUCEATS_LOGO.png')
 
@@ -28,7 +24,6 @@ const LoginScreen = () => {
   }, [])
 
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility()
-  const [password, setPassword] = useState('')
   const { height } = useWindowDimensions()
   const navigation = useNavigation()
   const { login } = useContext(AuthContext)
@@ -48,7 +43,7 @@ const LoginScreen = () => {
     if (validateEmail(loginData.correo)) {
       login(loginData)
     } else {
-      Alert.alert('El correo debe tener un dominio valido (alumnos/academicos)')
+      Alert.alert('Error en formato de correo', 'El correo debe tener un dominio valido "(alumnos/academicos).udg.mx"')
     }
   }
 

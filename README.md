@@ -9,7 +9,7 @@ _Seguimos trabajando en la aplicación_
 
 
 
- * Manejar errores y respuestas de los request.
+ * Manejar errores y respuestas de los request. ✅
  * Cambiar UI del registro y agregar password enforce 🕙
  * Agregar pequeñas animaciones
  * Cambiar Agregar products UI
@@ -22,3 +22,4 @@ _Seguimos trabajando en la aplicación_
  * Cambiar formato de imagen (Base64 a url)
  * Agregar test end to end
  * Agregar pasarela de pago
+ * Agregar "Olvidaste contraseña"
