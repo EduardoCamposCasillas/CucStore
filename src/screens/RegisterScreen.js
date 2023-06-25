@@ -24,7 +24,6 @@ const RegisterScreen = () => {
   const [inputValue, setInputValue] = useState(userDefaultData)
 
   const handleRegister = (e) => {
-    console.log('First here')
     if (validatePassword()) {
       const { segundaContraseña, ...postUserData } = inputValue
       axios.post(config.apiUrl + '/api/auth/register', postUserData)
@@ -32,19 +31,16 @@ const RegisterScreen = () => {
           const responseStatus = response.status
 
           if (responseStatus === 201) {
-            console.log('here 201')
             Alert.alert('¡Usuario registrado exitosamente!')
             navigation.navigate('Login')
           }
 
           if (responseStatus === 401) {
-            console.log('here 401')
             Alert.alert('Error en el formato de la información')
           }
         })
         .catch(error => {
           if (error.response.status === 409) {
-            console.log('here 409')
             Alert.alert('Este correo electronico ya se encuentra registrado')
           }
           if (error.response.status === 500) {
