@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { config } from './../config'
+import { Alert } from 'react-native'
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
@@ -18,9 +19,16 @@ export const AuthProvider = ({ children }) => {
       }
     })
       .then((response) => {
-        console.log('informacion actualizada')
+
       })
-      .catch(e => console.error(e))
+      .catch(error => {
+        if (error.response.status === 500) {
+          Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+        }
+        if (error.response.status === 404) {
+          Alert.alert('¡Usuario no encontrado!', 'Usuario no encontrado, porfavor intentelo mas tarde')
+        }
+      })
 
     setIsActive(!isActive)
   }
@@ -35,27 +43,41 @@ export const AuthProvider = ({ children }) => {
         setUsuario(usuarioData)
         setIsActive(usuarioData.isActive)
       })
-      .catch(e => console.error(e))
+      .catch(error => {
+        if (error.response.status === 500) {
+          Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+        }
+        if (error.response.status === 404) {
+          Alert.alert('¡Usuario no encontrado!', 'Usuario no encontrado, porfavor intentelo mas tarde')
+        }
+      })
   }
   const storeToken = async (token) => {
     try {
       await AsyncStorage.setItem('accessToken', token)
     } catch (e) {
-      console.error(e)
+      console.error('here:', e)
     }
   }
   const login = (data) => {
     axios.post(config.apiUrl + '/api/auth/login', data)
       .then((response) => {
-        console.log(response.status)
         if (response.status === 200) {
           const token = response.data.token
           storeToken(token)
           setUserToken(token)
-        } else {
-          console.log('Manejar otros estados')
         }
-      }).catch(e => console.error(e))
+      }).catch(error => {
+        if (error.response.status === 401) {
+          Alert.alert('¡Contraseña erronea!', 'Contraseña erronea, verifique la información.')
+        }
+        if (error.response.status === 404) {
+          Alert.alert('¡Usuario no encontrado!', 'Usuario no encontrado, registrese o verifique el correo.')
+        }
+        if (error.response.status === 500) {
+          Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+        }
+      })
   }
 
   const logout = () => {

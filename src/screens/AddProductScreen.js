@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { COLORS, SIZES } from '../constants'
 import WavyHeader from './../components/WavyHeader'
@@ -22,14 +22,12 @@ const AddProductScreen = () => {
   const navigation = useNavigation()
   const { userToken } = useContext(AuthContext)
   const [selectedImage, setSelectedImage] = useState(null)
-  const [selectedCategory, setSelectedCategory] = useState()
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const [categorias, setCategorias] = useState()
   const [inputValues, setInputValues] = useState({
     nombre: '',
     descripcion: '',
-    precio: '',
-    imgUrl: null,
-    categoria: ''
+    precio: ''
   })
 
   const pickImageAsync = async () => {
@@ -50,13 +48,14 @@ const AddProductScreen = () => {
     setInputValues({
       nombre: '',
       descripcion: '',
-      precio: '',
-      imgUrl: null,
-      categoria: ''
+      precio: ''
     })
     setSelectedCategory(null)
     setSelectedImage(null)
   }
+  /* TODO:
+    Pasar esta funcion al products context
+  */
   const handleAddProduct = () => {
     axios.post(config.apiUrl + '/api/usuario/productos', {
       nombre: inputValues.nombre,
@@ -71,13 +70,18 @@ const AddProductScreen = () => {
       }
     }).then(response => {
       if (response.status === 201) {
-        console.log('modal de registro exitoso')
-        cleanData()
-        navigation.navigate('Home')
+        Alert.alert('¡Registro exitoso!', 'El producto ha sido registrado con exito, sera redirigido a la ventana principal',
+          [
+            {
+              text: 'Ok',
+              onPress: () => { navigation.navigate('Home'); cleanData() }
+            }
+          ])
       }
-      cleanData()
     }).catch(error => {
-      console.error(error)
+      if (error.response.status === 500) {
+        Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+      }
     })
   }
 
@@ -175,7 +179,21 @@ const AddProductScreen = () => {
           />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleAddProduct}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+            console.log(selectedCategory)
+            for (const value in inputValues) {
+              if (inputValues[value].length <= 0) {
+                Alert.alert('¡Error en la información!', 'Error en la información, no deje campos vacios')
+                return
+              }
+            }
+            if (selectedCategory === null || selectedImage === null) {
+              console.log('first here')
+              Alert.alert('¡Error en la información!', 'Error en la información, no deje campos vacios')
+              return
+            }
+            handleAddProduct()
+          }}>
             <Text style={styles.buttonText}>Agregar Producto</Text>
           </TouchableOpacity>
 

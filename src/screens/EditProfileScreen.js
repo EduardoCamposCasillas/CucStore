@@ -7,7 +7,8 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker'
@@ -25,7 +26,7 @@ import axios from 'axios'
 
 const EditProfileScreen = () => {
   const navigation = useNavigation()
-  const [selectedImage, setSelectedImage] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null)
   const [inputData, setInputData] = useState({
     nombres: '',
     apellidoPaterno: '',
@@ -69,10 +70,16 @@ const EditProfileScreen = () => {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => {
-        const responseData = response.data
+      .then((response) => {})
+      .catch(error => {
+        if (error.response.status === 500) {
+          Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+        }
+        if (error.response.status === 404) {
+          Alert.alert('¡Usuario no encontrado!', 'Usuario no encontrado, porfavor intentelo mas tarde')
+        }
       })
-      .catch(e => console.error(e))
+
     navigation.navigate('Profile')
   }
 
@@ -192,7 +199,7 @@ const EditProfileScreen = () => {
               placeholderTextColor="#666666"
               keyboardType="number-pad"
               autoCorrect={false}
-              value={inputData?.telefonos || inputData?.telefonos[0] || null}
+              value={inputData?.telefonos[0] }
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,
@@ -305,7 +312,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
-    paddingBottom: 5
+    paddingBottom: 5,
+    alignItems: 'center'
   },
   actionError: {
     flexDirection: 'row',

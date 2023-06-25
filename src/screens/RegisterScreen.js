@@ -31,24 +31,24 @@ const RegisterScreen = () => {
           const responseStatus = response.status
 
           if (responseStatus === 201) {
-            Alert.alert('¡Usuario registrado exitosamente!')
+            Alert.alert('¡Usuario registrado exitosamente!', 'Usuario registrado con exito, sera redirigido a la ventada de inicio de sesión')
             navigation.navigate('Login')
           }
 
           if (responseStatus === 401) {
-            Alert.alert('Error en el formato de la información')
+            Alert.alert('¡Error en el formato de la información!', 'Verifique que la información proporcionada se encuentre en el campo correcto')
           }
         })
         .catch(error => {
           if (error.response.status === 409) {
-            Alert.alert('Este correo electronico ya se encuentra registrado')
+            Alert.alert('¡Error de autenticación!', 'Este correo electronico ya se encuentra registrado')
           }
           if (error.response.status === 500) {
-            Alert.alert('Error en el servidor intentelo mas tarde')
+            Alert.alert('¡Error en el servidor¡!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
           }
         })
     } else {
-      Alert.alert('Las contraseñas deben coincidir')
+      Alert.alert('!Contraseñas incorrectas¡', 'Las contraseñas deben coincidir')
     }
   }
 
