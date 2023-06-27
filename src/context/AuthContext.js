@@ -6,7 +6,7 @@ import { Alert } from 'react-native'
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [userToken, setUserToken] = useState(null)
   const [usuario, setUsuario] = useState()
   const [isActive, setIsActive] = useState(true)
@@ -60,9 +60,11 @@ export const AuthProvider = ({ children }) => {
     }
   }
   const login = (data) => {
+    setIsLoading(true)
     axios.post(config.apiUrl + '/api/auth/login', data)
       .then((response) => {
         if (response.status === 200) {
+          setIsLoading(false)
           const token = response.data.token
           storeToken(token)
           setUserToken(token)
@@ -81,8 +83,11 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
+    setIsLoading(true)
     setUserToken(null)
-    setIsLoading(false)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
   }
 
   return (
