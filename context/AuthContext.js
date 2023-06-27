@@ -1,11 +1,12 @@
 import React, { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 export const AuthContext = createContext();
 import axios from "axios";
 import { config } from "./../config";
 
 export const AuthProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
   const [usuario, setUsuario] = useState()
   const [isActive, setIsActive] = useState(true)
@@ -45,23 +46,27 @@ export const AuthProvider = ({ children }) => {
     }
   }
   const login = (data) => {
+    setIsLoading(true);
     axios.post(config.apiUrl + '/api/auth/login', data)
     .then((response) => {
       console.log(response.status)
       if(response.status === 200){
+        setIsLoading(false);
         const token = response.data.token
         storeToken(token)
         setUserToken(token);
       }else{
         console.log('Manejar otros estados');
       }
-    }).catch(e => console.error(e))
-    
+    }).catch(e => Alert.alert('Usuario o Contraseña Incorrecta'))
   };
 
   const logout = () => {
+    setIsLoading(true);
     setUserToken(null);
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
