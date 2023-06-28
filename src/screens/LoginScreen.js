@@ -144,7 +144,7 @@ const LoginScreen = () => {
           onClose={() => setIsOpen(false)}
         >
           <BottomSheetView>
-            <Text>Creditos</Text>
+            <Text>Creditos:</Text>
           </BottomSheetView>
         </BottomSheet>
 

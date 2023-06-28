@@ -15,7 +15,9 @@ const CustomerScreen = () => {
     <>
       <View
         style={{
-          backgroundColor: 'white'
+          marginTop: 5,
+          backgroundColor: COLORS.white,
+          borderRadius: 30
         }}>
 
         <View style={styles.searchContainer}>
@@ -105,13 +107,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: SIZES.large,
+    marginTop: SIZES.xSmall,
+    marginBottom: SIZES.xSmall,
     height: 50,
     paddingHorizontal: 15
   },
   searchWrapper: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: COLORS.white,
     marginRight: SIZES.small,
     justifyContent: 'center',
     alignItems: 'center',
@@ -123,13 +126,13 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingHorizontal: SIZES.medium,
     padding: 1,
-    backgroundColor: 'white'
+    backgroundColor: COLORS.white
   },
   btnIcon: {
     backgroundColor: COLORS.primary,
     borderRadius: 30,
-    height: 45,
-    width: 45,
+    height: 50,
+    width: 50,
     justifyContent: 'center',
     alignItems: 'center'
   }

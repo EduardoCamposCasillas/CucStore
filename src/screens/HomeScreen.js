@@ -6,7 +6,6 @@ import SellerScreen from './SellerScreen'
 import BottomTabs from './../components/BottomTabs'
 import HeaderTabs from './../components/HeaderTabs'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { COLORS } from './../constants/theme'
 import { useContext } from 'react'
 import { ProductsContext } from '../context/ProductsContext'
 
@@ -15,7 +14,7 @@ const HomeScreen = () => {
   return (
 
     <SafeAreaView style={{
-      backgroundColor: COLORS.lightWhite,
+      backgroundColor: 'white',
       flex: 1
     }}>
         <HeaderTabs />
