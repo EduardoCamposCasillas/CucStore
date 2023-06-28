@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     padding: 10,
-    paddingStart: 30,
+    paddingStart: 15,
     width: '80%',
     flexDirection: 'row',
     alignItems: 'center',

@@ -66,7 +66,7 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={styles.row}>
               <Icon name="phone" color="#777777" size={20} />
-              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.telefonos[0] === null || usuario?.telefonos[0] === undefined || usuario?.telefonos.length <= 0 ? 'Agrega un telefono' : usuario?.telefonos[0]}</Text>}
+              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.telefonos === null || usuario?.telefonos === undefined || usuario?.telefonos.length < 1 ? 'Agrega un telefono' : usuario?.telefonos}</Text>}
             </View>
             <View style={styles.row}>
               <Icon name="email" color="#777777" size={20} />

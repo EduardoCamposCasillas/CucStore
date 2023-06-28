@@ -1,8 +1,8 @@
-import React from 'react';
-import { View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import React from 'react'
+import { View } from 'react-native'
+import Svg, { Path } from 'react-native-svg'
 
-export default function WavyHeader({
+export default function WavyHeader ({
   customStyles,
   customHeight,
   customTop,
@@ -22,5 +22,5 @@ export default function WavyHeader({
         </Svg>
       </View>
     </View>
-  );
+  )
 }

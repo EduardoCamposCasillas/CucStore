@@ -1,29 +1,28 @@
 import React, { useState } from 'react'
-
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { COLORS, SIZES } from '../constants'
 import WavyHeader from './../components/WavyHeader'
-
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
-
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 import { config } from './../config'
 
 const RegisterScreen = () => {
   const navigation = useNavigation()
-
+  const [showPasswordSecurity, setShowPasswordSecurity] = useState(false)
   const userDefaultData = {
     nombreCompleto: '',
     correo: '',
     contraseña: '',
     segundaContraseña: ''
   }
-
   const [inputValue, setInputValue] = useState(userDefaultData)
 
   const handleRegister = (e) => {
+    if (getPasswordStrength() === 'Invalido') {
+      Alert.alert('¡Contraseña Invalida!', 'Ingrese una contraseña valida (minimo 8 digitos)')
+    }
     if (validatePassword()) {
       const { segundaContraseña, ...postUserData } = inputValue
       axios.post(config.apiUrl + '/api/auth/register', postUserData)
@@ -52,11 +51,28 @@ const RegisterScreen = () => {
     }
   }
 
-  // const verfiedPasswordSecurity = () => {
-  //   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+  const getPasswordStrength = () => {
+    const regexDebil = /^.{8,}$/
+    const regexIntermedio = /^(?=.*\d).{8,}$/
+    const regexFuerte = /^(?=.*\d)(?=.*[!@#$%^&*.]).{8,}$/
 
-  //   return regex.test(inputValue.contraseña)
-  // }
+    if (inputValue.contraseña.match(regexFuerte)) {
+      // setPasswordSecurityColor('green')
+      return 'Fuerte'
+    }
+
+    if (inputValue.contraseña.match(regexIntermedio)) {
+      // setPasswordSecurityColor('yellow')
+      return 'Intermedio'
+    }
+
+    if (inputValue.contraseña.match(regexDebil)) {
+      // setPasswordSecurityColor('red')
+      return 'Debil'
+    }
+    // setPasswordSecurityColor(COLORS.gray)
+    return 'Invalido'
+  }
 
   const validatePassword = () => {
     return inputValue.contraseña === inputValue.segundaContraseña
@@ -109,12 +125,28 @@ const RegisterScreen = () => {
             secureTextEntry={true}
             style={styles.textInput}
             onChangeText={(text) => {
+              if (text) {
+                setShowPasswordSecurity(true)
+              } else {
+                setShowPasswordSecurity(false)
+              }
+
               setInputValue({
                 ...inputValue,
                 contraseña: text
               })
             }}
           />
+         {showPasswordSecurity &&
+          <View style={{ position: 'relative', width: '80%' }}>
+          <Text style={{
+            position: 'absolute',
+            right: 0,
+            color: getPasswordStrength() === 'Debil' ? '#990000' : getPasswordStrength() === 'Intermedio' ? '#CCCC00' : getPasswordStrength() === 'Fuerte' ? '#009900' : COLORS.gray,
+            marginHorizontal: 5
+          }}>{getPasswordStrength()}</Text>
+        </View>
+          }
           <TextInput
             secureTextEntry={true}
             placeholder="Confirmar Contraseña"
@@ -172,7 +204,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     padding: 10,
-    paddingStart: 30,
+    paddingStart: 15,
     width: '80%',
     height: 50,
     marginTop: 20,
