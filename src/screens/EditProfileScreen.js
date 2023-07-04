@@ -113,7 +113,8 @@ const EditProfileScreen = () => {
                   width: 100,
                   borderRadius: 15,
                   justifyContent: 'center',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  backgroundColor: '#ddd'
                 }}>
                 <ImageBackground
                   source={{
@@ -199,7 +200,7 @@ const EditProfileScreen = () => {
               placeholderTextColor="#666666"
               keyboardType="number-pad"
               autoCorrect={false}
-              value={inputData?.telefonos[0] }
+              value={inputData?.telefonos }
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,

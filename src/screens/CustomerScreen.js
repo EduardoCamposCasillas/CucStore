@@ -56,14 +56,14 @@ const CustomerScreen = () => {
                           key={producto.id}
                           onPress={() =>
                             navigation.navigate('DetailsProduct', {
-                              telefono: usuario.telefonos[0],
+                              telefono: usuario.telefonos,
                               nombreMarca: usuario.nombreMarca,
                               nombreProducto: producto.nombre,
                               descripcion: producto.descripcion,
                               puntaje: producto.puntaje,
                               precio: producto.precio,
                               imgUrl: producto.imgUrl,
-
+                              categoria: producto.categoria,
                               nombreUsuario,
                               idUsuario
                             })}
@@ -82,7 +82,7 @@ const CustomerScreen = () => {
               key={producto.id}
               onPress={() =>
                 navigation.navigate('DetailsProduct', {
-                  telefono: usuario.telefonos[0],
+                  telefono: usuario.telefonos,
                   nombreMarca: usuario.nombreMarca,
                   nombreProducto: producto.nombre,
                   descripcion: producto.descripcion,

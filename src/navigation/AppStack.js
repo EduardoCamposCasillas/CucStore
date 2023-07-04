@@ -21,8 +21,7 @@ const MessageStack = ({ navigation }) => {
         name="Chat"
         component={ChatScreen}
         options={({ route }) => ({
-          title: route.params.userName,
-          headerBackTitleVisible: false
+          title: route.params.nombreMarca ?? route.params.nombreUsuario
         })}
       />
     </Stack.Navigator>

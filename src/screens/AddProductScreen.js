@@ -55,6 +55,7 @@ const AddProductScreen = () => {
   }
   /* TODO:
     Pasar esta funcion al products context
+    para que se actualicen los productos del usuario al registrarlos
   */
   const handleAddProduct = () => {
     axios.post(config.apiUrl + '/api/usuario/productos', {
@@ -119,6 +120,7 @@ const AddProductScreen = () => {
         <View style={styles.viewContainer}>
           <Text style={styles.textStyle}>Nombre del Producto</Text>
           <TextInput
+          placeholder='Galletas'
             style={styles.textInput}
             value={inputValues.nombre}
             onChangeText={(text) => {
@@ -130,6 +132,7 @@ const AddProductScreen = () => {
           />
           <Text style={styles.textStyle}>Descripción del producto</Text>
           <TextInput
+            placeholder='Galletas de chispa de chocolate, chocolate blanco y frutos rojos'
             multiline={true}
             numberOfLines={5}
             style={styles.textArea}
@@ -141,9 +144,9 @@ const AddProductScreen = () => {
               })
             }}
          />
-          <Text style={styles.textStyle}>Precio</Text>
+          <Text style={styles.textStyle}>Precio c/u</Text>
           <TextInput
-            placeholder='00.00'
+            placeholder='$200.00 MX'
             style={styles.textInput}
             value={inputValues.precio}
             onChangeText={(text) => {
@@ -180,7 +183,6 @@ const AddProductScreen = () => {
           </View>
 
           <TouchableOpacity style={styles.button} onPress={() => {
-            console.log(selectedCategory)
             for (const value in inputValues) {
               if (inputValues[value].length <= 0) {
                 Alert.alert('¡Error en la información!', 'Error en la información, no deje campos vacios')
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     padding: 10,
-    paddingStart: 30,
+    paddingStart: 15,
     width: '80%',
     height: 50,
     marginTop: 10,
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
   },
   textArea: {
     padding: 10,
-    paddingStart: 30,
+    paddingStart: 15,
     width: '80%',
     height: 100,
     marginTop: 10,
@@ -256,8 +258,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.large,
     fontWeight: 'bold',
     color: COLORS.gray,
-    justifyContent: 'flex-start',
-    textAlign: 'left'
+    alignContent: 'flex-start'
   },
   subText: {
     color: COLORS.gray,
