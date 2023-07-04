@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRoute, useNavigation } from '@react-navigation/native'
 import { Text, View, Linking, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Alert } from 'react-native'
-
+import StarRatingDisplay from 'react-native-star-rating-widget'
 import { COLORS, SIZES } from './../constants/index'
 
 import Ioniocons from 'react-native-vector-icons/Ionicons'
@@ -24,7 +24,9 @@ const ProductDetailsScreen = () => {
     nombreMarca
   } = route.params
 
-  const makePhoneCall = () => {
+  const [rating, setRating] = useState(puntaje)
+
+  const handlePhoneButton = () => {
     if (!telefono || telefono === 'undefined' || telefono === '') {
       Alert.alert('Error!', 'Este usuario no cuenta con telefono de contacto')
       return
@@ -36,6 +38,7 @@ const ProductDetailsScreen = () => {
       Alert.alert('Error!', 'Error al intenar realizar la llamada, intentelo mas tarde')
     })
   }
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -63,23 +66,30 @@ const ProductDetailsScreen = () => {
               selectedImage={imgUrl}
             />
           </View>
+          <Text >
+              <StarRatingDisplay onChange={() => {}} rating={rating} starSize={25} starStyle={{ marginHorizontal: 0.5 }} />
+          </Text>
           <Text style={styles.textTitle}>Descripción del producto</Text>
           <Text style={styles.textStyle}>{descripcion}</Text>
+          <Text style={styles.textTitle}>Categoria</Text>
+          {categoria.map(categoria => <Text key={categoria.id} style={styles.textStyle}>{categoria.nombre}</Text>)}
           <Text style={styles.textTitle}>Precio</Text>
           <Text style={styles.priceStyle}>{precio} $</Text>
-
           <Text style={styles.textTitle}>Vendedor</Text>
           <Text style={styles.textStyle}>{ nombreMarca ?? nombreUsuario}</Text>
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-            <TouchableOpacity style={styles.btnIcon} onPress={makePhoneCall}>
-              <Text style={styles.buttonText}>Contactar</Text>
-              {/* Pasar el idUsuario al navigate del chat */}
-              <Ioniocons name="chatbox" size={25} color={COLORS.white} />
-            </TouchableOpacity>
-          </View>
 
         </View>
       </ScrollView>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginBottom: 20 }}>
+        <TouchableOpacity style={styles.btnIcon} onPress={handlePhoneButton}>
+          <Ioniocons name="call" size={25} color={COLORS.white} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnIcon} onPress={() => {
+          navigation.navigate('ChatScreen', { screen: 'Mensajes', params: { receiverId: idUsuario, nombreMarca, nombreUsuario } })
+        }}>
+          <Ioniocons name="chatbox" size={25} color={COLORS.white} />
+        </TouchableOpacity>
+      </View>
     </View>
 
   )
@@ -167,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 20,
     height: 50,
-    width: 150,
+    width: 100,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
