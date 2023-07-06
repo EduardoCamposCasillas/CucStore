@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { io } from 'socket.io-client'
 import { config } from '../config'
-import { View, StyleSheet, FlatList, SafeAreaView, Text } from 'react-native'
+import { View, FlatList, SafeAreaView, Text } from 'react-native'
 import { COLORS } from './../constants/index'
 import { AuthContext } from './../context/AuthContext'
 import {
@@ -79,13 +79,5 @@ const MessagesScreen = ({ navigation }) => {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 export default MessagesScreen
