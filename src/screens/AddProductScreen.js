@@ -1,29 +1,24 @@
-import React, { useEffect, useState, useContext } from 'react'
-
+import React, { useState, useContext } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { COLORS, SIZES } from '../constants'
 import WavyHeader from './../components/WavyHeader'
-
-import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
-import { AuthContext } from './../context/AuthContext'
 import ImageViewer from './../components/ImageViewer'
-
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 import * as ImagePicker from 'expo-image-picker'
 import { SelectList } from 'react-native-dropdown-select-list'
-
-import { config } from './../config'
+import useCategories from '../hooks/useCategories'
+import { ProductsContext } from '../context/ProductsContext'
 
 const PlaceholderImage = require('./../../assets/placeholder.jpg')
 
 const AddProductScreen = () => {
+  const { handleAddProduct } = useContext(ProductsContext)
   const navigation = useNavigation()
-  const { userToken } = useContext(AuthContext)
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [categorias, setCategorias] = useState()
+  const { categorias } = useCategories()
   const [inputValues, setInputValues] = useState({
     nombre: '',
     descripcion: '',
@@ -53,49 +48,6 @@ const AddProductScreen = () => {
     setSelectedCategory(null)
     setSelectedImage(null)
   }
-  /* TODO:
-    Pasar esta funcion al products context
-    para que se actualicen los productos del usuario al registrarlos
-  */
-  const handleAddProduct = () => {
-    axios.post(config.apiUrl + '/api/usuario/productos', {
-      nombre: inputValues.nombre,
-      descripcion: inputValues.descripcion,
-      precio: inputValues.precio,
-      imgUrl: selectedImage,
-      categoria: selectedCategory
-    }, {
-      headers: {
-        Authorization: 'Bearer ' + userToken,
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
-      if (response.status === 201) {
-        Alert.alert('¡Registro exitoso!', 'El producto ha sido registrado con exito, sera redirigido a la ventana principal',
-          [
-            {
-              text: 'Ok',
-              onPress: () => { navigation.navigate('Home'); cleanData() }
-            }
-          ])
-      }
-    }).catch(error => {
-      if (error.response.status === 500) {
-        Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
-      }
-    })
-  }
-
-  useEffect(() => {
-    axios.get(config.apiUrl + '/api/categorias').then(categorias => {
-      const data = []
-      const categoriasData = categorias.data
-      categoriasData.map(categoria => (
-        data.push({ key: categoria.id, value: categoria.nombre })
-      ))
-      setCategorias(data)
-    })
-  }, [])
 
   return (
     <View style={styles.container}>
@@ -190,11 +142,12 @@ const AddProductScreen = () => {
               }
             }
             if (selectedCategory === null || selectedImage === null) {
-              console.log('first here')
               Alert.alert('¡Error en la información!', 'Error en la información, no deje campos vacios')
               return
             }
-            handleAddProduct()
+            handleAddProduct(inputValues, selectedImage, selectedCategory)
+            cleanData()
+            navigation.navigate('Home')
           }}>
             <Text style={styles.buttonText}>Agregar Producto</Text>
           </TouchableOpacity>

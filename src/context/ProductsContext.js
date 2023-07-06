@@ -79,6 +79,7 @@ export function ProductsProvider ({ children }) {
       ]
     )
   }
+
   const handleEditSellerProduct = (inputValues, productoId, selectedImage, selectedCategory) => {
     axios.put(config.apiUrl + '/api/usuario/productos', {
       productId: productoId,
@@ -96,6 +97,31 @@ export function ProductsProvider ({ children }) {
       setDoSellerProductsRequest(!doSellerProductsRequest)
     }).catch(e => Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde'))
   }
+
+  const handleAddProduct = (inputValues, selectedImage, selectedCategory) => {
+    axios.post(config.apiUrl + '/api/usuario/productos', {
+      nombre: inputValues.nombre,
+      descripcion: inputValues.descripcion,
+      precio: inputValues.precio,
+      imgUrl: selectedImage,
+      categoria: selectedCategory
+    }, {
+      headers: {
+        Authorization: 'Bearer ' + userToken,
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if (response.status === 201) {
+        Alert.alert('¡Registro exitoso!', 'El producto ha sido registrado con exito, sera redirigido a la ventana principal')
+        setDoSellerProductsRequest(!doSellerProductsRequest)
+      }
+    }).catch(error => {
+      if (error.response.status === 500) {
+        Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
+      }
+    })
+  }
+
   return (
     <ProductsContext.Provider value={{
       customerProducts,
@@ -105,7 +131,8 @@ export function ProductsProvider ({ children }) {
       filteredProducts,
       handleDeleteSellerProduct,
       handleEditSellerProduct,
-      activeTab
+      activeTab,
+      handleAddProduct
     }}>
         {children}
     </ProductsContext.Provider>
