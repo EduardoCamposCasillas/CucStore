@@ -85,7 +85,10 @@ const ProductDetailsScreen = () => {
           <Ioniocons name="call" size={25} color={COLORS.white} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnIcon} onPress={() => {
-          navigation.navigate('ChatScreen', { screen: 'Mensajes', params: { receiverId: idUsuario, nombreMarca, nombreUsuario } })
+          navigation.navigate('ChatScreen', { screen: 'Mensajes' })
+          setTimeout(() => {
+            navigation.navigate('ChatScreen', { screen: 'Chat', params: { nombreMarca, nombreUsuario, idUsuario } })
+          }, 100)
         }}>
           <Ioniocons name="chatbox" size={25} color={COLORS.white} />
         </TouchableOpacity>
