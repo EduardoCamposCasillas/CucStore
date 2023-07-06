@@ -1,37 +1,37 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useContext } from 'react'
 import { View } from 'react-native'
+import { useRoute } from '@react-navigation/native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
 import { COLORS } from './../constants/index'
-
+import { AuthContext } from '../context/AuthContext'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { io } from 'socket.io-client'
+import { config } from '../config'
 
 const ChatScreen = () => {
-  const [messages, setMessages] = useState([])
+  const { idUsuario } = useRoute().params
+  const [messages, setMessages] = useState(null)
+  const { userToken } = useContext(AuthContext)
+
+  const socket = io(`${config.apiUrl}/api/usuario/chats/chat`, {
+    extraHeaders: {
+      authorization: userToken,
+      userToChat: idUsuario
+    }
+  })
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any'
-        }
-      },
-      {
-        _id: 2,
-        text: 'Hello world',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any'
-        }
-      }
-    ])
+    console.log(socket.id)
+    socket.on('connect', () => {})
+    socket.on('chat', (messages) => {
+      setMessages(messages.reverse())
+    })
+
+    return () => {
+      socket.off('connect')
+      socket.off('chat')
+    }
   }, [])
 
   const onSend = useCallback((messages = []) => {
@@ -90,18 +90,20 @@ const ChatScreen = () => {
   }
 
   return (
-    <GiftedChat
+    <>
+      {messages && <GiftedChat
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
-        _id: 1
+        _id: userToken
       }}
       renderBubble={renderBubble}
       alwaysShowSend
       renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
-    />
+    />}
+    </>
   )
 }
 
