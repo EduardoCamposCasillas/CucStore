@@ -9,31 +9,31 @@ import Ioniocons from 'react-native-vector-icons/Ionicons'
 
 const CustomerScreen = () => {
   const navigation = useNavigation()
-  const { customerProducts: productos, filteredProducts, searchProduct } = useContext(ProductsContext)
+  const { customerProducts: productos, filteredProducts, searchCustomerProduct } = useContext(ProductsContext)
 
   return (
     <>
       <View
         style={{
-          marginTop: 5,
+          marginTop: 10,
+          marginBottom: 5,
+          marginHorizontal: 15,
           backgroundColor: COLORS.white,
           borderRadius: 30
         }}>
 
         <View style={styles.searchContainer}>
-          <View style={styles.searchWrapper}>
             <TextInput
               onChangeText={(text) => {
-                searchProduct(text)
+                searchCustomerProduct(text)
               }}
-              style={styles.searchInput}
               placeholder='¿Que estás buscando?'
+              style={{ width: '90%' }}
             />
-          </View>
           <TouchableOpacity
             style={styles.btnIcon}
           >
-            <Ioniocons name="search" size={25} color={COLORS.white} />
+            <Ioniocons name="search" size={15} color={COLORS.white} />
           </TouchableOpacity>
         </View>
       </View>
@@ -104,13 +104,13 @@ const CustomerScreen = () => {
 
 const styles = StyleSheet.create({
   searchContainer: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: SIZES.xSmall,
     marginBottom: SIZES.xSmall,
-    height: 50,
-    paddingHorizontal: 15
+    height: 25,
+    paddingHorizontal: 10
   },
   searchWrapper: {
     flex: 1,
@@ -121,18 +121,11 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.medium,
     height: '100%'
   },
-  searchInput: {
-    width: '100%',
-    height: '100%',
-    paddingHorizontal: SIZES.medium,
-    padding: 1,
-    backgroundColor: COLORS.white
-  },
   btnIcon: {
     backgroundColor: COLORS.primary,
     borderRadius: 30,
-    height: 50,
-    width: 50,
+    height: 25,
+    width: 25,
     justifyContent: 'center',
     alignItems: 'center'
   }
