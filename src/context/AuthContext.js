@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [userToken, setUserToken] = useState(null)
+  const [userId, setUserId] = useState(null)
   const [usuario, setUsuario] = useState()
   const [isActive, setIsActive] = useState(true)
 
@@ -66,6 +67,8 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200) {
           setIsLoading(false)
           const token = response.data.token
+          const userId = response.data.userId
+          setUserId(userId)
           storeToken(token)
           setUserToken(token)
         }
@@ -91,7 +94,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo, usuario, isActive, updateUserInfo }}>
+    <AuthContext.Provider value={{ login, logout, isLoading, userToken, userId, userInfo, usuario, isActive, updateUserInfo }}>
       {children}
     </AuthContext.Provider>
   )

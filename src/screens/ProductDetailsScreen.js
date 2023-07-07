@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 import { useRoute, useNavigation } from '@react-navigation/native'
 import { Text, View, Linking, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Alert } from 'react-native'
 import StarRatingDisplay from 'react-native-star-rating-widget'
 import { COLORS, SIZES } from './../constants/index'
-
+import axios from 'axios'
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 import ImageViewer from './../components/ImageViewer'
 import WavyHeader from './../components/WavyHeader'
+import { config } from '../config'
 
 const ProductDetailsScreen = () => {
+  const { userToken } = useContext(AuthContext)
   const navigation = useNavigation()
   const route = useRoute()
   const {
@@ -85,10 +88,19 @@ const ProductDetailsScreen = () => {
           <Ioniocons name="call" size={25} color={COLORS.white} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnIcon} onPress={() => {
-          navigation.navigate('ChatScreen', { screen: 'Mensajes' })
-          setTimeout(() => {
-            navigation.navigate('ChatScreen', { screen: 'Chat', params: { nombreMarca, nombreUsuario, idUsuario } })
-          }, 100)
+          axios.post(config.apiUrl + '/api/usuario/chats/chat', { to: idUsuario }, {
+            headers: {
+              Authorization: 'Bearer ' + userToken,
+              'Content-Type': 'application/json'
+            }
+          })
+            .then(() => {
+              navigation.navigate('ChatScreen', { screen: 'Mensajes' })
+              setTimeout(() => {
+                navigation.navigate('ChatScreen', { screen: 'Chat', params: { nombreMarca, nombreUsuario, idUsuario } })
+              }, 100)
+            })
+            .catch(e => console.error(e.message))
         }}>
           <Ioniocons name="chatbox" size={25} color={COLORS.white} />
         </TouchableOpacity>
