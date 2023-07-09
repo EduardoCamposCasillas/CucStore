@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { config } from '../config'
+import { config } from './../config'
 
 /* eslint-disable no-var */
 var socket
@@ -51,6 +51,24 @@ export function getUserChats () {
   return userChats
 }
 
-export default function joinRoom (room) {
+export function joinRoom (room) {
   socket.emit('joinRoom', room)
+}
+
+export function getMessages (room) {
+  const messages = []
+  socket.emit('getMessages', room)
+  socket.on('messages', (messagesData) => {
+    messagesData.forEach(message => {
+      messages.push(message)
+    })
+  })
+  socket.on('message', (message) => {
+    console.log(message)
+    messages.unshift(message)
+  })
+  return messages
+}
+export function sendMessages (message) {
+  socket.emit('message', message)
 }

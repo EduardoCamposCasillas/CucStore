@@ -33,7 +33,7 @@ const MessagesScreen = ({ navigation }) => {
         data={chats}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <Card onPress={() => navigation.navigate('Chat', { receiverId: item.id })}>
+          <Card onPress={() => navigation.navigate('Chat', { id: item.id, from: item.from, to: item.to, messages: item.messages })}>
             <UserInfo>
               <UserImgWrapper>
                 <UserImg source={imageExample} />

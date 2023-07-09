@@ -9,7 +9,7 @@ import Ioniocons from 'react-native-vector-icons/Ionicons'
 import ImageViewer from './../components/ImageViewer'
 import WavyHeader from './../components/WavyHeader'
 import { config } from './../config'
-import joinRoom from './../utils/socket'
+import { joinRoom } from './../utils/socket'
 
 const ProductDetailsScreen = () => {
   const { user } = useContext(AuthContext)
@@ -100,7 +100,7 @@ const ProductDetailsScreen = () => {
               joinRoom({ id: roomId, from: user.userId, to: idUsuario })
               navigation.navigate('ChatScreen', { screen: 'Mensajes' })
               setTimeout(() => {
-                navigation.navigate('ChatScreen', { screen: 'Chat', params: { nombreMarca, nombreUsuario, idUsuario } })
+                navigation.navigate('ChatScreen', { screen: 'Chat', params: { id: roomId, from: user.userId, to: idUsuario, nombreMarca, nombreUsuario } })
               }, 100)
             })
             .catch(e => console.error(e.message))

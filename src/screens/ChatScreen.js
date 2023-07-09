@@ -1,43 +1,28 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
 import { COLORS } from './../constants/index'
-import { AuthContext } from '../context/AuthContext'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import { io } from 'socket.io-client'
-import { config } from '../config'
-
+import { getMessages, sendMessages } from '../utils/socket'
 const ChatScreen = () => {
-  const { idUsuario } = useRoute().params
+  const { id, from, to } = useRoute().params
   const [messages, setMessages] = useState(null)
-  const { userToken } = useContext(AuthContext)
-  const socket = io(`${config.apiUrl}/api/usuario/chats/chat`, {
-    extraHeaders: {
-      authorization: userToken,
-      userToChat: idUsuario
-    }
-  })
 
   useEffect(() => {
-    socket.on('connect', () => { console.log('Socket ID:' + socket.id) })
-    socket.on('chat', (messages) => {
-      setMessages(messages.reverse())
-    })
-
-    socket.on('receiveMsg', (data) => {
-      console.log('data')
-    })
-    return () => {
-      socket.off('connect')
-      socket.off('chat')
+    const arrayOfMessages = getMessages({ id, from, to })
+    console.log(arrayOfMessages)
+    if (messages === null) {
+      setMessages(arrayOfMessages)
+    } else {
+      const newMessages = [...messages, [arrayOfMessages]]
+      setMessages(newMessages)
     }
   }, [])
 
-  const onSend = useCallback((messages = []) => {
-    socket.emit('sendMsg', messages)
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback((message) => {
+    sendMessages(message)
   }, [])
 
   const renderSend = (props) => {
@@ -95,16 +80,16 @@ const ChatScreen = () => {
     <>
       <GiftedChat
       messages={messages}
-      onSend={messages => onSend(messages)}
+      onSend={message => onSend(message)}
       user={{
-        _id: userToken
+        _id: from
       }}
       renderBubble={renderBubble}
       alwaysShowSend
       renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
-    />
+      />
     </>
   )
 }
