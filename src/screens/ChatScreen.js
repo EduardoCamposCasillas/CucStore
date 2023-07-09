@@ -13,7 +13,6 @@ const ChatScreen = () => {
   const { idUsuario } = useRoute().params
   const [messages, setMessages] = useState(null)
   const { userToken } = useContext(AuthContext)
-
   const socket = io(`${config.apiUrl}/api/usuario/chats/chat`, {
     extraHeaders: {
       authorization: userToken,
@@ -22,12 +21,14 @@ const ChatScreen = () => {
   })
 
   useEffect(() => {
-    console.log(socket.id)
-    socket.on('connect', () => {})
+    socket.on('connect', () => { console.log('Socket ID:' + socket.id) })
     socket.on('chat', (messages) => {
       setMessages(messages.reverse())
     })
 
+    socket.on('receiveMsg', (data) => {
+      console.log('data')
+    })
     return () => {
       socket.off('connect')
       socket.off('chat')
@@ -35,6 +36,7 @@ const ChatScreen = () => {
   }, [])
 
   const onSend = useCallback((messages = []) => {
+    socket.emit('sendMsg', messages)
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
 
@@ -91,7 +93,7 @@ const ChatScreen = () => {
 
   return (
     <>
-      {messages && <GiftedChat
+      <GiftedChat
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
@@ -102,7 +104,7 @@ const ChatScreen = () => {
       renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
-    />}
+    />
     </>
   )
 }
