@@ -34,12 +34,12 @@ const EditProfileScreen = () => {
     nombreMarca: '',
     telefonos: ''
   })
-  const { userToken } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     axios.get(config.apiUrl + '/api/usuario', {
       headers: {
-        Authorization: 'Bearer ' + userToken
+        Authorization: 'Bearer ' + user.userToken
       }
     }).then((response) => {
       const usuarioData = response.data[0]
@@ -66,7 +66,7 @@ const EditProfileScreen = () => {
   const handleSubmitData = () => {
     axios.put(config.apiUrl + '/api/usuario', inputData, {
       headers: {
-        Authorization: 'Bearer ' + userToken,
+        Authorization: 'Bearer ' + user.userToken,
         'Content-Type': 'application/json'
       }
     })
@@ -144,7 +144,7 @@ const EditProfileScreen = () => {
               </View>
             </TouchableOpacity>
             <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-              {inputData && inputData.nombreCompleto?.split(' ')[0] + ' ' + inputData.nombreCompleto?.split(' ')[2]}
+              {inputData && inputData.nombreCompleto?.split(' ')[0] + ' ' + (inputData.nombreCompleto?.split(' ')[2] || inputData.nombreCompleto?.split(' ')[1])}
             </Text>
           </View>
 
@@ -156,7 +156,7 @@ const EditProfileScreen = () => {
               onChangeText={(text) => {
                 setInputData({
                   ...inputData,
-                  nombres: text
+                  nombreCompleto: text
                 })
               }}
               placeholder="Nombre(s)"

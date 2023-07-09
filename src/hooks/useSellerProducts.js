@@ -6,14 +6,14 @@ import { Alert } from 'react-native'
 
 export default function useSellerProducts ({ activeTab, doSellerProductsRequest }) {
   const [sellerProducts, setSellerProducts] = useState()
-  const { userToken } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const apiUrl = '/api/usuario/productos'
 
   useEffect(() => {
-    if (userToken) {
+    if (user.userToken) {
       axios.get(config.apiUrl + apiUrl, {
         headers: {
-          Authorization: 'Bearer ' + userToken,
+          Authorization: 'Bearer ' + user.userToken,
           'Content-Type': 'application/json'
         }
       }).then((res) => {
@@ -28,7 +28,7 @@ export default function useSellerProducts ({ activeTab, doSellerProductsRequest 
         Alert.alert('¡Error en el servidor!', 'Presentamos un error en el servidor porfavor intentelo mas tarde')
       })
     }
-  }, [doSellerProductsRequest, userToken])
+  }, [doSellerProductsRequest, user.userToken])
 
   return { sellerProducts }
 }

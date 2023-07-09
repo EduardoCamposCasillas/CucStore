@@ -11,7 +11,7 @@ import { Caption } from 'react-native-paper'
 
 const SellerScreen = () => {
   const navigation = useNavigation()
-  const { isActive, updateUserInfo } = useContext(AuthContext)
+  const { user, updateUserInfo } = useContext(AuthContext)
   const { sellerProducts: productos, handleDelete } = useContext(ProductsContext)
   const onAddProductPress = () => {
     navigation.navigate('AddProduct')
@@ -22,15 +22,15 @@ const SellerScreen = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Mis Productos</Text>
         <View style={{ flexDirection: 'row', alignContent: 'center' }}>
-          <Caption style={{ marginRight: 5, color: isActive ? '#4CAF50' : '#9E9E9E' }}>{isActive ? 'Activo' : 'Inactivo'}</Caption>
+          <Caption style={{ color: user.isActive ? '#4CAF50' : '#9E9E9E' }}>{user.isActive ? 'Activo' : 'Inactivo'}</Caption>
           <Switch
             trackColor={{ false: '#9E9E9E', true: '#4CAF50' }}
-            thumbColor={isActive ? '#FFFFFF' : '#FFFFFF'}
+            thumbColor={user.isActive ? '#FFFFFF' : '#FFFFFF'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={() => { updateUserInfo() }
           }
-            value={isActive}
-            style={{ height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }], marginRight: 15 }}
+            value={user.isActive}
+            style={{ height: 25, transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
           />
         </View>
       </View>
@@ -44,7 +44,7 @@ const SellerScreen = () => {
             ? productos.map(producto => (
             <SellerCardItem
               handleDelete={handleDelete}
-              isActive={isActive}
+              isActive={user.isActive}
               producto={producto}
               key={producto.id}
             />
@@ -69,17 +69,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1f1f1'
   },
   headerContainer: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: SIZES.small,
-    height: 50
+    height: 50,
+    width: '100%'
   },
   headerText: {
     fontSize: SIZES.large,
     fontWeight: 'bold',
     color: COLORS.primary,
-    textAlign: 'center',
+    textAlign: 'left',
     width: '43%'
   },
   // viewContainer: {

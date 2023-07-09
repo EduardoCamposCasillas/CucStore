@@ -9,7 +9,7 @@ import useSellerProducts from '../hooks/useSellerProducts'
 export const ProductsContext = createContext()
 
 export function ProductsProvider ({ children }) {
-  const { userToken } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [activeTab, setActiveTab] = useState(0)
   const [filteredProducts, setFilteredProducts] = useState(undefined)
   const [doCustomerProductsRequest, setDoCustomerProductsRequest] = useState(false)
@@ -59,7 +59,7 @@ export function ProductsProvider ({ children }) {
           onPress: () => {
             axios.delete(config.apiUrl + '/api/usuario/productos', {
               headers: {
-                Authorization: 'Bearer ' + userToken,
+                Authorization: 'Bearer ' + user.userToken,
                 'Content-Type': 'application/json'
               },
               data: {
@@ -90,7 +90,7 @@ export function ProductsProvider ({ children }) {
       categoria: selectedCategory
     }, {
       headers: {
-        Authorization: 'Bearer ' + userToken,
+        Authorization: 'Bearer ' + user.userToken,
         'Content-Type': 'application/json'
       }
     }).then(response => {
@@ -107,7 +107,7 @@ export function ProductsProvider ({ children }) {
       categoria: selectedCategory
     }, {
       headers: {
-        Authorization: 'Bearer ' + userToken,
+        Authorization: 'Bearer ' + user.userToken,
         'Content-Type': 'application/json'
       }
     }).then(response => {

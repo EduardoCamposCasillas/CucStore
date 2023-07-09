@@ -8,10 +8,11 @@ import axios from 'axios'
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 import ImageViewer from './../components/ImageViewer'
 import WavyHeader from './../components/WavyHeader'
-import { config } from '../config'
+import { config } from './../config'
+import joinRoom from './../utils/socket'
 
 const ProductDetailsScreen = () => {
-  const { userToken } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const navigation = useNavigation()
   const route = useRoute()
   const {
@@ -90,11 +91,13 @@ const ProductDetailsScreen = () => {
         <TouchableOpacity style={styles.btnIcon} onPress={() => {
           axios.post(config.apiUrl + '/api/usuario/chats/chat', { to: idUsuario }, {
             headers: {
-              Authorization: 'Bearer ' + userToken,
+              Authorization: 'Bearer ' + user.userToken,
               'Content-Type': 'application/json'
             }
           })
-            .then(() => {
+            .then((response) => {
+              const roomId = response.data.id
+              joinRoom({ id: roomId, from: user.userId, to: idUsuario })
               navigation.navigate('ChatScreen', { screen: 'Mensajes' })
               setTimeout(() => {
                 navigation.navigate('ChatScreen', { screen: 'Chat', params: { nombreMarca, nombreUsuario, idUsuario } })
