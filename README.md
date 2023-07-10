@@ -25,13 +25,14 @@ _Seguimos trabajando en la aplicación_
  * Cambiar UI del registro y agregar password enforce ✅
 
  * Cambiar Agregar products UI 🕥
+ * Arreglar login spinner (contraseña erronea)
  * Cambiar detalles del prodcto UI
  * Agregar dar puntuacion a productos
  * Agregar mostrar contraseña en registro
  * Agregar pequeñas animaciones
  * Agregar estadisticas de productos al usuario
 
- * Implementar chat online 
+ * Implementar chat online 🕙
  * Cambiar formato de imagen (Base64 a url)
  * Agregar test end to end
  
