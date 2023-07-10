@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import { View, FlatList, SafeAreaView, Text } from 'react-native'
-import { COLORS } from './../constants/index'
-import { getUserChats } from '../utils/socket'
+import { COLORS } from '../constants/index'
+import useChats from '../hooks/useChats'
 import {
   Container,
   Card,
@@ -15,23 +14,19 @@ import {
   TextSection
 } from '../styles/MessageStyales'
 import BottomTabs from '../components/BottomTabs'
+
 const imageExample = require('./../../assets/images/CUCEATS_LOGO.png')
 
-const MessagesScreen = ({ navigation }) => {
-  const [chats, setChats] = useState(null)
-  useEffect(() => {
-    const chatsReturned = getUserChats()
-    setChats(chatsReturned)
-  }, [])
-
+const UserChatsScreen = ({ navigation }) => {
+  const { chats } = useChats()
   return (
-    <SafeAreaView style={chats === null || chats === undefined ? { flex: 1, backgroundColor: COLORS.lightWhite, justifyContent: 'space-between' } : { flex: 1, backgroundColor: COLORS.lightWhite }}>
-      {chats
+    <SafeAreaView style={chats === null || chats === undefined || chats.length <= 0 ? { flex: 1, backgroundColor: COLORS.lightWhite, justifyContent: 'space-between' } : { flex: 1, backgroundColor: COLORS.lightWhite }}>
+      {chats && chats.length > 0
         ? <Container>
       <FlatList
-      showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         data={chats}
-        keyExtractor={item => item.id}
+        keyExtractor={item => `${item.from.id}:${item.id}`}
         renderItem={({ item }) => (
           <Card onPress={() => navigation.navigate('Chat', { id: item.id, from: item.from, to: item.to, messages: item.messages })}>
             <UserInfo>
@@ -62,4 +57,4 @@ const MessagesScreen = ({ navigation }) => {
   )
 }
 
-export default MessagesScreen
+export default UserChatsScreen

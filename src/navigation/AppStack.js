@@ -7,8 +7,8 @@ import AddProductScreen from './../screens/AddProductScreen'
 import EditProductScreen from './../screens/EditProductScreen'
 import ProductDetailsScreen from './../screens/ProductDetailsScreen'
 import EditProfileScreen from './../screens/EditProfileScreen'
-import MessagesScreen from './../screens/MessagesScreen'
 import ChatScreen from './../screens/ChatScreen'
+import UserChatsScreen from './../screens/UserChatsScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -16,7 +16,7 @@ const Stack = createStackNavigator()
 const MessageStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Mensajes" component={MessagesScreen} />
+      <Stack.Screen name="Chats" component={UserChatsScreen} />
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
