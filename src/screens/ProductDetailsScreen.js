@@ -4,12 +4,10 @@ import { useRoute, useNavigation } from '@react-navigation/native'
 import { Text, View, Linking, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Alert } from 'react-native'
 import StarRatingDisplay from 'react-native-star-rating-widget'
 import { COLORS, SIZES } from './../constants/index'
-import axios from 'axios'
 import Ioniocons from 'react-native-vector-icons/Ionicons'
 import ImageViewer from './../components/ImageViewer'
 import WavyHeader from './../components/WavyHeader'
-import { config } from './../config'
-import { joinRoom } from './../utils/socket'
+import { createUserChat } from './../utils/socket'
 
 const ProductDetailsScreen = () => {
   const { user } = useContext(AuthContext)
@@ -89,21 +87,11 @@ const ProductDetailsScreen = () => {
           <Ioniocons name="call" size={25} color={COLORS.white} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnIcon} onPress={() => {
-          axios.post(config.apiUrl + '/api/usuario/chats/chat', { to: idUsuario }, {
-            headers: {
-              Authorization: 'Bearer ' + user.userToken,
-              'Content-Type': 'application/json'
-            }
-          })
-            .then((response) => {
-              const roomId = response.data.id
-              joinRoom({ id: roomId, from: user.userId, to: idUsuario })
-              navigation.navigate('ChatScreen', { screen: 'Mensajes' })
-              setTimeout(() => {
-                navigation.navigate('ChatScreen', { screen: 'Chat', params: { id: roomId, from: user.userId, to: idUsuario, nombreMarca, nombreUsuario } })
-              }, 100)
-            })
-            .catch(e => console.error(e.message))
+          createUserChat(idUsuario)
+          navigation.navigate('ChatScreen', { screen: 'Mensajes' })
+          setTimeout(() => {
+            navigation.navigate('ChatScreen', { screen: 'Chat', params: { from: user.userId, to: idUsuario, nombreMarca, nombreUsuario } })
+          }, 100)
         }}>
           <Ioniocons name="chatbox" size={25} color={COLORS.white} />
         </TouchableOpacity>
