@@ -28,7 +28,7 @@ const UserChatsScreen = ({ navigation }) => {
         data={chats}
         keyExtractor={item => `${item.from.id}:${item.id}`}
         renderItem={({ item }) => (
-          <Card onPress={() => navigation.navigate('Chat', { id: item.id, from: item.from, to: item.to, messages: item.messages })}>
+          <Card onPress={() => navigation.navigate('Chat', { id: item.id, from: item.from.id, to: item.to.id, nombreMarca: item.to.nombreMarca, nombreUsuario: item.to.nombreCompleto })}>
             <UserInfo>
               <UserImgWrapper>
                 <UserImg source={imageExample} />

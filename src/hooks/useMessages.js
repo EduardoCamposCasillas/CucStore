@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react'
-import { socket } from './../utils/socket'
+import { parseMessage, socket } from './../utils/socket'
 
-export default function useMessages () {
+export default function useMessages ({ chatRoom, from, to }) {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    socket.emit('getChatMessages')
+    socket.emit('getChatMessages', { chatRoom, from, to })
     socket.on('getChatMessages', messagesData => {
-      console.log(messagesData)
-
-      setMessages(messagesData)
+      const parseredMessages = messagesData.map(message => {
+        return parseMessage(message)
+      })
+      setMessages(parseredMessages)
     })
 
     socket.on('newMessage', newMessage => {
-      console.log(newMessage)
+      const messageParsered = parseMessage(newMessage)
+      setMessages(prevMessages => [...prevMessages, messageParsered])
     })
   }, [])
 

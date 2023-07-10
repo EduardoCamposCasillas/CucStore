@@ -47,3 +47,13 @@ export const parseChat = ({ chat, from, to }) => {
   }
   return chatParsered
 }
+
+export const parseMessage = (message) => {
+  const messageParsered = {
+    _id: message.id,
+    createdAt: message.createdAt,
+    text: message.texto,
+    user: { _id: message.user.id, name: message.user.nombreMarca ?? message.user.nombreCompleto, avatar: message.user.imgUrl ?? 'https://placeimg.com/140/140/any' }
+  }
+  return messageParsered
+}

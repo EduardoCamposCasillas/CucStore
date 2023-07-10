@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
@@ -7,13 +7,19 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import useMessages from './../hooks/useMessages'
 import { sendMessage } from '../utils/socket'
+import { AuthContext } from '../context/AuthContext'
 const ChatScreen = () => {
+  const { user } = useContext(AuthContext)
   const { id, from, to } = useRoute().params
-  const { messages } = useMessages()
+  const { messages } = useMessages({ chatRoom: id, from: user.userId, to })
 
-  const onSend = useCallback((message) => {
-    sendMessage(message)
-    console.log('mensaje enviado')
+  const onSend = useCallback(([message]) => {
+    const parseMessage = {
+      chat: id,
+      text: message.text,
+      user: message.user._id
+    }
+    sendMessage(parseMessage)
   }, [])
 
   const renderSend = (props) => {
@@ -70,10 +76,10 @@ const ChatScreen = () => {
   return (
     <>
       <GiftedChat
-      messages={messages}
+      messages={messages.reverse()}
       onSend={message => onSend(message)}
       user={{
-        _id: from
+        _id: user.userId
       }}
       renderBubble={renderBubble}
       alwaysShowSend
