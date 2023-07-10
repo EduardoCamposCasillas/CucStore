@@ -19,7 +19,7 @@ import { AuthContext } from './../context/AuthContext'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 const ProfileScreen = () => {
-  const { userInfo, usuario } = useContext(AuthContext)
+  const { userInfo, user } = useContext(AuthContext)
   const navigation = useNavigation()
   const { logout } = useContext(AuthContext)
 
@@ -50,14 +50,14 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: 'row', marginTop: 15, alignItems: 'center' }}>
               <Avatar.Image
-                source={{ uri: usuario && usuario?.imgUrl }}
+                source={{ uri: user.data && user.data?.imgUrl }}
                 size={80}
               />
               <View style={{ marginLeft: 20 }}>
                 <Title style={[styles.title, {
                   marginTop: 15,
                   marginBottom: 5
-                }]}>{usuario && usuario?.nombreCompleto?.split(' ')[0] + ' ' + usuario?.nombreCompleto?.split(' ')[2]}</Title>
+                }]}>{user.data && user.data?.nombreCompleto?.split(' ')[0] + ' ' + (user.data?.nombreCompleto?.split(' ')[2] || user.data?.nombreCompleto?.split(' ')[1])}</Title>
 
               </View>
             </View>
@@ -66,22 +66,22 @@ const ProfileScreen = () => {
           <View style={styles.userInfoSection}>
             <View style={styles.row}>
               <Icon name="phone" color="#777777" size={20} />
-              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.telefonos === null || usuario?.telefonos === undefined || usuario?.telefonos.length < 1 ? 'Agrega un telefono' : usuario?.telefonos}</Text>}
+              {user.data && <Text style={{ color: '#777777', marginLeft: 20 }}>{user.data?.telefonos === null || user.data?.telefonos === undefined || user.data?.telefonos.length < 1 ? 'Agrega un telefono' : user.data.telefonos}</Text>}
             </View>
             <View style={styles.row}>
               <Icon name="email" color="#777777" size={20} />
-              <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario && usuario?.correo}</Text>
+              <Text style={{ color: '#777777', marginLeft: 20 }}>{user.data && user.data?.correo}</Text>
             </View>
             <View style={styles.row}>
               <Icon name="tag" color="#777777" size={20} />
-              {usuario && <Text style={{ color: '#777777', marginLeft: 20 }}>{usuario?.nombreMarca === null || usuario?.nombreMarca === undefined ? 'Agrega el nombre de tu marca' : usuario?.nombreMarca}</Text>
+              {user.data && <Text style={{ color: '#777777', marginLeft: 20 }}>{user.data?.nombreMarca === null || user.data?.nombreMarca === undefined ? 'Agrega el nombre de tu marca' : user.data.nombreMarca}</Text>
 }
             </View>
           </View>
 
           <View style={styles.infoBoxWrapper}>
             <View style={styles.infoBox}>
-              <Title>{usuario && usuario.productos?.length}</Title>
+              <Title>{user.data && user.data?.productos?.length}</Title>
               <Caption>Mis Productos en Venta</Caption>
             </View>
           </View>

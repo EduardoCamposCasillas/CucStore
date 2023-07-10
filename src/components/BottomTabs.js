@@ -13,7 +13,7 @@ const BottomTabs = () => {
       <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
         <Icon icon="home" text="Inicio" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => { navigation.navigate('ChatScreen') }}>
+      <TouchableOpacity onPress={() => { navigation.navigate('ChatScreen', { screen: 'Mensajes' }) }}>
         <Icon icon="chatbox" text="Chat" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => { navigation.navigate('Profile') }}>

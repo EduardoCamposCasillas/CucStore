@@ -1,41 +1,25 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
+import { useRoute } from '@react-navigation/native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
 import { COLORS } from './../constants/index'
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-
+import useMessages from './../hooks/useMessages'
+import { sendMessage } from '../utils/socket'
+import { AuthContext } from '../context/AuthContext'
 const ChatScreen = () => {
-  const [messages, setMessages] = useState([])
+  const { user } = useContext(AuthContext)
+  const { id, from, to } = useRoute().params
+  const { messages } = useMessages({ chatRoom: id, from: user.userId, to })
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any'
-        }
-      },
-      {
-        _id: 2,
-        text: 'Hello world',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any'
-        }
-      }
-    ])
-  }, [])
-
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback(([message]) => {
+    const parseMessage = {
+      chat: id,
+      text: message.text,
+      user: message.user._id
+    }
+    sendMessage(parseMessage)
   }, [])
 
   const renderSend = (props) => {
@@ -90,18 +74,20 @@ const ChatScreen = () => {
   }
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={messages => onSend(messages)}
+    <>
+      <GiftedChat
+      messages={messages.reverse()}
+      onSend={message => onSend(message)}
       user={{
-        _id: 1
+        _id: user.userId
       }}
       renderBubble={renderBubble}
       alwaysShowSend
       renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
-    />
+      />
+    </>
   )
 }
 

@@ -2,13 +2,12 @@ import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { View, ActivityIndicator } from 'react-native'
 import { COLORS } from '../constants'
-
 import AuthStack from './AuthStack'
 import AppStack from './AppStack'
 import { AuthContext } from './../context/AuthContext'
 
 const AppNav = () => {
-  const { isLoading, userToken } = useContext(AuthContext)
+  const { isLoading, user } = useContext(AuthContext)
 
   if (isLoading) {
     return (
@@ -20,7 +19,7 @@ const AppNav = () => {
 
   return (
     <NavigationContainer>
-      {userToken !== null ? <AppStack /> : <AuthStack />}
+      {user.userToken !== null ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   )
 }

@@ -3,18 +3,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { config } from './../config'
 import { Alert } from 'react-native'
+import { connectSocket, disconnectSocket } from '../utils/socket'
+
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const [userToken, setUserToken] = useState(null)
-  const [usuario, setUsuario] = useState()
-  const [isActive, setIsActive] = useState(true)
-
+  const [user, setUser] = useState({
+    userToken: null,
+    userId: null,
+    isActive: true,
+    data: null
+  })
   const updateUserInfo = (info) => {
-    axios.put(config.apiUrl + '/api/usuario', { isActive: !isActive }, {
+    axios.put(config.apiUrl + '/api/usuario', { isActive: !user.isActive }, {
       headers: {
-        Authorization: 'Bearer ' + userToken,
+        Authorization: 'Bearer ' + user.userToken,
         'Content-Type': 'application/json'
       }
     })
@@ -30,18 +34,17 @@ export const AuthProvider = ({ children }) => {
         }
       })
 
-    setIsActive(!isActive)
+    setUser({ ...user, isActive: !user.isActive })
   }
   const userInfo = () => {
     axios.get(config.apiUrl + '/api/usuario', {
       headers: {
-        Authorization: 'Bearer ' + userToken
+        Authorization: 'Bearer ' + user.userToken
       }
     })
       .then((response) => {
         const usuarioData = response.data[0]
-        setUsuario(usuarioData)
-        setIsActive(usuarioData.isActive)
+        setUser({ ...user, data: usuarioData, isActive: usuarioData.isActive })
       })
       .catch(error => {
         if (error.response.status === 500) {
@@ -52,6 +55,7 @@ export const AuthProvider = ({ children }) => {
         }
       })
   }
+
   const storeToken = async (token) => {
     try {
       await AsyncStorage.setItem('accessToken', token)
@@ -59,15 +63,18 @@ export const AuthProvider = ({ children }) => {
       console.error('here:', e)
     }
   }
+
   const login = (data) => {
     setIsLoading(true)
     axios.post(config.apiUrl + '/api/auth/login', data)
       .then((response) => {
         if (response.status === 200) {
           setIsLoading(false)
-          const token = response.data.token
-          storeToken(token)
-          setUserToken(token)
+          const userToken = response.data.token
+          const userId = response.data.userId
+          setUser({ ...user, userId, userToken })
+          storeToken(userToken)
+          connectSocket(userId)
         }
       }).catch(error => {
         if (error.response.status === 401) {
@@ -84,14 +91,15 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setIsLoading(true)
-    setUserToken(null)
+    setUser({ ...user, userToken: null })
+    disconnectSocket()
     setTimeout(() => {
       setIsLoading(false)
     }, 3000)
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo, usuario, isActive, updateUserInfo }}>
+    <AuthContext.Provider value={{ login, logout, isLoading, user, userInfo, updateUserInfo }}>
       {children}
     </AuthContext.Provider>
   )
