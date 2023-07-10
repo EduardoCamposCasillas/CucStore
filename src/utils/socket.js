@@ -22,6 +22,9 @@ export function createUserChat (to) {
   socket.emit('createUserChat', { usuario: userId, to })
 }
 
+export function sendMessage (message) {
+  socket.emit('newMessage', message)
+}
 export const parseChat = ({ chat, from, to }) => {
   const chatParsered = {
     id: chat.id,

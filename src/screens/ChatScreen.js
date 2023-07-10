@@ -1,28 +1,19 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
 import { COLORS } from './../constants/index'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import { getMessages, sendMessages } from '../utils/socket'
+import useMessages from './../hooks/useMessages'
+import { sendMessage } from '../utils/socket'
 const ChatScreen = () => {
   const { id, from, to } = useRoute().params
-  const [messages, setMessages] = useState(null)
-
-  useEffect(() => {
-    const arrayOfMessages = getMessages({ id, from, to })
-    console.log(arrayOfMessages)
-    if (messages === null) {
-      setMessages(arrayOfMessages)
-    } else {
-      const newMessages = [...messages, [arrayOfMessages]]
-      setMessages(newMessages)
-    }
-  }, [])
+  const { messages } = useMessages()
 
   const onSend = useCallback((message) => {
-    sendMessages(message)
+    sendMessage(message)
+    console.log('mensaje enviado')
   }, [])
 
   const renderSend = (props) => {
